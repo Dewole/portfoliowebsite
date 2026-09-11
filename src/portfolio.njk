@@ -1,0 +1,37 @@
+---
+layout: base.njk
+eleventyComputed:
+  title: "Portfolio — {{ site.name }}"
+  description: "A showcase of brand and product design case studies."
+---
+<section class="portfolio-hero" id="s1">
+  <div class="wrap">
+    <div class="kicker">PORTFOLIO</div>
+    <h1 class="big split-title">A showcase of completed projects</h1>
+    <p class="lede reveal">Brand identities and digital products, explored through the problem, the approach, and the outcome.</p>
+  </div>
+</section>
+
+<section class="portfolio-list">
+  <div class="wrap">
+    <div class="filter-pills" id="portfolioFilters">
+      <button class="pill active" data-filter="all">All</button>
+      {% for cat in portfolioCategories %}
+      <button class="pill" data-filter="{{ cat }}">{{ cat }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="case-grid wide" id="portfolioGrid">
+      {% for cs in caseStudies %}
+      <a class="case-card reveal filter-card" href="/portfolio/{{ cs.slug }}/" data-category="{{ cs.category | default(cs.tag) }}">
+        {% if cs.coverImage %}<img class="case-thumb" src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
+        <div class="case-body">
+          <span class="case-tag">{{ cs.tag }}</span>
+          <h4>{{ cs.title }}</h4>
+          <span class="date">{{ cs.date }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+{
+  "name": "cms-portfolio",
+  "version": "2.0.0",
+  "description": "Portfolio site with a Sanity Studio admin panel (EN + PL), built with Eleventy.",
+  "main": "index.js",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve",
+    "watch:sanity": "node scripts/watch-sanity.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sanity/client": "^6.24.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

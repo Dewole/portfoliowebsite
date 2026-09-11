@@ -1,0 +1,100 @@
+---
+layout: base.pl.njk
+pagination:
+  data: caseStudiesPl
+  size: 1
+  alias: cs
+permalink: "/pl/portfolio/{{ cs.slug }}/"
+eleventyComputed:
+  title: "{{ cs.title }} — {{ sitePl.name }}"
+  description: "{{ cs.overview }}"
+  image: "{{ cs.coverImage or cs.heroImage }}"
+---
+<section class="cs-detail" id="s1">
+  <div class="wrap">
+    <a href="/pl/portfolio/" class="cs-back">↖ Wróć do portfolio</a>
+    <div class="cs-meta">
+      <span>{{ cs.date }}</span>
+      <span class="case-tag">{{ cs.tag }}</span>
+    </div>
+    <h1 class="big split-title cs-title">{{ cs.title }}</h1>
+    {% if cs.heroAttachment and cs.heroAttachment.mimeType == 'video/mp4' %}
+    <div class="cs-hero-img"><video class="cs-hero-video" autoplay muted loop playsinline preload="metadata" src="{{ cs.heroAttachment.src }}"></video></div>
+    {% elif cs.heroAttachment and cs.heroAttachment.mimeType == 'application/json' %}
+    <div class="cs-hero-img"><div class="cs-hero-lottie" data-lottie-inline>{% if cs.heroAttachment.jsonDataSafe %}<script type="application/json">{{ cs.heroAttachment.jsonDataSafe | safe }}</script>{% endif %}</div></div>
+    {% elif cs.heroImage %}
+    <div class="cs-hero-img"><img src="{{ cs.heroImage }}" alt="{{ cs.title }}" loading="lazy"></div>
+    {% elif cs.coverImage %}
+    <div class="cs-hero-img"><img src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy"></div>
+    {% else %}
+    <div class="cs-hero-thumb"></div>
+    {% endif %}
+    <div class="cs-author">
+      <div class="avatar"></div>
+      <div>
+        <b>{{ sitePl.name }}</b>
+        <span>{{ cs.role | default(sitePl.role) }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-body">
+  <div class="wrap">
+    <div class="kicker">O PROJEKCIE</div>
+    <h2 class="big split-title">Przegląd projektu</h2>
+    <div class="cs-prose">
+      {% if cs.client %}<p><b>Klient:</b> {{ cs.client }}</p>{% endif %}
+      {% if cs.role %}<p>{{ cs.role }}</p>{% endif %}
+      {% if cs.overview %}<p>{{ cs.overview }}</p>{% endif %}
+      {% if cs.objective %}<p>{{ cs.objective }}</p>{% endif %}
+      {% if cs.approach %}<p>{{ cs.approach }}</p>{% endif %}
+      {% if cs.outcome %}<p>{{ cs.outcome }}</p>{% endif %}
+    </div>
+
+    {% if (cs.images and cs.images.length) or (cs.attachments and cs.attachments.length) %}
+    <div class="cs-media">
+      <div class="kicker">GALERIA</div>
+      {% if cs.images and cs.images.length %}
+      <div class="cs-media-grid">
+        {% for img in cs.images %}
+        <button type="button" class="cs-media-img" data-lightbox-src="{{ img.src }}" data-lightbox-alt="{{ cs.title }}"><img src="{{ img.src }}" alt="{{ cs.title }}" loading="lazy"></button>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if cs.attachments and cs.attachments.length %}
+      <div class="cs-media-attachments">
+        {% for att in cs.attachments %}
+          {% if att.mimeType == 'video/mp4' %}
+          <div>
+            <div class="cs-media-video-wrap" data-lightbox-src="{{ att.src }}" data-lightbox-type="video" data-lightbox-alt="{{ cs.title }}">
+              <video class="cs-media-video" muted loop playsinline preload="metadata" src="{{ att.src }}"></video>
+              <span class="cs-media-expand" aria-hidden="true">⤢</span>
+            </div>
+            {% if att.caption %}<p class="cs-media-caption">{{ att.caption }}</p>{% endif %}
+          </div>
+          {% elif att.mimeType == 'application/json' %}
+          <div>
+            <div class="cs-media-lottie-wrap" data-lightbox-src="{{ att.src }}" data-lightbox-type="lottie" data-lightbox-alt="{{ cs.title }}">
+              <div class="cs-media-lottie" data-lottie-inline{% if att.jsonWidth and att.jsonHeight %} style="aspect-ratio:{{ att.jsonWidth }}/{{ att.jsonHeight }}"{% endif %}>{% if att.jsonDataSafe %}<script type="application/json">{{ att.jsonDataSafe | safe }}</script>{% endif %}</div>
+              <span class="cs-media-expand" aria-hidden="true">⤢</span>
+            </div>
+            {% if att.caption %}<p class="cs-media-caption">{{ att.caption }}</p>{% endif %}
+          </div>
+          {% else %}
+          <a class="cs-media-file" href="{{ att.src }}" target="_blank" rel="noopener noreferrer" download>
+            <span class="cs-media-file-icon">⬇</span>
+            <span>{{ att.caption or att.filename or 'Pobierz plik' }}</span>
+          </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    <div class="cs-nav-row">
+      <a href="/pl/portfolio/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">↖</span><span class="btn-label">Wszystkie studia przypadków</span></a>
+      <a href="/pl/contact/" class="btn solid"><span class="btn-label">Zacznijmy podobny projekt</span><span class="btn-icon">↗</span></a>
+    </div>
+  </div>
+</section>

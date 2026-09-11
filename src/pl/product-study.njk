@@ -1,0 +1,102 @@
+---
+layout: base.pl.njk
+pagination:
+  data: productsPl
+  size: 1
+  alias: p
+permalink: "/pl/products/{{ p.slug }}/"
+eleventyComputed:
+  title: "{{ p.name }} — {{ sitePl.name }}"
+  description: "{{ p.description }}"
+  image: "{{ p.coverImage or p.heroImage }}"
+---
+<section class="cs-detail" id="s1">
+  <div class="wrap">
+    <a href="/pl/products/" class="cs-back">↖ Wróć do produktów</a>
+    <div class="cs-meta">
+      <span class="status {{ 'soon' if p.status == 'coming-soon' else '' }}">{{ 'WKRÓTCE' if p.status == 'coming-soon' else 'DOSTĘPNY' }}</span>
+      <span class="case-tag">{{ p.category }}</span>
+    </div>
+    <h1 class="big split-title cs-title">{{ p.name }}</h1>
+    {% if p.heroAttachment and p.heroAttachment.mimeType == 'video/mp4' %}
+    <div class="cs-hero-img"><video class="cs-hero-video" autoplay muted loop playsinline preload="metadata" src="{{ p.heroAttachment.src }}"></video></div>
+    {% elif p.heroAttachment and p.heroAttachment.mimeType == 'application/json' %}
+    <div class="cs-hero-img"><div class="cs-hero-lottie" data-lottie-inline>{% if p.heroAttachment.jsonDataSafe %}<script type="application/json">{{ p.heroAttachment.jsonDataSafe | safe }}</script>{% endif %}</div></div>
+    {% elif p.heroImage %}
+    <div class="cs-hero-img"><img src="{{ p.heroImage }}" alt="{{ p.name }}" loading="lazy"></div>
+    {% elif p.coverImage %}
+    <div class="cs-hero-img"><img src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy"></div>
+    {% else %}
+    <div class="cs-hero-thumb"></div>
+    {% endif %}
+    <div class="cs-author">
+      <div class="avatar"></div>
+      <div>
+        <b>{{ sitePl.name }}</b>
+        <span>{{ sitePl.role }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-body">
+  <div class="wrap">
+    <div class="kicker">O PRODUKCIE</div>
+    <h2 class="big split-title">Przegląd produktu</h2>
+    <div class="cs-prose">
+      {% if p.description %}<p>{{ p.description }}</p>{% endif %}
+      {% if p.problem %}<p>{{ p.problem }}</p>{% endif %}
+      {% if p.approach %}<p>{{ p.approach }}</p>{% endif %}
+      {% if p.outcome %}<p>{{ p.outcome }}</p>{% endif %}
+    </div>
+
+    {% if (p.images and p.images.length) or (p.attachments and p.attachments.length) %}
+    <div class="cs-media">
+      <div class="kicker">GALERIA</div>
+      {% if p.images and p.images.length %}
+      <div class="cs-media-grid">
+        {% for img in p.images %}
+        <button type="button" class="cs-media-img" data-lightbox-src="{{ img.src }}" data-lightbox-alt="{{ p.name }}"><img src="{{ img.src }}" alt="{{ p.name }}" loading="lazy"></button>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if p.attachments and p.attachments.length %}
+      <div class="cs-media-attachments">
+        {% for att in p.attachments %}
+          {% if att.mimeType == 'video/mp4' %}
+          <div>
+            <div class="cs-media-video-wrap" data-lightbox-src="{{ att.src }}" data-lightbox-type="video" data-lightbox-alt="{{ p.name }}">
+              <video class="cs-media-video" muted loop playsinline preload="metadata" src="{{ att.src }}"></video>
+              <span class="cs-media-expand" aria-hidden="true">⤢</span>
+            </div>
+            {% if att.caption %}<p class="cs-media-caption">{{ att.caption }}</p>{% endif %}
+          </div>
+          {% elif att.mimeType == 'application/json' %}
+          <div>
+            <div class="cs-media-lottie-wrap" data-lightbox-src="{{ att.src }}" data-lightbox-type="lottie" data-lightbox-alt="{{ p.name }}">
+              <div class="cs-media-lottie" data-lottie-inline{% if att.jsonWidth and att.jsonHeight %} style="aspect-ratio:{{ att.jsonWidth }}/{{ att.jsonHeight }}"{% endif %}>{% if att.jsonDataSafe %}<script type="application/json">{{ att.jsonDataSafe | safe }}</script>{% endif %}</div>
+              <span class="cs-media-expand" aria-hidden="true">⤢</span>
+            </div>
+            {% if att.caption %}<p class="cs-media-caption">{{ att.caption }}</p>{% endif %}
+          </div>
+          {% else %}
+          <a class="cs-media-file" href="{{ att.src }}" target="_blank" rel="noopener noreferrer" download>
+            <span class="cs-media-file-icon">⬇</span>
+            <span>{{ att.caption or att.filename or 'Pobierz plik' }}</span>
+          </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    <div class="cs-nav-row">
+      <a href="/pl/products/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">↖</span><span class="btn-label">Wszystkie produkty</span></a>
+      {% if p.link and p.link != '#' %}
+      <a href="{{ p.link }}" class="btn solid" target="_blank" rel="noopener noreferrer"><span class="btn-label">Zobacz działający produkt</span><span class="btn-icon">↗</span></a>
+      {% else %}
+      <a href="/pl/contact/" class="btn solid"><span class="btn-label">Zacznijmy podobny projekt</span><span class="btn-icon">↗</span></a>
+      {% endif %}
+    </div>
+  </div>
+</section>

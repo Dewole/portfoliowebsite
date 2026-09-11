@@ -1,0 +1,279 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded images land in the repo, and the URL path they're served from.
+media_folder: "src/assets/uploads"
+public_folder: "/assets/uploads"
+
+publish_mode: simple
+
+collections:
+  # ---- Singleton: global site copy (hero, about, footer, contact) ----
+  - name: "site"
+    label: "Site Settings"
+    files:
+      - file: "content/site.json"
+        label: "Site Settings"
+        name: "site"
+        fields:
+          - { label: "Your Name", name: "name", widget: "string" }
+          - { label: "Role / Title", name: "role", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "LinkedIn URL", name: "linkedinUrl", widget: "string" }
+          - { label: "Figma URL", name: "figmaUrl", widget: "string" }
+          - { label: "Meta description (SEO)", name: "metaDescription", widget: "text" }
+          - { label: "Hero — eyebrow label", name: "heroEyebrow", widget: "string" }
+          - { label: "Hero — title", name: "heroTitle", widget: "string" }
+          - { label: "Hero — subtitle (script line)", name: "heroSubtitle", widget: "string" }
+          - { label: "Entity overview — updated label", name: "updatedLabel", widget: "string" }
+          - { label: "Bio paragraph (\"Who is...\" section)", name: "bioParagraph", widget: "text" }
+          - { label: "Specialties line", name: "specialties", widget: "text" }
+          - { label: "Proof line", name: "proof", widget: "text" }
+          - { label: "Industries line", name: "industries", widget: "text" }
+          - { label: "About — heading", name: "aboutHeading", widget: "text" }
+          - { label: "About — paragraph", name: "aboutParagraph", widget: "text" }
+          - { label: "About page — long bio", name: "aboutBioLong", widget: "text" }
+          - { label: "About page — \"How I work\" heading", name: "howIWorkHeading", widget: "string" }
+          - { label: "About page — \"How I work\" intro", name: "howIWorkIntro", widget: "text" }
+          - { label: "How I work — step 1 title", name: "howIWorkStep1Title", widget: "string" }
+          - { label: "How I work — step 1 description", name: "howIWorkStep1Desc", widget: "text" }
+          - { label: "How I work — step 2 title", name: "howIWorkStep2Title", widget: "string" }
+          - { label: "How I work — step 2 description", name: "howIWorkStep2Desc", widget: "text" }
+          - { label: "How I work — step 3 title", name: "howIWorkStep3Title", widget: "string" }
+          - { label: "How I work — step 3 description", name: "howIWorkStep3Desc", widget: "text" }
+          - { label: "Availability status (About/Contact pill)", name: "availabilityStatus", widget: "string" }
+          - { label: "Contact page — heading", name: "contactHeading", widget: "string" }
+          - { label: "Contact page — intro", name: "contactIntro", widget: "text" }
+          - { label: "CTA card — heading", name: "ctaCardHeading", widget: "string" }
+          - { label: "CTA card — paragraph", name: "ctaCardParagraph", widget: "text" }
+          - { label: "CV / Resume (PDF) — shown as a download link under the CTA card", name: "cvUrl", widget: "file", media_library: { config: { multiple: false } }, required: false }
+          - { label: "Services — heading", name: "servicesHeading", widget: "string" }
+          - { label: "Services — subheading", name: "servicesSubheading", widget: "text" }
+          - { label: "Stats — heading", name: "statsHeading", widget: "string" }
+          - { label: "Stats — paragraph", name: "statsParagraph", widget: "text" }
+          - { label: "Stats — big number", name: "statNumber", widget: "string" }
+          - { label: "Stats — caption", name: "statCaption", widget: "text" }
+          - { label: "Big quote — lead (bright text)", name: "bigQuoteLead", widget: "string" }
+          - { label: "Big quote — fade (muted text)", name: "bigQuoteFade", widget: "string" }
+          - { label: "Big quote — paragraph", name: "bigQuoteParagraph", widget: "text" }
+          - { label: "Final CTA — heading", name: "finalCtaHeading", widget: "string" }
+          - { label: "Final CTA — subheading", name: "finalCtaSubheading", widget: "string" }
+          - { label: "About page — Experience section heading", name: "experienceHeading", widget: "string" }
+          - { label: "About page — Experience section intro", name: "experienceIntro", widget: "text", required: false }
+          - { label: "About page — CTA heading", name: "aboutCtaHeading", widget: "string" }
+          - { label: "About page — CTA paragraph", name: "aboutCtaParagraph", widget: "text" }
+          - { label: "About page — CTA button label", name: "aboutCtaButtonLabel", widget: "string" }
+          - { label: "Homepage — Photography section kicker", name: "photographyKicker", widget: "string" }
+          - { label: "Homepage — Photography section heading", name: "photographyHeading", widget: "string" }
+          - { label: "Homepage — Photography section paragraph", name: "photographyIntro", widget: "text" }
+          - { label: "Homepage — Photography \"view more\" link label (leave blank to hide)", name: "photographyCtaLabel", widget: "string", required: false }
+          - { label: "Homepage — Photography \"view more\" link URL", name: "photographyCtaUrl", widget: "string", required: false }
+          - label: "Homepage — Photography gallery images (shared across languages)"
+            name: "photographyImages"
+            widget: "list"
+            required: false
+            field: { label: "Photo", name: "src", widget: "image" }
+          - { label: "Copyright year", name: "copyrightYear", widget: "string" }
+          - { label: "Footer note", name: "footerNote", widget: "string" }
+
+      - file: "content/site.pl.json"
+        label: "Site Settings (Polish — /pl/ version)"
+        name: "sitePl"
+        fields:
+          - { label: "Your Name", name: "name", widget: "string" }
+          - { label: "Role / Title", name: "role", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "LinkedIn URL", name: "linkedinUrl", widget: "string" }
+          - { label: "Figma URL", name: "figmaUrl", widget: "string" }
+          - { label: "Meta description (SEO)", name: "metaDescription", widget: "text" }
+          - { label: "Hero — eyebrow label", name: "heroEyebrow", widget: "string" }
+          - { label: "Hero — title", name: "heroTitle", widget: "string" }
+          - { label: "Hero — subtitle (script line)", name: "heroSubtitle", widget: "string" }
+          - { label: "Hero — handwritten line", name: "heroHandwriteText", widget: "string" }
+          - { label: "Entity overview — updated label", name: "updatedLabel", widget: "string" }
+          - { label: "Bio paragraph (\"Who is...\" section)", name: "bioParagraph", widget: "text" }
+          - { label: "Specialties line", name: "specialties", widget: "text" }
+          - { label: "Proof line", name: "proof", widget: "text" }
+          - { label: "Industries line", name: "industries", widget: "text" }
+          - { label: "About — heading", name: "aboutHeading", widget: "text" }
+          - { label: "About — paragraph", name: "aboutParagraph", widget: "text" }
+          - { label: "About page — long bio", name: "aboutBioLong", widget: "text" }
+          - { label: "About page — \"How I work\" heading", name: "howIWorkHeading", widget: "string" }
+          - { label: "About page — \"How I work\" intro", name: "howIWorkIntro", widget: "text" }
+          - { label: "How I work — step 1 title", name: "howIWorkStep1Title", widget: "string" }
+          - { label: "How I work — step 1 description", name: "howIWorkStep1Desc", widget: "text" }
+          - { label: "How I work — step 2 title", name: "howIWorkStep2Title", widget: "string" }
+          - { label: "How I work — step 2 description", name: "howIWorkStep2Desc", widget: "text" }
+          - { label: "How I work — step 3 title", name: "howIWorkStep3Title", widget: "string" }
+          - { label: "How I work — step 3 description", name: "howIWorkStep3Desc", widget: "text" }
+          - { label: "Availability status (About/Contact pill)", name: "availabilityStatus", widget: "string" }
+          - { label: "Contact page — heading", name: "contactHeading", widget: "string" }
+          - { label: "Contact page — intro", name: "contactIntro", widget: "text" }
+          - { label: "CTA card — heading", name: "ctaCardHeading", widget: "string" }
+          - { label: "CTA card — paragraph", name: "ctaCardParagraph", widget: "text" }
+          - { label: "CV / Resume (PDF)", name: "cvUrl", widget: "file", media_library: { config: { multiple: false } }, required: false }
+          - { label: "Services — heading", name: "servicesHeading", widget: "string" }
+          - { label: "Services — subheading", name: "servicesSubheading", widget: "text" }
+          - { label: "Stats — heading", name: "statsHeading", widget: "string" }
+          - { label: "Stats — paragraph", name: "statsParagraph", widget: "text" }
+          - { label: "Stats — big number", name: "statNumber", widget: "string" }
+          - { label: "Stats — caption", name: "statCaption", widget: "text" }
+          - { label: "Big quote — lead (bright text)", name: "bigQuoteLead", widget: "string" }
+          - { label: "Big quote — fade (muted text)", name: "bigQuoteFade", widget: "string" }
+          - { label: "Big quote — paragraph", name: "bigQuoteParagraph", widget: "text" }
+          - { label: "Final CTA — heading", name: "finalCtaHeading", widget: "string" }
+          - { label: "Final CTA — subheading", name: "finalCtaSubheading", widget: "string" }
+          - { label: "About page — Experience section heading", name: "experienceHeading", widget: "string" }
+          - { label: "About page — Experience section intro", name: "experienceIntro", widget: "text", required: false }
+          - { label: "About page — CTA heading", name: "aboutCtaHeading", widget: "string" }
+          - { label: "About page — CTA paragraph", name: "aboutCtaParagraph", widget: "text" }
+          - { label: "About page — CTA button label", name: "aboutCtaButtonLabel", widget: "string" }
+          - { label: "Homepage — Photography section kicker", name: "photographyKicker", widget: "string" }
+          - { label: "Homepage — Photography section heading", name: "photographyHeading", widget: "string" }
+          - { label: "Homepage — Photography section paragraph", name: "photographyIntro", widget: "text" }
+          - { label: "Homepage — Photography \"view more\" link label (leave blank to hide)", name: "photographyCtaLabel", widget: "string", required: false }
+          - { label: "Homepage — Photography \"view more\" link URL", name: "photographyCtaUrl", widget: "string", required: false }
+          - { label: "Copyright year", name: "copyrightYear", widget: "string" }
+          - { label: "Footer note", name: "footerNote", widget: "string" }
+
+  # ---- Repeatable: portfolio case studies ----
+  - name: "case-studies"
+    label: "Case Studies"
+    folder: "content/case-studies"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    fields:
+      - { label: "Display order", name: "order", widget: "number", default: 1, value_type: "int" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Title (Polish)", name: "title_pl", widget: "string", required: false }
+      - { label: "Tag (e.g. B2B · Health)", name: "tag", widget: "string" }
+      - { label: "Tag (Polish)", name: "tag_pl", widget: "string", required: false }
+      - { label: "Category (used for the filter pills on the Portfolio page — type any value, new ones appear automatically)", name: "category", widget: "string", required: false }
+      - { label: "Category (Polish)", name: "category_pl", widget: "string", required: false }
+      - { label: "Date label", name: "date", widget: "string" }
+      - label: "Thumbnail tint"
+        name: "thumbClass"
+        widget: "select"
+        required: false
+        default: ""
+        options:
+          - { label: "Amber (default)", value: "" }
+          - { label: "Teal", value: "b" }
+          - { label: "Violet", value: "c" }
+      - { label: "Client", name: "client", widget: "string", required: false }
+      - { label: "Role on this project", name: "role", widget: "string", required: false }
+      - { label: "Project overview", name: "overview", widget: "text", required: false }
+      - { label: "Project overview (Polish)", name: "overview_pl", widget: "text", required: false }
+      - { label: "Objective", name: "objective", widget: "text", required: false }
+      - { label: "Objective (Polish)", name: "objective_pl", widget: "text", required: false }
+      - { label: "Approach", name: "approach", widget: "text", required: false }
+      - { label: "Approach (Polish)", name: "approach_pl", widget: "text", required: false }
+      - { label: "Outcome", name: "outcome", widget: "text", required: false }
+      - { label: "Outcome (Polish)", name: "outcome_pl", widget: "text", required: false }
+      - { label: "Client (Polish)", name: "client_pl", widget: "string", required: false }
+      - { label: "Role on this project (Polish)", name: "role_pl", widget: "string", required: false }
+      - { label: "Link", name: "link", widget: "string", required: false, default: "#" }
+      - label: "Gallery — additional photos shown on this case study's detail page (the thumbnail tint above is still used on listing cards)"
+        name: "images"
+        widget: "list"
+        required: false
+        field: { label: "Image", name: "src", widget: "image" }
+
+  # ---- Repeatable: shipped products ----
+  - name: "products"
+    label: "Products"
+    folder: "content/products"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    summary: "{{name}} — {{status}}"
+    fields:
+      - { label: "Display order", name: "order", widget: "number", default: 1, value_type: "int" }
+      - { label: "Product name", name: "name", widget: "string" }
+      - { label: "Product name (Polish)", name: "name_pl", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Description (Polish)", name: "description_pl", widget: "text", required: false }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Live", value: "live" }
+          - { label: "Coming soon", value: "coming-soon" }
+      - { label: "Category (used for the filter pills on the Products page — type any value, new ones appear automatically)", name: "category", widget: "string" }
+      - { label: "Category (Polish)", name: "category_pl", widget: "string", required: false }
+      - label: "Thumbnail tint"
+        name: "thumbClass"
+        widget: "select"
+        required: false
+        default: ""
+        options:
+          - { label: "Amber (default)", value: "" }
+          - { label: "Teal", value: "b" }
+          - { label: "Violet", value: "c" }
+      - { label: "Live product URL (used on the product's detail page — leave as # if it's not public yet)", name: "link", widget: "string", required: false, default: "#" }
+      - { label: "The problem — what this product solves (shown on its detail page)", name: "problem", widget: "text", required: false }
+      - { label: "The problem (Polish)", name: "problem_pl", widget: "text", required: false }
+      - { label: "The approach — how it works / what makes it different (shown on its detail page)", name: "approach", widget: "text", required: false }
+      - { label: "The approach (Polish)", name: "approach_pl", widget: "text", required: false }
+      - { label: "The outcome — results or impact (shown on its detail page)", name: "outcome", widget: "text", required: false }
+      - { label: "The outcome (Polish)", name: "outcome_pl", widget: "text", required: false }
+      - label: "Gallery — additional photos shown on this product's detail page (the thumbnail tint above is still used on listing cards)"
+        name: "images"
+        widget: "list"
+        required: false
+        field: { label: "Image", name: "src", widget: "image" }
+
+  # ---- Repeatable: client testimonials ----
+  - name: "testimonials"
+    label: "Testimonials"
+    folder: "content/testimonials"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    summary: "{{name}} — {{quote}}"
+    fields:
+      - { label: "Display order", name: "order", widget: "number", default: 1, value_type: "int" }
+      - { label: "Quote", name: "quote", widget: "text" }
+      - { label: "Quote (Polish)", name: "quote_pl", widget: "text", required: false }
+      - { label: "Client name", name: "name", widget: "string" }
+      - { label: "Client name (Polish)", name: "name_pl", widget: "string", required: false }
+      - { label: "Rating (1-5)", name: "rating", widget: "number", default: 5, min: 1, max: 5, value_type: "int" }
+
+  # ---- Repeatable: work experience (About page timeline) ----
+  - name: "experience"
+    label: "Experience"
+    folder: "content/experience"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: company
+    summary: "{{role}} — {{company}}"
+    fields:
+      - { label: "Display order (most recent first)", name: "order", widget: "number", default: 1, value_type: "int" }
+      - { label: "Company", name: "company", widget: "string" }
+      - { label: "Company (Polish)", name: "company_pl", widget: "string", required: false }
+      - { label: "Role / Title", name: "role", widget: "string" }
+      - { label: "Role / Title (Polish)", name: "role_pl", widget: "string", required: false }
+      - { label: "Period (e.g. 2023 — Present)", name: "period", widget: "string" }
+      - { label: "Period (Polish)", name: "period_pl", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Description (Polish)", name: "description_pl", widget: "text", required: false }
+
+  # ---- Repeatable: services grid ----
+  - name: "services"
+    label: "Services"
+    folder: "content/services"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    fields:
+      - { label: "Display order", name: "order", widget: "number", default: 1, value_type: "int" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Title (Polish)", name: "title_pl", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Description (Polish)", name: "description_pl", widget: "text", required: false }

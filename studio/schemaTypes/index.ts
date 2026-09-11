@@ -1,0 +1,26 @@
+import localeString from "./objects/localeString";
+import localeText from "./objects/localeText";
+import attachment from "./objects/attachment";
+
+import siteSettings from "./documents/siteSettings";
+import caseStudy from "./documents/caseStudy";
+import product from "./documents/product";
+import testimonial from "./documents/testimonial";
+import experience from "./documents/experience";
+import service from "./documents/service";
+import skill from "./documents/skill";
+
+export const schemaTypes = [
+  // shared objects first
+  localeString,
+  localeText,
+  attachment,
+  // documents
+  siteSettings,
+  caseStudy,
+  product,
+  testimonial,
+  experience,
+  service,
+  skill,
+];

@@ -1,0 +1,295 @@
+---
+layout: base.njk
+eleventyComputed:
+  title: "{{ site.name }} — {{ site.role }}"
+  description: "{{ site.metaDescription }}"
+---
+<!-- HERO -->
+<section class="hero" id="s1">
+  {% if site.heroSplineUrl %}
+  <iframe class="hero-spline" src="{{ site.heroSplineUrl }}" title="" tabindex="-1" aria-hidden="true" loading="lazy" allow="fullscreen"></iframe>
+  <div class="hero-spline-scrim"></div>
+  {% endif %}
+  <div class="hero-grid"></div>
+  <div class="blob-wrap w1"><div class="hero-blob b1"></div></div>
+  <div class="blob-wrap w2"><div class="hero-blob b2"></div></div>
+  <div class="brackets"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
+  <div class="eyebrow"><span class="plus">+</span> {{ site.heroEyebrow }}</div>
+  <h1 class="split-title" id="heroTitle">{{ site.heroTitle }}</h1>
+  <div class="sub script split-title" id="heroSub">{{ site.heroSubtitle }}</div>
+  <div class="hero-handwrite" id="heroHandwrite">{{ site.heroHandwriteText }}</div>
+  <div class="cta-row">
+    <a href="/portfolio/" class="btn solid"><span class="btn-label">Case Studies</span><span class="btn-icon">↗</span></a>
+    <a href="/products/" class="btn ghost"><span class="btn-label">Products</span><span class="btn-icon btn-icon-pop"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span></a>
+  </div>
+</section>
+
+<!-- ENTITY OVERVIEW -->
+{%- if site.showOverview != false %}
+<section class="entity" id="s2">
+  <div class="wrap">
+    <div class="kicker">OVERVIEW <span class="n">· UPDATED {{ site.updatedLabel }}</span></div>
+    <h2 class="big split-title">Who is {{ site.name }}?</h2>
+    <p class="lede reveal">{{ site.bioParagraph }}</p>
+    <div class="entity-grid">
+      <div class="entity-col reveal">
+        <label>SPECIALTIES</label>
+        <p>{{ site.specialties }}</p>
+      </div>
+      <div class="entity-col reveal">
+        <label>PROOF</label>
+        <p>{{ site.proof }}</p>
+      </div>
+      <div class="entity-col reveal">
+        <label>INDUSTRIES</label>
+        <p>{{ site.industries }}</p>
+      </div>
+      <div class="entity-col reveal">
+        <label>CONTACT</label>
+        <p>{{ site.email }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<!-- ABOUT SPLIT -->
+{%- if site.showAbout != false %}
+<section class="about" id="s3">
+  <div class="wrap about-grid">
+    <div>
+      <div class="kicker">{{ site.name }} · {{ site.role }}</div>
+      <h2 class="big split-title">{{ site.aboutHeading }}</h2>
+      <p class="lede reveal">{{ site.aboutParagraph }}</p>
+      {% if testimonials.length %}
+      <div class="quote-card reveal">
+        <span class="stars">★★★★★</span><span class="score">{{ testimonials[0].rating | default(5) }}.0 / 5</span>
+        <p>&quot;{{ testimonials[0].quote }}&quot;</p>
+        <b>{{ testimonials[0].name }}</b>
+      </div>
+      {% endif %}
+    </div>
+    <div class="cta-card reveal">
+      <img class="cta-photo" src="{{ site.profilePhoto | default('/assets/images/profile.jpg') }}" alt="{{ site.name }}">
+      <div class="cta-copy">
+        <div class="pill"><span class="dot-live"></span> Available for work</div>
+        <h3>{{ site.ctaCardHeading }}</h3>
+        <p>{{ site.ctaCardParagraph }}</p>
+        <div class="cta-copy-btns">
+          <a href="/contact/" class="btn solid"><span class="btn-label">Send me a message</span><span class="btn-icon">↗</span></a>
+          {% if site.cvUrl %}
+          <a href="{{ site.cvUrl }}" class="btn ghost cv-btn" download>
+            <span class="btn-label">Download CV</span><span class="btn-icon btn-icon-down">↓</span>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<!-- SERVICES -->
+{%- if site.showServices != false %}
+<section class="services on-dark" id="s4">
+  <div class="wrap">
+    <div class="services-head">
+      <div>
+        <div class="kicker">WHAT I DO</div>
+        <h2 class="big split-title">{{ site.servicesHeading }}</h2>
+      </div>
+      <p class="lede reveal">{{ site.servicesSubheading }}</p>
+    </div>
+    <div class="services-grid">
+      {% for service in services %}
+      <div class="service-card reveal">
+        <div class="service-icon">
+          {% if service.iconSvg %}
+          {{ service.iconSvg | safe }}
+          {% elif loop.index == 1 %}
+          <svg viewBox="0 0 40 40"><circle cx="16" cy="20" r="12" fill="var(--accent)" opacity=".85"/><circle cx="26" cy="20" r="12" fill="var(--accent-2)" opacity=".85"/></svg>
+          {% elif loop.index == 2 %}
+          <svg viewBox="0 0 40 40"><rect x="7" y="13" width="20" height="14" rx="3" fill="var(--accent)" opacity=".85"/><rect x="13" y="19" width="20" height="14" rx="3" fill="var(--accent-2)" opacity=".85"/></svg>
+          {% elif loop.index == 3 %}
+          <svg viewBox="0 0 40 40"><rect x="6" y="6" width="13" height="13" rx="3" fill="var(--accent)" opacity=".85"/><rect x="21" y="6" width="13" height="13" rx="3" fill="var(--accent-2)" opacity=".6"/><rect x="6" y="21" width="13" height="13" rx="3" fill="var(--accent-2)" opacity=".6"/><rect x="21" y="21" width="13" height="13" rx="3" fill="var(--accent)" opacity=".85"/></svg>
+          {% elif loop.index == 4 %}
+          <svg viewBox="0 0 40 40"><rect x="5" y="9" width="30" height="22" rx="4" fill="var(--accent)" opacity=".55"/><rect x="5" y="9" width="30" height="8" rx="4" fill="var(--accent-2)" opacity=".9"/><circle cx="10" cy="13" r="1.4" fill="#fff"/><circle cx="14" cy="13" r="1.4" fill="#fff"/></svg>
+          {% elif loop.index == 5 %}
+          <svg viewBox="0 0 40 40"><path d="M20 6 L23 17 L34 20 L23 23 L20 34 L17 23 L6 20 L17 17 Z" fill="var(--accent)" opacity=".85"/><circle cx="29" cy="10" r="3" fill="var(--accent-2)"/></svg>
+          {% else %}
+          <svg viewBox="0 0 40 40"><path d="M12 8 L28 20 L21 22 L26 32 L22 34 L17 24 L12 29 Z" fill="var(--accent)" opacity=".85"/><circle cx="30" cy="10" r="2" fill="var(--accent-2)" opacity=".7"/><circle cx="33" cy="16" r="1.5" fill="var(--accent-2)" opacity=".6"/></svg>
+          {% endif %}
+        </div>
+        <div>
+          <h4>{{ service.title }}</h4>
+          <p>{{ service.description }}</p>
+        </div>
+        <span class="num">{{ loop.index | pad2 }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<!-- STATS -->
+{%- if site.showStats != false %}
+<section class="stats" id="s5">
+  <div class="wrap stats-grid">
+    <div>
+      <h2 class="big split-title">{{ site.statsHeading }}</h2>
+      <p class="lede reveal">{{ site.statsParagraph }}</p>
+      <a href="{{ site.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Check my LinkedIn</span><span class="btn-icon">↗</span></a>
+    </div>
+    <div class="reveal">
+      <p class="num-big">{{ site.statNumber }}</p>
+      <p class="lede">{{ site.statCaption }}</p>
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<!-- PORTFOLIO -->
+{%- if site.showPortfolio != false %}
+<section class="portfolio" id="portfolio">
+  <div class="wrap">
+    <div class="kicker">PORTFOLIO</div>
+    <h2 class="big split-title">See the magic for yourself</h2>
+    <p class="lede reveal">Browse a curated collection of projects I've designed — brand identities and digital products alike. <a href="/portfolio/" class="text-link">View all case studies ↗</a></p>
+  </div>
+  <div class="case-marquee" id="caseMarquee">
+    <div class="case-track">
+      {% for cs in caseStudies %}
+      <a class="case-card" href="/portfolio/{{ cs.slug }}/">
+        {% if cs.coverImage %}<img class="case-thumb" src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
+        <div class="case-body">
+          <span class="case-tag">{{ cs.tag }}</span>
+          <h4>{{ cs.title }}</h4>
+          <span class="date">{{ cs.date }}</span>
+        </div>
+      </a>
+      {% endfor %}
+      {% for cs in caseStudies %}
+      <a class="case-card" href="/portfolio/{{ cs.slug }}/" aria-hidden="true" tabindex="-1">
+        {% if cs.coverImage %}<img class="case-thumb" src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
+        <div class="case-body">
+          <span class="case-tag">{{ cs.tag }}</span>
+          <h4>{{ cs.title }}</h4>
+          <span class="date">{{ cs.date }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<!-- PRODUCTS -->
+{%- if site.showProducts != false %}
+<section class="products" id="products">
+  <div class="wrap">
+    <div class="kicker">PRODUCTS</div>
+    <h2 class="big split-title">Products I've shipped</h2>
+    <p class="lede reveal">Products I design and build end-to-end — brand, UX, front end, back end, and launch. Each one a working bet on a real problem. <a href="/products/" class="text-link">View all products ↗</a></p>
+    <div class="prod-grid home">
+      {% for p in products %}
+      <a class="prod-card reveal" href="/products/{{ p.slug }}/">
+        {% if p.coverImage %}<img class="prod-thumb" src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
+        <div class="prod-head">
+          <h4>{{ p.name }}</h4>
+          <span class="status {{ 'soon' if p.status == 'coming-soon' else '' }}">{{ 'COMING SOON' if p.status == 'coming-soon' else 'LIVE' }}</span>
+        </div>
+        <p>{{ p.description }}</p>
+        <div class="prod-foot">
+          <span class="cat">{{ p.category }}</span>
+          <span class="view-link">View product ↗</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<!-- PHOTOGRAPHY -->
+{%- if site.showPhotography != false %}
+<section class="photography" id="photography">
+  <div class="wrap">
+    <div class="kicker">{{ site.photographyKicker }}</div>
+    <h2 class="big split-title">{{ site.photographyHeading }}</h2>
+    <p class="lede reveal">{{ site.photographyIntro }} {% if site.photographyCtaLabel and site.photographyCtaUrl %}<a href="{{ site.photographyCtaUrl }}" class="text-link" target="_blank" rel="noopener noreferrer">{{ site.photographyCtaLabel }} ↗</a>{% endif %}</p>
+  </div>
+  {% if site.photographyImages and site.photographyImages.length %}
+  <div class="photo-marquee" id="photoMarquee">
+    <div class="photo-track">
+      {% for img in site.photographyImages %}
+      <button type="button" class="photo-tile reveal" data-lightbox-src="{{ img.src }}" data-lightbox-alt="{{ site.photographyHeading }}"><img src="{{ img.src }}" alt="{{ site.photographyHeading }}" loading="lazy"></button>
+      {% endfor %}
+      {% for img in site.photographyImages %}
+      <button type="button" class="photo-tile reveal" aria-hidden="true" tabindex="-1" data-lightbox-src="{{ img.src }}" data-lightbox-alt="{{ site.photographyHeading }}"><img src="{{ img.src }}" alt="{{ site.photographyHeading }}" loading="lazy"></button>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="wrap">
+    <div class="photo-grid">
+      <div class="photo-tile reveal"></div>
+      <div class="photo-tile reveal"></div>
+      <div class="photo-tile reveal"></div>
+      <div class="photo-tile reveal"></div>
+    </div>
+  </div>
+  {% endif %}
+</section>
+{%- endif %}
+
+<!-- TESTIMONIALS -->
+{%- if site.showTestimonials != false %}
+<section class="testi" id="s7">
+  <div class="wrap testi-grid">
+    <div>
+      <div class="kicker">TESTIMONIALS</div>
+      <h2 class="big split-title">What clients are saying</h2>
+      <p class="lede reveal">Here's what people have to say about working with me. Real projects, real experiences, real feedback.</p>
+    </div>
+    <div class="testi-wrap reveal">
+      <div class="testi-card" id="testiCard">
+        {% for t in testimonials %}
+        <div class="testi-slide {{ 'active' if loop.first else '' }}">
+          <span class="stars">★★★★★</span>
+          <p>&quot;{{ t.quote }}&quot;</p>
+          <b>{{ t.name }}</b>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="testi-nav">
+        <button id="testiPrev"><span>←</span></button>
+        <button id="testiNext"><span>→</span></button>
+        <div class="testi-dots" id="testiDots"></div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<!-- BIG QUOTE CTA -->
+{%- if site.showBigQuote != false %}
+<section class="bigquote on-dark">
+  <div class="wrap">
+    <h2 class="fill-title">{{ site.bigQuoteLead }} {{ site.bigQuoteFade }}</h2>
+    <p class="foot reveal">{{ site.bigQuoteParagraph }}</p>
+    <a href="/portfolio/" class="btn solid reveal"><span class="btn-label">Check out my work</span><span class="btn-icon">↗</span></a>
+  </div>
+</section>
+{%- endif %}
+
+<!-- FINAL CTA -->
+{%- if site.showFinalCta != false %}
+<section class="final-cta" id="contact">
+  <div class="wrap">
+    <h2 class="big split-title">{{ site.finalCtaHeading }}</h2>
+    <p class="lede reveal" style="margin:0 auto 28px;">{{ site.finalCtaSubheading }}</p>
+    <a href="/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">Send me a message</span><span class="btn-icon">↗</span></a>
+  </div>
+</section>
+{%- endif %}

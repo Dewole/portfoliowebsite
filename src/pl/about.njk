@@ -1,0 +1,106 @@
+---
+layout: base.pl.njk
+eleventyComputed:
+  title: "O mnie — {{ sitePl.name }}"
+  description: "{{ sitePl.aboutBioLong }}"
+---
+<section class="about-hero" id="s1">
+  <div class="wrap">
+    <div class="kicker">O MNIE</div>
+    <h1 class="big split-title">{{ sitePl.aboutHeading }}</h1>
+    <p class="lede reveal">{{ sitePl.aboutParagraph }}</p>
+  </div>
+</section>
+
+<section class="about" id="s2">
+  <div class="wrap about-grid">
+    <div>
+      <img class="photo-block tall reveal" src="{{ sitePl.profilePhoto | default('/assets/images/profile.jpg') }}" alt="{{ sitePl.name }}">
+    </div>
+    <div>
+      <div class="kicker">{{ sitePl.name }} · {{ sitePl.role }}</div>
+      <p class="lede reveal">{{ sitePl.aboutBioLong }}</p>
+      <a href="/pl/contact/" class="btn solid reveal"><span class="btn-label">Napisz do mnie</span><span class="btn-icon">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="how-i-work" id="s3">
+  <div class="wrap">
+    <div class="kicker">PROCES</div>
+    <h2 class="big split-title">{{ sitePl.howIWorkHeading }}</h2>
+    <p class="lede reveal">{{ sitePl.howIWorkIntro }}</p>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="service-icon how-icon">
+          <svg viewBox="0 0 40 40"><circle cx="16" cy="16" r="11" fill="var(--accent)" opacity=".85"/><rect x="24" y="24" width="6" height="13" rx="3" fill="var(--accent-2)" opacity=".85" transform="rotate(45 27 30.5)"/></svg>
+        </div>
+        <span class="num">01</span>
+        <h4>{{ sitePl.howIWorkStep1Title }}</h4>
+        <p>{{ sitePl.howIWorkStep1Desc }}</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="service-icon how-icon">
+          <svg viewBox="0 0 40 40"><path d="M9 31 L25 9 L31 15 L15 33 Z" fill="var(--accent)" opacity=".85"/><path d="M9 31 L6 35 L13 33 Z" fill="var(--accent-2)" opacity=".85"/></svg>
+        </div>
+        <span class="num">02</span>
+        <h4>{{ sitePl.howIWorkStep2Title }}</h4>
+        <p>{{ sitePl.howIWorkStep2Desc }}</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="service-icon how-icon">
+          <svg viewBox="0 0 40 40"><path d="M6 21 L33 8 L21 34 L17 22 Z" fill="var(--accent)" opacity=".85"/><path d="M17 22 L33 8 L17 22 Z" fill="var(--accent-2)" opacity=".7"/></svg>
+        </div>
+        <span class="num">03</span>
+        <h4>{{ sitePl.howIWorkStep3Title }}</h4>
+        <p>{{ sitePl.howIWorkStep3Desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="skills-tools" id="s4">
+  <div class="wrap">
+    <div class="kicker">NARZĘDZIA</div>
+    <h2 class="big split-title">{{ sitePl.skillsHeading }}</h2>
+    <p class="lede reveal">{{ sitePl.skillsIntro }}</p>
+    <div class="skills-grid">
+      {% for s in skillsPl %}
+      <div class="skill-chip reveal">
+        {% if s.icon %}
+        <span class="skill-icon"><img src="{{ s.icon }}" alt="" loading="lazy"></span>
+        {% endif %}
+        <span class="skill-name">{{ s.name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="experience" id="s5">
+  <div class="wrap">
+    <div class="kicker">OSIE CZASU</div>
+    <h2 class="big split-title">{{ sitePl.experienceHeading }}</h2>
+    <p class="lede reveal">{{ sitePl.experienceIntro }}</p>
+    <div class="exp-list">
+      {% for e in experiencePl %}
+      <div class="exp-row reveal">
+        <div class="exp-period">{{ e.period }}</div>
+        <div class="exp-main">
+          <h4>{{ e.role }}</h4>
+          <span class="exp-company">{{ e.company }}</span>
+          {% if e.description %}<p>{{ e.description }}</p>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="final-cta" id="s6">
+  <div class="wrap">
+    <h2 class="big split-title">{{ sitePl.aboutCtaHeading }}</h2>
+    <p class="lede reveal" style="margin:0 auto 28px;">{{ sitePl.aboutCtaParagraph }}</p>
+    <a href="/pl/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">{{ sitePl.aboutCtaButtonLabel }}</span><span class="btn-icon">↗</span></a>
+  </div>
+</section>

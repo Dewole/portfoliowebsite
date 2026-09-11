@@ -1,0 +1,19 @@
+{
+  "order": 2,
+  "name": "Product Name Two",
+  "description": "One line on the problem it solves and who it's for.",
+  "status": "live",
+  "category": "Mobile",
+  "thumbClass": "b",
+  "link": "#",
+  "problem": "Describe the gap in the market or the pain point this product exists to fix, and who feels it most.",
+  "approach": "Explain the core idea behind how the product works and what makes the experience different from alternatives.",
+  "outcome": "Share the result — usage numbers, user feedback, or the impact it's had since launch.",
+  "name_pl": "Nazwa produktu dwa",
+  "description_pl": "Jedna linijka o problemie, który rozwiązuje, i dla kogo jest przeznaczony.",
+  "category_pl": "Aplikacja mobilna",
+  "problem_pl": "Opisz brak na rynku lub problem, który ten produkt ma rozwiązać, i kto najbardziej go odczuwa.",
+  "approach_pl": "Wyjaśnij kluczową ideę działania produktu i co odróżnia to doświadczenie od alternatyw.",
+  "outcome_pl": "Podziel się wynikiem — liczbami użycia, opiniami użytkowników lub wpływem, jaki produkt miał od premiery.",
+  "images": []
+}

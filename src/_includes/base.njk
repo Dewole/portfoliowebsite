@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ (title or (site.name + " — " + site.role)) | safe }}</title>
+<meta name="description" content="{{ (description or site.metaDescription) | safe }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ (title or (site.name + " — " + site.role)) | safe }}">
+<meta property="og:description" content="{{ (description or site.metaDescription) | safe }}">
+{% if image or site.ogImage %}<meta property="og:image" content="{{ image or site.ogImage }}">{% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ (title or (site.name + " — " + site.role)) | safe }}">
+<meta name="twitter:description" content="{{ (description or site.metaDescription) | safe }}">
+{% if image or site.ogImage %}<meta name="twitter:image" content="{{ image or site.ogImage }}">{% endif %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="rail" id="rail"></div>
+
+<header class="nav">
+  <div class="brand"><a href="/">
+    {% if site.showLogo != false and site.logo %}
+      {% if site.logoIsAnimated %}
+      <span class="brand-logo brand-logo-lottie" data-lottie-inline{% if site.logoWidth and site.logoHeight %} style="aspect-ratio:{{ site.logoWidth }}/{{ site.logoHeight }}"{% endif %}>{% if site.logoAnimationDataSafe %}<script type="application/json">{{ site.logoAnimationDataSafe | safe }}</script>{% endif %}</span>
+      {% else %}
+      <img class="brand-logo" src="{{ site.logo }}" alt="">
+      {% endif %}
+    {% endif %}
+    {% if site.showBrandText != false %}
+    <span class="brand-text"><b>{{ site.name }}</b><span>{{ site.role }}</span></span>
+    {% endif %}
+  </a></div>
+  <div class="mid">
+    <span>{{ site.phone }}</span>
+    <span>{{ site.email }}</span>
+    <a href="{{ site.linkedinUrl }}">LinkedIn ↗</a>
+  </div>
+  <div class="right">
+    <select id="langSwitch"><option value="en">English</option><option value="pl">Polski</option></select>
+    <button class="menu-btn" id="menuBtn"><span>Menu</span><span class="burger"><i></i><i></i></span></button>
+  </div>
+</header>
+
+<div class="side-menu-overlay" id="menuOverlay"></div>
+<aside class="side-menu" id="sideMenu">
+  <div class="side-menu-top">
+    <div class="side-menu-brand">
+      {% if site.showLogo != false and site.logo %}
+        {% if site.logoIsAnimated %}
+        <span class="side-menu-logo brand-logo-lottie" data-lottie-inline{% if site.logoWidth and site.logoHeight %} style="aspect-ratio:{{ site.logoWidth }}/{{ site.logoHeight }}"{% endif %}>{% if site.logoAnimationDataSafe %}<script type="application/json">{{ site.logoAnimationDataSafe | safe }}</script>{% endif %}</span>
+        {% else %}
+        <img class="side-menu-logo" src="{{ site.logo }}" alt="">
+        {% endif %}
+      {% endif %}
+      {% if site.showBrandText != false %}
+      <b>{{ site.name }}</b>
+      {% endif %}
+    </div>
+    <button class="side-menu-close" id="menuClose">✕</button>
+  </div>
+  <nav class="side-menu-links">
+    <a href="/"><span>Home</span><span class="idx">01</span></a>
+    <a href="/portfolio/"><span>Portfolio</span><span class="idx">02</span></a>
+    <a href="/products/"><span>Products</span><span class="idx">03</span></a>
+    <a href="/about/"><span>About</span><span class="idx">04</span></a>
+    <a href="/contact/"><span>Contact</span><span class="idx">05</span></a>
+  </nav>
+  <div class="side-menu-foot">
+    <a href="{{ site.linkedinUrl }}">LinkedIn ↗</a>
+    <a href="{{ site.figmaUrl }}">Figma ↗</a>
+    <p>{{ site.email }}</p>
+  </div>
+</aside>
+
+{{ content | safe }}
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-col">
+        <label>LET'S TALK</label>
+        <p>{{ site.phone }}</p>
+        <p>{{ site.email }}</p>
+      </div>
+      <div class="foot-col">
+        <label>NAVIGATE</label>
+        <a href="/">Home</a><a href="/portfolio/">Portfolio</a><a href="/products/">Products</a><a href="/about/">About me</a><a href="/contact/">Contact</a>
+      </div>
+      <div class="foot-col">
+        <label>LINKS</label>
+        <a href="{{ site.figmaUrl }}">Figma</a><a href="{{ site.linkedinUrl }}">LinkedIn</a>
+        {% for link in site.footerLinks %}<a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>{% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="foot-word">{{ site.name }}</div>
+  <div class="wrap">
+    <div class="foot-bottom">
+      <span>© {{ site.copyrightYear }} All rights reserved</span>
+      <span>{{ site.footerNote }}</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Always loaded: used for an animated logo AND for any Lottie/animated
+     JSON attachment on a case-study/product detail page's gallery. Small
+     and cached from cdnjs, only activates on elements carrying
+     data-lottie-src. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script src="/assets/main.js"></script>
+</body>
+</html>

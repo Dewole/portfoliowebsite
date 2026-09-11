@@ -1,0 +1,9 @@
+node_modules
+_site
+.DS_Store
+.cache
+.env
+studio/node_modules
+studio/dist
+studio/.sanity
+sanity-live-reload.json

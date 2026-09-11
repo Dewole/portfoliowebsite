@@ -1,0 +1,41 @@
+---
+layout: base.pl.njk
+eleventyComputed:
+  title: "Produkty — {{ sitePl.name }}"
+  description: "Produkty zaprojektowane i wdrożone od A do Z, od marki do wdrożenia."
+---
+<section class="products-hero" id="s1">
+  <div class="wrap">
+    <div class="kicker">PRODUKTY</div>
+    <h1 class="big split-title">Produkty, które zaprojektowałem i wdrożyłem</h1>
+    <p class="lede reveal">Produkty od A do Z — marka, UX, front end, back end i wdrożenie. Każdy z nich to realny zakład na realny problem.</p>
+  </div>
+</section>
+
+<section class="products-list">
+  <div class="wrap">
+    <div class="filter-pills" id="productFilters">
+      <button class="pill active" data-filter="all">Wszystkie</button>
+      {% for cat in productCategoriesPl %}
+      <button class="pill" data-filter="{{ cat }}">{{ cat }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="prod-grid wide" id="productsGrid">
+      {% for p in productsPl %}
+      <a class="prod-card reveal filter-card" href="/pl/products/{{ p.slug }}/" data-category="{{ p.category }}">
+        {% if p.coverImage %}<img class="prod-thumb" src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
+        <div class="prod-head">
+          <h4>{{ p.name }}</h4>
+          <span class="status {{ 'soon' if p.status == 'coming-soon' else '' }}">{{ 'WKRÓTCE' if p.status == 'coming-soon' else 'DOSTĘPNY' }}</span>
+        </div>
+        <p>{{ p.description }}</p>
+        <div class="prod-foot">
+          <span class="cat">{{ p.category }}</span>
+          <span class="view-link">Zobacz produkt ↗</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
