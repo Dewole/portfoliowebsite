@@ -10,9 +10,10 @@ eleventyComputed:
   description: "{{ cs.overview }}"
   image: "{{ cs.coverImage or cs.heroImage }}"
 ---
+{% import "icons.njk" as icons %}
 <section class="cs-detail" id="s1">
   <div class="wrap">
-    <a href="/pl/portfolio/" class="cs-back">↖ Wróć do portfolio</a>
+    <a href="/pl/portfolio/" class="cs-back"><span class="btn-icon btn-icon-ul cs-back-icon">{{ icons.up_left() | safe }}</span> Wróć do portfolio</a>
     <div class="cs-meta">
       <span>{{ cs.date }}</span>
       <span class="case-tag">{{ cs.tag }}</span>
@@ -93,8 +94,8 @@ eleventyComputed:
     </div>
     {% endif %}
     <div class="cs-nav-row">
-      <a href="/pl/portfolio/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">↖</span><span class="btn-label">Wszystkie studia przypadków</span></a>
-      <a href="/pl/contact/" class="btn solid"><span class="btn-label">Zacznijmy podobny projekt</span><span class="btn-icon">↗</span></a>
+      <a href="/pl/portfolio/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">{{ icons.up_left() | safe }}</span><span class="btn-label">Wszystkie studia przypadków</span></a>
+      <a href="/pl/contact/" class="btn solid"><span class="btn-label">Zacznijmy podobny projekt</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     </div>
   </div>
 </section>

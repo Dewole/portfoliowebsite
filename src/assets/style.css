@@ -462,6 +462,8 @@
   /* CASE STUDY DETAIL */
   .cs-detail{padding:150px 0 60px;background:var(--dark);color:#fff;}
   .cs-back{display:inline-block;margin-bottom:26px;color:#afb3b9;font-size:14px;transition:color .2s ease;}
+  .cs-back{display:inline-flex;align-items:center;gap:6px;}
+  .cs-back .btn-icon{font-size:14px;}
   .cs-back:hover{color:var(--accent);}
   .cs-meta{display:flex;gap:14px;align-items:center;margin-bottom:18px;color:#afb3b9;font-size:14px;}
   /* .case-tag and .status both carry their own margin-bottom for the contexts

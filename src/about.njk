@@ -4,6 +4,7 @@ eleventyComputed:
   title: "About — {{ site.name }}"
   description: "{{ site.aboutBioLong }}"
 ---
+{% import "icons.njk" as icons %}
 <section class="about-hero" id="s1">
   <div class="wrap">
     <div class="kicker">ABOUT</div>
@@ -20,7 +21,7 @@ eleventyComputed:
     <div>
       <div class="kicker">{{ site.name }} · {{ site.role }}</div>
       <p class="lede reveal">{{ site.aboutBioLong }}</p>
-      <a href="/contact/" class="btn solid reveal"><span class="btn-label">Contact me</span><span class="btn-icon">↗</span></a>
+      <a href="/contact/" class="btn solid reveal"><span class="btn-label">Contact me</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     </div>
   </div>
 </section>
@@ -101,6 +102,6 @@ eleventyComputed:
   <div class="wrap">
     <h2 class="big split-title">{{ site.aboutCtaHeading }}</h2>
     <p class="lede reveal" style="margin:0 auto 28px;">{{ site.aboutCtaParagraph }}</p>
-    <a href="/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">{{ site.aboutCtaButtonLabel }}</span><span class="btn-icon">↗</span></a>
+    <a href="/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">{{ site.aboutCtaButtonLabel }}</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
 </section>

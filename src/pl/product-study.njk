@@ -10,9 +10,10 @@ eleventyComputed:
   description: "{{ p.description }}"
   image: "{{ p.coverImage or p.heroImage }}"
 ---
+{% import "icons.njk" as icons %}
 <section class="cs-detail" id="s1">
   <div class="wrap">
-    <a href="/pl/products/" class="cs-back">↖ Wróć do produktów</a>
+    <a href="/pl/products/" class="cs-back"><span class="btn-icon btn-icon-ul cs-back-icon">{{ icons.up_left() | safe }}</span> Wróć do produktów</a>
     <div class="cs-meta">
       <span class="status {{ 'soon' if p.status == 'coming-soon' else '' }}">{{ 'WKRÓTCE' if p.status == 'coming-soon' else 'DOSTĘPNY' }}</span>
       <span class="case-tag">{{ p.category }}</span>
@@ -91,11 +92,11 @@ eleventyComputed:
     </div>
     {% endif %}
     <div class="cs-nav-row">
-      <a href="/pl/products/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">↖</span><span class="btn-label">Wszystkie produkty</span></a>
+      <a href="/pl/products/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">{{ icons.up_left() | safe }}</span><span class="btn-label">Wszystkie produkty</span></a>
       {% if p.link and p.link != '#' %}
-      <a href="{{ p.link }}" class="btn solid" target="_blank" rel="noopener noreferrer"><span class="btn-label">Zobacz działający produkt</span><span class="btn-icon">↗</span></a>
+      <a href="{{ p.link }}" class="btn solid" target="_blank" rel="noopener noreferrer"><span class="btn-label">Zobacz działający produkt</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
       {% else %}
-      <a href="/pl/contact/" class="btn solid"><span class="btn-label">Zacznijmy podobny projekt</span><span class="btn-icon">↗</span></a>
+      <a href="/pl/contact/" class="btn solid"><span class="btn-label">Zacznijmy podobny projekt</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
       {% endif %}
     </div>
   </div>

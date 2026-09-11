@@ -1,3 +1,4 @@
+{% import "icons.njk" as icons %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +42,7 @@
   <div class="mid">
     <span>{{ site.phone }}</span>
     <span>{{ site.email }}</span>
-    <a href="{{ site.linkedinUrl }}">LinkedIn ↗</a>
+    <a href="{{ site.linkedinUrl }}">LinkedIn <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
   <div class="right">
     <select id="langSwitch"><option value="en">English</option><option value="pl">Polski</option></select>
@@ -74,8 +75,8 @@
     <a href="/contact/"><span>Contact</span><span class="idx">05</span></a>
   </nav>
   <div class="side-menu-foot">
-    <a href="{{ site.linkedinUrl }}">LinkedIn ↗</a>
-    <a href="{{ site.figmaUrl }}">Figma ↗</a>
+    <a href="{{ site.linkedinUrl }}">LinkedIn <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+    <a href="{{ site.figmaUrl }}">Figma <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     <p>{{ site.email }}</p>
   </div>
 </aside>

@@ -4,6 +4,7 @@ eleventyComputed:
   title: "{{ sitePl.name }} — {{ sitePl.role }}"
   description: "{{ sitePl.metaDescription }}"
 ---
+{% import "icons.njk" as icons %}
 <!-- HERO -->
 <section class="hero" id="s1">
   {% if sitePl.heroSplineUrl %}
@@ -19,7 +20,7 @@ eleventyComputed:
   <div class="sub script split-title" id="heroSub">{{ sitePl.heroSubtitle }}</div>
   <div class="hero-handwrite" id="heroHandwrite">{{ sitePl.heroHandwriteText }}</div>
   <div class="cta-row">
-    <a href="/pl/portfolio/" class="btn solid"><span class="btn-label">Studia przypadków</span><span class="btn-icon">↗</span></a>
+    <a href="/pl/portfolio/" class="btn solid"><span class="btn-label">Studia przypadków</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     <a href="/pl/products/" class="btn ghost"><span class="btn-label">Produkty</span><span class="btn-icon btn-icon-pop"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span></a>
   </div>
 </section>
@@ -76,10 +77,10 @@ eleventyComputed:
         <h3>{{ sitePl.ctaCardHeading }}</h3>
         <p>{{ sitePl.ctaCardParagraph }}</p>
         <div class="cta-copy-btns">
-          <a href="/pl/contact/" class="btn solid"><span class="btn-label">Napisz do mnie</span><span class="btn-icon">↗</span></a>
+          <a href="/pl/contact/" class="btn solid"><span class="btn-label">Napisz do mnie</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
           {% if sitePl.cvUrl %}
           <a href="{{ sitePl.cvUrl }}" class="btn ghost cv-btn" download>
-            <span class="btn-label">Pobierz CV</span><span class="btn-icon btn-icon-down">↓</span>
+            <span class="btn-label">Pobierz CV</span><span class="btn-icon btn-icon-down">{{ icons.down() | safe }}</span>
           </a>
           {% endif %}
         </div>
@@ -139,7 +140,7 @@ eleventyComputed:
     <div>
       <h2 class="big split-title">{{ sitePl.statsHeading }}</h2>
       <p class="lede reveal">{{ sitePl.statsParagraph }}</p>
-      <a href="{{ sitePl.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Zobacz mój LinkedIn</span><span class="btn-icon">↗</span></a>
+      <a href="{{ sitePl.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Zobacz mój LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     </div>
     <div class="reveal">
       <p class="num-big">{{ sitePl.statNumber }}</p>
@@ -155,7 +156,7 @@ eleventyComputed:
   <div class="wrap">
     <div class="kicker">PORTFOLIO</div>
     <h2 class="big split-title">Zobacz efekty na własne oczy</h2>
-    <p class="lede reveal">Przeglądaj wyselekcjonowany zbiór projektów, które zaprojektowałem — identyfikacje marek i produkty cyfrowe. <a href="/pl/portfolio/" class="text-link">Zobacz wszystkie studia przypadków ↗</a></p>
+    <p class="lede reveal">Przeglądaj wyselekcjonowany zbiór projektów, które zaprojektowałem — identyfikacje marek i produkty cyfrowe. <a href="/pl/portfolio/" class="text-link">Zobacz wszystkie studia przypadków <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
   </div>
   <div class="case-marquee" id="caseMarquee">
     <div class="case-track">
@@ -190,7 +191,7 @@ eleventyComputed:
   <div class="wrap">
     <div class="kicker">PRODUKTY</div>
     <h2 class="big split-title">Produkty, które wdrożyłem</h2>
-    <p class="lede reveal">Produkty, które projektuję i buduję od A do Z — marka, UX, front end, back end i wdrożenie. Każdy z nich jest realnym rozwiązaniem realnego problemu. <a href="/pl/products/" class="text-link">Zobacz wszystkie produkty ↗</a></p>
+    <p class="lede reveal">Produkty, które projektuję i buduję od A do Z — marka, UX, front end, back end i wdrożenie. Każdy z nich jest realnym rozwiązaniem realnego problemu. <a href="/pl/products/" class="text-link">Zobacz wszystkie produkty <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
     <div class="prod-grid home">
       {% for p in productsPl %}
       <a class="prod-card reveal" href="/pl/products/{{ p.slug }}/">
@@ -202,7 +203,7 @@ eleventyComputed:
         <p>{{ p.description }}</p>
         <div class="prod-foot">
           <span class="cat">{{ p.category }}</span>
-          <span class="view-link">Zobacz produkt ↗</span>
+          <span class="view-link">Zobacz produkt <span class="btn-icon">{{ icons.up_right() | safe }}</span></span>
         </div>
       </a>
       {% endfor %}
@@ -217,7 +218,7 @@ eleventyComputed:
   <div class="wrap">
     <div class="kicker">{{ sitePl.photographyKicker }}</div>
     <h2 class="big split-title">{{ sitePl.photographyHeading }}</h2>
-    <p class="lede reveal">{{ sitePl.photographyIntro }} {% if sitePl.photographyCtaLabel and sitePl.photographyCtaUrl %}<a href="{{ sitePl.photographyCtaUrl }}" class="text-link" target="_blank" rel="noopener noreferrer">{{ sitePl.photographyCtaLabel }} ↗</a>{% endif %}</p>
+    <p class="lede reveal">{{ sitePl.photographyIntro }} {% if sitePl.photographyCtaLabel and sitePl.photographyCtaUrl %}<a href="{{ sitePl.photographyCtaUrl }}" class="text-link" target="_blank" rel="noopener noreferrer">{{ sitePl.photographyCtaLabel }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}</p>
   </div>
   {% if site.photographyImages and site.photographyImages.length %}
   <div class="photo-marquee" id="photoMarquee">
@@ -263,8 +264,8 @@ eleventyComputed:
         {% endfor %}
       </div>
       <div class="testi-nav">
-        <button id="testiPrev"><span>←</span></button>
-        <button id="testiNext"><span>→</span></button>
+        <button id="testiPrev"><span>{{ icons.chevron_left() | safe }}</span></button>
+        <button id="testiNext"><span>{{ icons.chevron_right() | safe }}</span></button>
         <div class="testi-dots" id="testiDots"></div>
       </div>
     </div>
@@ -278,7 +279,7 @@ eleventyComputed:
   <div class="wrap">
     <h2 class="fill-title">{{ sitePl.bigQuoteLead }} {{ sitePl.bigQuoteFade }}</h2>
     <p class="foot reveal">{{ sitePl.bigQuoteParagraph }}</p>
-    <a href="/pl/portfolio/" class="btn solid reveal"><span class="btn-label">Zobacz moje prace</span><span class="btn-icon">↗</span></a>
+    <a href="/pl/portfolio/" class="btn solid reveal"><span class="btn-label">Zobacz moje prace</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
 </section>
 {%- endif %}
@@ -289,7 +290,7 @@ eleventyComputed:
   <div class="wrap">
     <h2 class="big split-title">{{ sitePl.finalCtaHeading }}</h2>
     <p class="lede reveal" style="margin:0 auto 28px;">{{ sitePl.finalCtaSubheading }}</p>
-    <a href="/pl/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">Napisz do mnie</span><span class="btn-icon">↗</span></a>
+    <a href="/pl/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">Napisz do mnie</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
 </section>
 {%- endif %}

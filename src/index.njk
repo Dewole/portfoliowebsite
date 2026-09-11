@@ -4,6 +4,7 @@ eleventyComputed:
   title: "{{ site.name }} — {{ site.role }}"
   description: "{{ site.metaDescription }}"
 ---
+{% import "icons.njk" as icons %}
 <!-- HERO -->
 <section class="hero" id="s1">
   {% if site.heroSplineUrl %}
@@ -19,7 +20,7 @@ eleventyComputed:
   <div class="sub script split-title" id="heroSub">{{ site.heroSubtitle }}</div>
   <div class="hero-handwrite" id="heroHandwrite">{{ site.heroHandwriteText }}</div>
   <div class="cta-row">
-    <a href="/portfolio/" class="btn solid"><span class="btn-label">Case Studies</span><span class="btn-icon">↗</span></a>
+    <a href="/portfolio/" class="btn solid"><span class="btn-label">Case Studies</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     <a href="/products/" class="btn ghost"><span class="btn-label">Products</span><span class="btn-icon btn-icon-pop"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span></a>
   </div>
 </section>
@@ -76,10 +77,10 @@ eleventyComputed:
         <h3>{{ site.ctaCardHeading }}</h3>
         <p>{{ site.ctaCardParagraph }}</p>
         <div class="cta-copy-btns">
-          <a href="/contact/" class="btn solid"><span class="btn-label">Send me a message</span><span class="btn-icon">↗</span></a>
+          <a href="/contact/" class="btn solid"><span class="btn-label">Send me a message</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
           {% if site.cvUrl %}
           <a href="{{ site.cvUrl }}" class="btn ghost cv-btn" download>
-            <span class="btn-label">Download CV</span><span class="btn-icon btn-icon-down">↓</span>
+            <span class="btn-label">Download CV</span><span class="btn-icon btn-icon-down">{{ icons.down() | safe }}</span>
           </a>
           {% endif %}
         </div>
@@ -139,7 +140,7 @@ eleventyComputed:
     <div>
       <h2 class="big split-title">{{ site.statsHeading }}</h2>
       <p class="lede reveal">{{ site.statsParagraph }}</p>
-      <a href="{{ site.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Check my LinkedIn</span><span class="btn-icon">↗</span></a>
+      <a href="{{ site.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Check my LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     </div>
     <div class="reveal">
       <p class="num-big">{{ site.statNumber }}</p>
@@ -155,7 +156,7 @@ eleventyComputed:
   <div class="wrap">
     <div class="kicker">PORTFOLIO</div>
     <h2 class="big split-title">See the magic for yourself</h2>
-    <p class="lede reveal">Browse a curated collection of projects I've designed — brand identities and digital products alike. <a href="/portfolio/" class="text-link">View all case studies ↗</a></p>
+    <p class="lede reveal">Browse a curated collection of projects I've designed — brand identities and digital products alike. <a href="/portfolio/" class="text-link">View all case studies <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
   </div>
   <div class="case-marquee" id="caseMarquee">
     <div class="case-track">
@@ -190,7 +191,7 @@ eleventyComputed:
   <div class="wrap">
     <div class="kicker">PRODUCTS</div>
     <h2 class="big split-title">Products I've shipped</h2>
-    <p class="lede reveal">Products I design and build end-to-end — brand, UX, front end, back end, and launch. Each one a working bet on a real problem. <a href="/products/" class="text-link">View all products ↗</a></p>
+    <p class="lede reveal">Products I design and build end-to-end — brand, UX, front end, back end, and launch. Each one a working bet on a real problem. <a href="/products/" class="text-link">View all products <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
     <div class="prod-grid home">
       {% for p in products %}
       <a class="prod-card reveal" href="/products/{{ p.slug }}/">
@@ -202,7 +203,7 @@ eleventyComputed:
         <p>{{ p.description }}</p>
         <div class="prod-foot">
           <span class="cat">{{ p.category }}</span>
-          <span class="view-link">View product ↗</span>
+          <span class="view-link">View product <span class="btn-icon">{{ icons.up_right() | safe }}</span></span>
         </div>
       </a>
       {% endfor %}
@@ -217,7 +218,7 @@ eleventyComputed:
   <div class="wrap">
     <div class="kicker">{{ site.photographyKicker }}</div>
     <h2 class="big split-title">{{ site.photographyHeading }}</h2>
-    <p class="lede reveal">{{ site.photographyIntro }} {% if site.photographyCtaLabel and site.photographyCtaUrl %}<a href="{{ site.photographyCtaUrl }}" class="text-link" target="_blank" rel="noopener noreferrer">{{ site.photographyCtaLabel }} ↗</a>{% endif %}</p>
+    <p class="lede reveal">{{ site.photographyIntro }} {% if site.photographyCtaLabel and site.photographyCtaUrl %}<a href="{{ site.photographyCtaUrl }}" class="text-link" target="_blank" rel="noopener noreferrer">{{ site.photographyCtaLabel }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}</p>
   </div>
   {% if site.photographyImages and site.photographyImages.length %}
   <div class="photo-marquee" id="photoMarquee">
@@ -263,8 +264,8 @@ eleventyComputed:
         {% endfor %}
       </div>
       <div class="testi-nav">
-        <button id="testiPrev"><span>←</span></button>
-        <button id="testiNext"><span>→</span></button>
+        <button id="testiPrev"><span>{{ icons.chevron_left() | safe }}</span></button>
+        <button id="testiNext"><span>{{ icons.chevron_right() | safe }}</span></button>
         <div class="testi-dots" id="testiDots"></div>
       </div>
     </div>
@@ -278,7 +279,7 @@ eleventyComputed:
   <div class="wrap">
     <h2 class="fill-title">{{ site.bigQuoteLead }} {{ site.bigQuoteFade }}</h2>
     <p class="foot reveal">{{ site.bigQuoteParagraph }}</p>
-    <a href="/portfolio/" class="btn solid reveal"><span class="btn-label">Check out my work</span><span class="btn-icon">↗</span></a>
+    <a href="/portfolio/" class="btn solid reveal"><span class="btn-label">Check out my work</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
 </section>
 {%- endif %}
@@ -289,7 +290,7 @@ eleventyComputed:
   <div class="wrap">
     <h2 class="big split-title">{{ site.finalCtaHeading }}</h2>
     <p class="lede reveal" style="margin:0 auto 28px;">{{ site.finalCtaSubheading }}</p>
-    <a href="/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">Send me a message</span><span class="btn-icon">↗</span></a>
+    <a href="/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">Send me a message</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
 </section>
 {%- endif %}

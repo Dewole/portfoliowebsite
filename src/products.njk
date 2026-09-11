@@ -4,6 +4,7 @@ eleventyComputed:
   title: "Products — {{ site.name }}"
   description: "Products designed and shipped end-to-end, from brand to build."
 ---
+{% import "icons.njk" as icons %}
 <section class="products-hero" id="s1">
   <div class="wrap">
     <div class="kicker">PRODUCTS</div>
@@ -32,7 +33,7 @@ eleventyComputed:
         <p>{{ p.description }}</p>
         <div class="prod-foot">
           <span class="cat">{{ p.category }}</span>
-          <span class="view-link">View product ↗</span>
+          <span class="view-link">View product <span class="btn-icon">{{ icons.up_right() | safe }}</span></span>
         </div>
       </a>
       {% endfor %}

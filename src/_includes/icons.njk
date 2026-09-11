@@ -1,0 +1,21 @@
+{#
+  Reusable inline arrow icons. These replace plain unicode arrow characters
+  (↗ ↖ ↓ ← →) that were previously used as button/link icons across the
+  site, so every "arrow" renders as an actual vector icon instead of a text
+  glyph. Each macro is dropped into the exact same <span> wrapper the text
+  glyph used to sit in, so all the existing hover-animation CSS (.btn-icon,
+  .btn-icon-ul, .btn-icon-down, .testi-nav button span, etc.) keeps working
+  unchanged — only the glyph itself changed, not its container or behavior.
+  currentColor means each icon automatically matches its surrounding text
+  color, including on hover-color transitions.
+#}
+
+{% macro up_right() %}<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M11 5H6M11 5V10"/></svg>{% endmacro %}
+
+{% macro up_left() %}<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 11L5 5M5 5H10M5 5V10"/></svg>{% endmacro %}
+
+{% macro down() %}<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3V13M8 13L4 9M8 13L12 9"/></svg>{% endmacro %}
+
+{% macro chevron_left() %}<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8L10 13"/></svg>{% endmacro %}
+
+{% macro chevron_right() %}<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3L11 8L6 13"/></svg>{% endmacro %}

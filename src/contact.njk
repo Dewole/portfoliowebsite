@@ -4,6 +4,7 @@ eleventyComputed:
   title: "Contact — {{ site.name }}"
   description: "{{ site.contactIntro }}"
 ---
+{% import "icons.njk" as icons %}
 <section class="contact-hero" id="s1">
   <div class="wrap contact-grid">
     <div>
@@ -25,7 +26,7 @@ eleventyComputed:
       <label>Message
         <textarea name="message" rows="6" required></textarea>
       </label>
-      <button type="submit" class="btn solid cta-wide"><span class="btn-label">Send message</span><span class="btn-icon arrow">↗</span></button>
+      <button type="submit" class="btn solid cta-wide"><span class="btn-label">Send message</span><span class="btn-icon arrow">{{ icons.up_right() | safe }}</span></button>
     </form>
   </div>
 </section>
