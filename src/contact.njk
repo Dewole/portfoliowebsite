@@ -14,9 +14,10 @@ eleventyComputed:
       <p class="contact-email reveal">Or email me directly at <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
       <img class="photo-block tall reveal" src="{{ site.profilePhoto | default('/assets/images/profile.jpg') }}" alt="{{ site.name }}">
     </div>
-    <form class="contact-form reveal" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <input type="hidden" name="form-name" value="contact">
-      <p class="hp"><label>Don't fill this out: <input name="bot-field"></label></p>
+    <form class="contact-form reveal" data-contact-form action="{{ site.contactFormEndpoint }}" method="POST"
+      data-modal-title="Message sent!" data-modal-message="Thanks for reaching out — I'll get back to you soon."
+      data-error-text="Something went wrong sending your message — please try again, or email me directly.">
+      <p class="hp"><label>Don't fill this out: <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
       <label>Name
         <input type="text" name="name" required>
       </label>
@@ -27,6 +28,7 @@ eleventyComputed:
         <textarea name="message" rows="6" required></textarea>
       </label>
       <button type="submit" class="btn solid cta-wide"><span class="btn-label">Send message</span><span class="btn-icon arrow">{{ icons.up_right() | safe }}</span></button>
+      <p class="form-error" hidden></p>
     </form>
   </div>
 </section>

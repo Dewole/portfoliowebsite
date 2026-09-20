@@ -290,6 +290,10 @@
   a:hover .btn-icon.btn-icon-down, button:hover .btn-icon.btn-icon-down{transform:translateY(3px);}
   a:hover .btn-icon.btn-icon-pop, button:hover .btn-icon.btn-icon-pop{transform:scale(1.18) rotate(8deg);}
 
+  @media (max-width:700px){
+    .btn:not(.cta-wide){justify-content:center;text-align:center;}
+  }
+
   /* BUTTON TEXT REVEAL — on hover the current label slides up and out while an
      identical duplicate slides up into its place. Applied generically by main.js
      to every button-like element (see wireButtonTextReveal).
@@ -394,6 +398,11 @@
     background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);align-self:flex-start;
   }
   .pill .dot-live{width:7px;height:7px;border-radius:50%;background:#5ee6a8;}
+  @keyframes dotPulse{
+    0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(94,230,168,.45);}
+    50%{opacity:.5;box-shadow:0 0 0 5px rgba(94,230,168,0);}
+  }
+  .pill .dot-live{animation:dotPulse 2.2s ease-in-out infinite;}
   .cta-card h3{font-family:var(--font-display);margin:0;font-size:clamp(24px,2.8vw,34px);line-height:1.25;}
   .cta-card p{margin:0;color:#afb3b9;font-size:15px;line-height:1.7;}
   .cta-copy-btns{display:flex;gap:12px;flex-wrap:wrap;}
@@ -651,6 +660,8 @@
   }
   .contact-form input:focus, .contact-form textarea:focus{outline:none;border-color:var(--accent);}
   .contact-form .hp{position:absolute;left:-9999px;}
+  .contact-form .form-error{color:#e5484d;font-size:13px;margin-top:4px;}
+  .contact-form .form-error[hidden]{display:none;}
   @media (max-width:900px){ .contact-grid{grid-template-columns:1fr;} }
 
   /* PRODUCTS */
@@ -749,6 +760,30 @@
   }
   .lightbox-close:hover{background:rgba(255,255,255,.16);}
   body.lightbox-open{overflow:hidden;}
+
+  /* FORM SUCCESS MODAL — shown after a contact-form submission succeeds. */
+  .form-modal{
+    position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+    background:rgba(10,12,16,.72);backdrop-filter:blur(6px);padding:20px;
+  }
+  .form-modal[hidden]{display:none;}
+  body.form-modal-open{overflow:hidden;}
+  .form-modal-card{
+    position:relative;max-width:380px;width:100%;background:var(--bg-card);color:var(--ink);
+    border-radius:var(--radius);padding:38px 30px 32px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.4);
+  }
+  .form-modal-icon{
+    width:54px;height:54px;border-radius:50%;background:rgba(94,230,168,.15);color:#1fae6e;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+  }
+  .form-modal-title{margin:0 0 8px;font-family:var(--font-display);font-size:22px;}
+  .form-modal-message{margin:0;color:var(--ink-soft);font-size:14px;line-height:1.6;}
+  .form-modal-close{
+    position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;border:none;
+    background:rgba(0,0,0,.06);color:var(--ink);font-size:18px;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:background .2s ease;
+  }
+  .form-modal-close:hover{background:rgba(0,0,0,.12);}
 
   /* TESTIMONIALS */
   .testi{padding:110px 0;}

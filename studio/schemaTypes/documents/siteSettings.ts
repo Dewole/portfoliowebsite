@@ -65,6 +65,13 @@ export default defineType({
       group: "identity",
     }),
     defineField({
+      name: "siteUrl",
+      title: "Live site URL",
+      description: "Your site's live domain once deployed, e.g. https://dewole.com (no trailing slash). Used to build absolute links for social share previews (WhatsApp, Slack, iMessage, etc.) and canonical URLs — without it, some platforms won't display your share image correctly.",
+      type: "url",
+      group: "identity",
+    }),
+    defineField({
       name: "ogImage",
       title: "Social share image (SEO / link previews)",
       description: "Shown when a page is shared on social media, Slack, WhatsApp, iMessage, etc. Recommended: exactly 1200×630px (jpg or png), with any key text kept within the center ~80% since some platforms crop the edges. Used as the default for every page; a Portfolio/Product page falls back to that item's own cover image if you haven't set one there.",
@@ -240,6 +247,13 @@ export default defineType({
     // Contact page — not a homepage section, so no on/off toggle
     defineField({ name: "contactHeading", title: "Contact page — heading", type: "localeString", group: "contactPage" }),
     defineField({ name: "contactIntro", title: "Contact page — intro", type: "localeText", group: "contactPage" }),
+    defineField({
+      name: "contactFormEndpoint",
+      title: "Contact form submission endpoint",
+      description: "Where the contact form sends its submissions. Sign up free at formspree.io, create a form pointed at your email, and paste the endpoint it gives you here (looks like https://formspree.io/f/xxxxxxxx). Leave empty and the form will still display, but submissions won't go anywhere until this is set.",
+      type: "url",
+      group: "contactPage",
+    }),
 
     // Footer
     defineField({ name: "copyrightYear", title: "Copyright year", type: "string", group: "footer" }),

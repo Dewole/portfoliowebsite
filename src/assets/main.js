@@ -503,6 +503,90 @@
     });
   })();
 
+  // ---- CONTACT FORM — submits via fetch (so we can show our own success
+  // modal instead of a full-page redirect/reload) to whatever endpoint is
+  // configured in the CMS's "Contact form submission endpoint" field
+  // (site.contactFormEndpoint). Works for both the EN and /pl/ forms, which
+  // share this same markup/attribute contract. ----
+  (function(){
+    const form = document.querySelector('[data-contact-form]');
+    if(!form) return;
+
+    let modal = document.querySelector('.form-modal');
+    if(!modal){
+      modal = document.createElement('div');
+      modal.className = 'form-modal';
+      modal.setAttribute('hidden', '');
+      modal.innerHTML =
+        '<div class="form-modal-card">' +
+          '<button type="button" class="form-modal-close" aria-label="Close">\u00d7</button>' +
+          '<div class="form-modal-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>' +
+          '<h3 class="form-modal-title"></h3>' +
+          '<p class="form-modal-message"></p>' +
+        '</div>';
+      document.body.appendChild(modal);
+    }
+    const closeBtn = modal.querySelector('.form-modal-close');
+    const titleEl = modal.querySelector('.form-modal-title');
+    const messageEl = modal.querySelector('.form-modal-message');
+
+    function openModal(title, message){
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      modal.removeAttribute('hidden');
+      document.body.classList.add('form-modal-open');
+    }
+    function closeModal(){
+      modal.setAttribute('hidden', '');
+      document.body.classList.remove('form-modal-open');
+    }
+    modal.addEventListener('click', (e)=>{
+      if(e.target === modal || e.target === closeBtn) closeModal();
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+    });
+
+    const errorEl = form.querySelector('.form-error');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!form.action){
+        if(errorEl){
+          errorEl.textContent = 'This form isn\'t connected yet — set a submission endpoint in the CMS.';
+          errorEl.hidden = false;
+        }
+        return;
+      }
+      if(errorEl) errorEl.hidden = true;
+      if(submitBtn) submitBtn.disabled = true;
+      const data = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' },
+      }).then((res) => {
+        if(res.ok){
+          form.reset();
+          openModal(
+            form.getAttribute('data-modal-title') || 'Message sent!',
+            form.getAttribute('data-modal-message') || ''
+          );
+        } else {
+          throw new Error('Submit failed');
+        }
+      }).catch(() => {
+        if(errorEl){
+          errorEl.textContent = form.getAttribute('data-error-text') || 'Something went wrong — please try again.';
+          errorEl.hidden = false;
+        }
+      }).finally(() => {
+        if(submitBtn) submitBtn.disabled = false;
+      });
+    });
+  })();
+
   // ---- ANIMATED (Lottie/Bodymovin) elements + GALLERY MEDIA autoplay ----
   // Two kinds of Lottie element share the [data-lottie-inline] attribute,
   // each carrying its animation JSON as a nested
