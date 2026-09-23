@@ -40,18 +40,32 @@ eleventyComputed:
   </div>
 </section>
 
+<section class="cs-details">
+  <div class="wrap cs-details-grid">
+    <div class="cs-details-left">
+      <h2 class="big split-title cs-details-title"><span class="muted">Project</span> Details</h2>
+      {% if cs.overview %}<p class="cs-details-desc">{{ cs.overview }}</p>{% endif %}
+      {% if cs.secondaryDescription %}<p class="cs-details-desc-secondary">{{ cs.secondaryDescription }}</p>{% endif %}
+    </div>
+    <div class="cs-details-right">
+      {% if cs.client %}
+      <div class="cs-details-row"><span class="cs-details-label">Client</span><span class="cs-details-value">{{ cs.client }}</span></div>
+      {% endif %}
+      {% if cs.services %}
+      <div class="cs-details-row"><span class="cs-details-label">Services</span><span class="cs-details-value">{{ cs.services }}</span></div>
+      {% endif %}
+      {% if cs.date %}
+      <div class="cs-details-row"><span class="cs-details-label">Year</span><span class="cs-details-value">{{ cs.date }}</span></div>
+      {% endif %}
+      {% if cs.link and cs.link != '#' %}
+      <div class="cs-details-row"><span class="cs-details-label">Site</span><span class="cs-details-value"><a href="{{ cs.link }}" target="_blank" rel="noopener noreferrer">Visit website <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></span></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
 <section class="cs-body">
   <div class="wrap">
-    <div class="kicker">{{ cs.overviewKicker or "ABOUT THE PROJECT" }}</div>
-    <h2 class="big split-title">{{ cs.overviewHeading or "Project overview" }}</h2>
-    <div class="cs-prose">
-      {% if cs.client %}<p><b>Client:</b> {{ cs.client }}</p>{% endif %}
-      {% if cs.role %}<p>{{ cs.role }}</p>{% endif %}
-      {% if cs.overview %}<p>{{ cs.overview }}</p>{% endif %}
-      {% if cs.objective %}<p>{{ cs.objective }}</p>{% endif %}
-      {% if cs.approach %}<p>{{ cs.approach }}</p>{% endif %}
-      {% if cs.outcome %}<p>{{ cs.outcome }}</p>{% endif %}
-    </div>
 
     {% if cs.sections and cs.sections.length %}
     <div class="cs-sections">

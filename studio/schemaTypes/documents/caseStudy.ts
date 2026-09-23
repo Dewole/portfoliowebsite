@@ -6,6 +6,14 @@ export default defineType({
   name: "caseStudy",
   title: "Case Study",
   type: "document",
+  fieldsets: [
+    {
+      name: "projectDetails",
+      title: "Project Details card (shown right after the hero banner)",
+      description: "Client, services, year, and live site link, plus the two intro paragraphs beside them.",
+      options: { collapsible: false },
+    },
+  ],
   fields: [
     defineField({
       name: "order",
@@ -27,7 +35,6 @@ export default defineType({
       title: "Category (drives the filter pills on the Portfolio page)",
       type: "localeString",
     }),
-    defineField({ name: "date", title: "Date label", type: "string" }),
     defineField({
       name: "coverImage",
       title: "Cover photo",
@@ -50,29 +57,50 @@ export default defineType({
       options: { accept: "video/mp4,application/json,.mp4,.json" },
     }),
     defineField({
-      name: "overviewKicker",
-      title: "Overview section — kicker label",
-      description: "Small label above the overview heading. Leave empty to show \"ABOUT THE PROJECT\".",
-      type: "localeString",
-    }),
-    defineField({
-      name: "overviewHeading",
-      title: "Overview section — heading",
-      description: "Leave empty to show \"Project overview\".",
-      type: "localeString",
-    }),
-    defineField({
       name: "galleryKicker",
       title: "Gallery section — kicker label",
-      description: "Small label above the gallery. Leave empty to show \"GALLERY\".",
+      description: "Small label above the gallery, further down the page. Leave empty to show \"GALLERY\".",
       type: "localeString",
     }),
-    defineField({ name: "client", title: "Client", type: "localeString" }),
-    defineField({ name: "role", title: "Role on this project", type: "localeString" }),
-    defineField({ name: "overview", title: "Project overview", type: "localeText" }),
-    defineField({ name: "objective", title: "Objective", type: "localeText" }),
-    defineField({ name: "approach", title: "Approach", type: "localeText" }),
-    defineField({ name: "outcome", title: "Outcome", type: "localeText" }),
+    defineField({ name: "role", title: "Role on this project", description: "Shown under your name beside the hero banner (e.g. \"Lead Designer\").", type: "localeString" }),
+
+    // Project Details card — the dark banner right after the hero.
+    defineField({
+      name: "overview",
+      title: "Description — main paragraph",
+      type: "localeText",
+      fieldset: "projectDetails",
+    }),
+    defineField({
+      name: "secondaryDescription",
+      title: "Description — secondary paragraph (dimmed)",
+      description: "Optional. A second, more muted paragraph shown right below the main one — good for extra background or context.",
+      type: "localeText",
+      fieldset: "projectDetails",
+    }),
+    defineField({ name: "client", title: "Client", type: "localeString", fieldset: "projectDetails" }),
+    defineField({
+      name: "services",
+      title: "Services",
+      description: "What you did on this project, e.g. \"Website Redesign\" or \"Brand Identity, UX/UI\".",
+      type: "localeString",
+      fieldset: "projectDetails",
+    }),
+    defineField({
+      name: "date",
+      title: "Year",
+      description: "Also shown as the small date label at the very top of this page, above the title.",
+      type: "string",
+      fieldset: "projectDetails",
+    }),
+    defineField({
+      name: "link",
+      title: "Site — live project URL",
+      description: "Shown as a \"Visit website\" link. Leave as \"#\" or empty to hide this row.",
+      type: "string",
+      initialValue: "#",
+      fieldset: "projectDetails",
+    }),
     defineField({
       name: "sections",
       title: "Additional sections",
@@ -80,7 +108,6 @@ export default defineType({
       type: "array",
       of: [{ type: "pageSection" }],
     }),
-    defineField({ name: "link", title: "Link", type: "string", initialValue: "#" }),
     defineField({
       name: "images",
       title: "Gallery images (png / jpg)",
