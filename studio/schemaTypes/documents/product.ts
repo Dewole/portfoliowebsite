@@ -72,9 +72,9 @@ export default defineType({
       description: "Small label above the gallery. Leave empty to show \"GALLERY\".",
       type: "localeString",
     }),
-    defineField({ name: "problem", title: "The problem", type: "localeText" }),
-    defineField({ name: "approach", title: "The approach", type: "localeText" }),
-    defineField({ name: "outcome", title: "The outcome", type: "localeText" }),
+    defineField({ name: "problem", title: "The problem", type: "localeRichText" }),
+    defineField({ name: "approach", title: "The approach", type: "localeRichText" }),
+    defineField({ name: "outcome", title: "The outcome", type: "localeRichText" }),
     defineField({
       name: "sections",
       title: "Additional sections",

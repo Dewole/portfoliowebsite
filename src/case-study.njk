@@ -7,7 +7,7 @@ pagination:
 permalink: "/portfolio/{{ cs.slug }}/"
 eleventyComputed:
   title: "{{ cs.title }} — {{ site.name }}"
-  description: "{{ cs.overview }}"
+  description: "{{ cs.overview | richTextPlain }}"
   image: "{{ cs.coverImage or cs.heroImage }}"
 ---
 {% import "icons.njk" as icons %}
@@ -44,8 +44,8 @@ eleventyComputed:
   <div class="wrap cs-details-grid">
     <div class="cs-details-left">
       <h2 class="big split-title cs-details-title"><span class="muted">Project</span> Details</h2>
-      {% if cs.overview %}<p class="cs-details-desc">{{ cs.overview }}</p>{% endif %}
-      {% if cs.secondaryDescription %}<p class="cs-details-desc-secondary">{{ cs.secondaryDescription }}</p>{% endif %}
+      {% if cs.overview and cs.overview.length %}<div class="cs-details-desc rich-text">{{ cs.overview | portableText | safe }}</div>{% endif %}
+      {% if cs.secondaryDescription and cs.secondaryDescription.length %}<div class="cs-details-desc-secondary rich-text">{{ cs.secondaryDescription | portableText | safe }}</div>{% endif %}
     </div>
     <div class="cs-details-right">
       {% if cs.client %}
@@ -71,10 +71,10 @@ eleventyComputed:
     <div class="cs-sections">
       {% for section in cs.sections %}
       <div class="cs-section cs-section-{{ section.layout or 'full' }}">
-        {% if section.title or section.description %}
+        {% if section.title or (section.description and section.description.length) %}
         <div class="cs-section-text">
           {% if section.title %}<h3 class="cs-section-title">{{ section.title }}</h3>{% endif %}
-          {% if section.description %}<p>{{ section.description }}</p>{% endif %}
+          {% if section.description and section.description.length %}<div class="cs-section-desc rich-text">{{ section.description | portableText | safe }}</div>{% endif %}
         </div>
         {% endif %}
         {% if section.media and section.media.length %}

@@ -1,5 +1,6 @@
 import localeString from "./objects/localeString";
 import localeText from "./objects/localeText";
+import localeRichText from "./objects/localeRichText";
 import attachment from "./objects/attachment";
 import pageSection from "./objects/pageSection";
 
@@ -15,6 +16,7 @@ export const schemaTypes = [
   // shared objects first
   localeString,
   localeText,
+  localeRichText,
   attachment,
   pageSection,
   // documents

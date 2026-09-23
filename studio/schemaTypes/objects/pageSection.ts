@@ -18,7 +18,7 @@ export default defineType({
     defineField({
       name: "description",
       title: "Section description",
-      type: "localeText",
+      type: "localeRichText",
     }),
     defineField({
       name: "layout",

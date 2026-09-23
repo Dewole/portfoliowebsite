@@ -46,19 +46,19 @@ eleventyComputed:
     <h2 class="big split-title">{{ p.overviewHeading or "Przegląd produktu" }}</h2>
     <div class="cs-prose">
       {% if p.description %}<p>{{ p.description }}</p>{% endif %}
-      {% if p.problem %}<p>{{ p.problem }}</p>{% endif %}
-      {% if p.approach %}<p>{{ p.approach }}</p>{% endif %}
-      {% if p.outcome %}<p>{{ p.outcome }}</p>{% endif %}
+      {% if p.problem and p.problem.length %}<div class="cs-prose-rich rich-text">{{ p.problem | portableText | safe }}</div>{% endif %}
+      {% if p.approach and p.approach.length %}<div class="cs-prose-rich rich-text">{{ p.approach | portableText | safe }}</div>{% endif %}
+      {% if p.outcome and p.outcome.length %}<div class="cs-prose-rich rich-text">{{ p.outcome | portableText | safe }}</div>{% endif %}
     </div>
 
     {% if p.sections and p.sections.length %}
     <div class="cs-sections">
       {% for section in p.sections %}
       <div class="cs-section cs-section-{{ section.layout or 'full' }}">
-        {% if section.title or section.description %}
+        {% if section.title or (section.description and section.description.length) %}
         <div class="cs-section-text">
           {% if section.title %}<h3 class="cs-section-title">{{ section.title }}</h3>{% endif %}
-          {% if section.description %}<p>{{ section.description }}</p>{% endif %}
+          {% if section.description and section.description.length %}<div class="cs-section-desc rich-text">{{ section.description | portableText | safe }}</div>{% endif %}
         </div>
         {% endif %}
         {% if section.media and section.media.length %}

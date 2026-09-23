@@ -68,14 +68,14 @@ export default defineType({
     defineField({
       name: "overview",
       title: "Description — main paragraph",
-      type: "localeText",
+      type: "localeRichText",
       fieldset: "projectDetails",
     }),
     defineField({
       name: "secondaryDescription",
       title: "Description — secondary paragraph (dimmed)",
-      description: "Optional. A second, more muted paragraph shown right below the main one — good for extra background or context.",
-      type: "localeText",
+      description: "Optional. A second, more muted block of text shown right below the main one — good for extra background or context.",
+      type: "localeRichText",
       fieldset: "projectDetails",
     }),
     defineField({ name: "client", title: "Client", type: "localeString", fieldset: "projectDetails" }),

@@ -4,6 +4,12 @@ module.exports = function (eleventyConfig) {
   // "01", "02", ... for the numbered service cards.
   eleventyConfig.addFilter("pad2", (n) => String(n).padStart(2, "0"));
 
+  // Renders a localeRichText field's portable-text block array to HTML —
+  // used as {{ field | portableText | safe }} for any field the CMS lets
+  // Emmanuel format with paragraphs, lists, bold/italic, and links.
+  eleventyConfig.addFilter("portableText", require("./lib/portableText"));
+  eleventyConfig.addFilter("richTextPlain", require("./lib/portableText").plainText);
+
   // A CMS-entered "live URL" field (case study / product "Site" link) is a
   // plain string, not Sanity's dedicated url type — someone can easily type
   // "kaprexdesign.com" without a protocol. Left as-is, that renders as a
