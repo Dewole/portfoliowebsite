@@ -42,8 +42,8 @@ eleventyComputed:
 
 <section class="cs-body">
   <div class="wrap">
-    <div class="kicker">ABOUT THE PROJECT</div>
-    <h2 class="big split-title">Project overview</h2>
+    <div class="kicker">{{ cs.overviewKicker or "ABOUT THE PROJECT" }}</div>
+    <h2 class="big split-title">{{ cs.overviewHeading or "Project overview" }}</h2>
     <div class="cs-prose">
       {% if cs.client %}<p><b>Client:</b> {{ cs.client }}</p>{% endif %}
       {% if cs.role %}<p>{{ cs.role }}</p>{% endif %}
@@ -92,7 +92,7 @@ eleventyComputed:
 
     {% if (cs.images and cs.images.length) or (cs.attachments and cs.attachments.length) %}
     <div class="cs-media">
-      <div class="kicker">GALLERY</div>
+      <div class="kicker">{{ cs.galleryKicker or "GALLERY" }}</div>
       {% if cs.images and cs.images.length %}
       <div class="cs-media-grid">
         {% for img in cs.images %}
