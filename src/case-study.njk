@@ -58,7 +58,7 @@ eleventyComputed:
       <div class="cs-details-row"><span class="cs-details-label">Year</span><span class="cs-details-value">{{ cs.date }}</span></div>
       {% endif %}
       {% if cs.link and cs.link != '#' %}
-      <div class="cs-details-row"><span class="cs-details-label">Site</span><span class="cs-details-value"><a href="{{ cs.link }}" target="_blank" rel="noopener noreferrer">Visit website <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></span></div>
+      <div class="cs-details-row"><span class="cs-details-label">Site</span><span class="cs-details-value"><a href="{{ cs.link | absoluteUrl }}" target="_blank" rel="noopener noreferrer">Visit website <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></span></div>
       {% endif %}
     </div>
   </div>

@@ -131,7 +131,7 @@ eleventyComputed:
     <div class="cs-nav-row">
       <a href="/products/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">{{ icons.up_left() | safe }}</span><span class="btn-label">All products</span></a>
       {% if p.link and p.link != '#' %}
-      <a href="{{ p.link }}" class="btn solid" target="_blank" rel="noopener noreferrer"><span class="btn-label">Visit live product</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+      <a href="{{ p.link | absoluteUrl }}" class="btn solid" target="_blank" rel="noopener noreferrer"><span class="btn-label">Visit live product</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
       {% else %}
       <a href="/contact/" class="btn solid"><span class="btn-label">Start a project like this</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
       {% endif %}
