@@ -7,7 +7,16 @@ eleventyComputed:
 {% import "icons.njk" as icons %}
 <!-- HERO -->
 <section class="hero" id="s1">
-  {% if sitePl.heroSplineUrl %}
+  {% if sitePl.heroBackgroundAttachment and sitePl.heroBackgroundAttachment.mimeType == 'video/mp4' %}
+  <div class="hero-bg-media"><video class="hero-bg-video" autoplay muted loop playsinline preload="metadata" src="{{ sitePl.heroBackgroundAttachment.src }}"></video></div>
+  <div class="hero-bg-scrim"></div>
+  {% elif sitePl.heroBackgroundAttachment and sitePl.heroBackgroundAttachment.mimeType == 'application/json' %}
+  <div class="hero-bg-media"><div class="hero-bg-lottie" data-lottie-inline>{% if sitePl.heroBackgroundAttachment.jsonDataSafe %}<script type="application/json">{{ sitePl.heroBackgroundAttachment.jsonDataSafe | safe }}</script>{% endif %}</div></div>
+  <div class="hero-bg-scrim"></div>
+  {% elif sitePl.heroBackgroundImage %}
+  <div class="hero-bg-media"><img src="{{ sitePl.heroBackgroundImage }}" alt="" loading="eager"></div>
+  <div class="hero-bg-scrim"></div>
+  {% elif sitePl.heroSplineUrl %}
   <iframe class="hero-spline" src="{{ sitePl.heroSplineUrl }}" title="" tabindex="-1" aria-hidden="true" loading="lazy" allow="fullscreen"></iframe>
   <div class="hero-spline-scrim"></div>
   {% endif %}
@@ -276,6 +285,16 @@ eleventyComputed:
 <!-- BIG QUOTE CTA -->
 {%- if sitePl.showBigQuote != false %}
 <section class="bigquote on-dark">
+  {%- if sitePl.bigQuoteBackgroundAttachment and sitePl.bigQuoteBackgroundAttachment.mimeType == 'video/mp4' %}
+  <div class="bigquote-bg-media"><video class="bigquote-bg-video" autoplay muted loop playsinline preload="metadata" src="{{ sitePl.bigQuoteBackgroundAttachment.src }}"></video></div>
+  <div class="bigquote-bg-scrim"></div>
+  {%- elif sitePl.bigQuoteBackgroundAttachment and sitePl.bigQuoteBackgroundAttachment.mimeType == 'application/json' %}
+  <div class="bigquote-bg-media"><div class="bigquote-bg-lottie" data-lottie-inline>{% if sitePl.bigQuoteBackgroundAttachment.jsonDataSafe %}<script type="application/json">{{ sitePl.bigQuoteBackgroundAttachment.jsonDataSafe | safe }}</script>{% endif %}</div></div>
+  <div class="bigquote-bg-scrim"></div>
+  {%- elif sitePl.bigQuoteBackgroundImage %}
+  <div class="bigquote-bg-media"><img src="{{ sitePl.bigQuoteBackgroundImage }}" alt="" loading="lazy"></div>
+  <div class="bigquote-bg-scrim"></div>
+  {%- endif %}
   <div class="wrap">
     <h2 class="fill-title">{{ sitePl.bigQuoteLead }} {{ sitePl.bigQuoteFade }}</h2>
     <p class="foot reveal">{{ sitePl.bigQuoteParagraph }}</p>

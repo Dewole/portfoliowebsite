@@ -49,7 +49,7 @@
   <div class="mid">
     <span>{{ sitePl.phone }}</span>
     <span>{{ sitePl.email }}</span>
-    <a href="{{ sitePl.linkedinUrl }}">LinkedIn <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+    <a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
   <div class="right">
     <select id="langSwitch"><option value="en">English</option><option value="pl">Polski</option></select>
@@ -82,8 +82,8 @@
     <a href="/pl/contact/"><span>Kontakt</span><span class="idx">05</span></a>
   </nav>
   <div class="side-menu-foot">
-    <a href="{{ sitePl.linkedinUrl }}">LinkedIn <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
-    <a href="{{ sitePl.figmaUrl }}">Figma <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+    <a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+    <a href="{{ sitePl.figmaUrl }}">{{ sitePl.figmaLabel or "Figma" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     <p>{{ sitePl.email }}</p>
   </div>
 </aside>
@@ -104,7 +104,7 @@
       </div>
       <div class="foot-col">
         <label>LINKI</label>
-        <a href="{{ sitePl.figmaUrl }}">Figma</a><a href="{{ sitePl.linkedinUrl }}">LinkedIn</a>
+        <a href="{{ sitePl.figmaUrl }}">{{ sitePl.figmaLabel or "Figma" }}</a><a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }}</a>
         {% for link in sitePl.footerLinks %}<a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label_pl }}</a>{% endfor %}
       </div>
     </div>

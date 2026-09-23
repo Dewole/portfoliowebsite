@@ -641,7 +641,7 @@
       // like the hero image/video next to it, so it's cropped to cover
       // (same idea as CSS object-fit:cover) rather than kept at its native
       // ratio the way a gallery Lottie is.
-      const isHeroItem = el.classList.contains('cs-hero-lottie');
+      const isHeroItem = el.classList.contains('cs-hero-lottie') || el.classList.contains('hero-bg-lottie') || el.classList.contains('bigquote-bg-lottie');
       const anim = window.lottie.loadAnimation({
         container: el,
         renderer: 'svg',

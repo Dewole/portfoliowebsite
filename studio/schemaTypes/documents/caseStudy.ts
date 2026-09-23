@@ -55,6 +55,13 @@ export default defineType({
     defineField({ name: "objective", title: "Objective", type: "localeText" }),
     defineField({ name: "approach", title: "Approach", type: "localeText" }),
     defineField({ name: "outcome", title: "Outcome", type: "localeText" }),
+    defineField({
+      name: "sections",
+      title: "Additional sections",
+      description: "Build out a longer-form project page by adding as many custom sections as you like — each with its own title, description, and media (images, videos, animations). These render between the overview above and the gallery below, in the order you place them here.",
+      type: "array",
+      of: [{ type: "pageSection" }],
+    }),
     defineField({ name: "link", title: "Link", type: "string", initialValue: "#" }),
     defineField({
       name: "images",

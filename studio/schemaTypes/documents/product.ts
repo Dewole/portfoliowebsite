@@ -58,6 +58,13 @@ export default defineType({
     defineField({ name: "approach", title: "The approach", type: "localeText" }),
     defineField({ name: "outcome", title: "The outcome", type: "localeText" }),
     defineField({
+      name: "sections",
+      title: "Additional sections",
+      description: "Build out a longer-form project page by adding as many custom sections as you like — each with its own title, description, and media (images, videos, animations). These render between the overview above and the gallery below, in the order you place them here.",
+      type: "array",
+      of: [{ type: "pageSection" }],
+    }),
+    defineField({
       name: "images",
       title: "Gallery images (png / jpg)",
       description: "Additional photos shown at the bottom of this item's detail page, in a masonry layout that keeps each photo's own aspect ratio (so there's no strict recommended size or shape — portrait, landscape, and square all lay out cleanly side by side). For reasonable load times, keep uploads under ~2500px on the long edge.",

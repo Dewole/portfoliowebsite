@@ -51,6 +51,43 @@ eleventyComputed:
       {% if p.outcome %}<p>{{ p.outcome }}</p>{% endif %}
     </div>
 
+    {% if p.sections and p.sections.length %}
+    <div class="cs-sections">
+      {% for section in p.sections %}
+      <div class="cs-section cs-section-{{ section.layout or 'full' }}">
+        {% if section.title or section.description %}
+        <div class="cs-section-text">
+          {% if section.title %}<h3 class="cs-section-title">{{ section.title }}</h3>{% endif %}
+          {% if section.description %}<p>{{ section.description }}</p>{% endif %}
+        </div>
+        {% endif %}
+        {% if section.media and section.media.length %}
+        <div class="cs-section-media cs-media-grid">
+          {% for m in section.media %}
+          <div class="cs-grid-item">
+            {% if m.mimeType == 'video/mp4' %}
+            <div class="cs-media-video-wrap" data-lightbox-src="{{ m.src }}" data-lightbox-type="video" data-lightbox-alt="{{ p.title }}">
+              <video class="cs-media-video" muted loop playsinline preload="metadata" src="{{ m.src }}"></video>
+              <span class="cs-media-expand" aria-hidden="true">⤢</span>
+            </div>
+            {% elif m.mimeType == 'application/json' %}
+            <div class="cs-media-lottie-wrap" data-lightbox-src="{{ m.src }}" data-lightbox-type="lottie" data-lightbox-alt="{{ p.title }}">
+              <div class="cs-media-lottie" data-lottie-inline{% if m.jsonWidth and m.jsonHeight %} style="aspect-ratio:{{ m.jsonWidth }}/{{ m.jsonHeight }}"{% endif %}>{% if m.jsonDataSafe %}<script type="application/json">{{ m.jsonDataSafe | safe }}</script>{% endif %}</div>
+              <span class="cs-media-expand" aria-hidden="true">⤢</span>
+            </div>
+            {% else %}
+            <button type="button" class="cs-media-img" data-lightbox-src="{{ m.src }}" data-lightbox-alt="{{ p.title }}"><img src="{{ m.src }}" alt="{{ p.title }}" loading="lazy"></button>
+            {% endif %}
+            {% if m.caption %}<p class="cs-media-caption">{{ m.caption }}</p>{% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     {% if (p.images and p.images.length) or (p.attachments and p.attachments.length) %}
     <div class="cs-media">
       <div class="kicker">GALERIA</div>
