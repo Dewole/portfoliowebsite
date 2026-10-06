@@ -49,9 +49,19 @@ export default defineType({
   preview: {
     select: { title: "title.en", description: "description.en", media: "media.0" },
     prepare({ title, description, media }) {
+      // "description" is now rich text (an array of blocks), so flatten it
+      // to plain text — passing the raw array as the subtitle is what made
+      // the Studio show "Invalid preview config".
+      const text = Array.isArray(description)
+        ? description
+            .filter((b) => b && b._type === "block" && Array.isArray(b.children))
+            .map((b) => b.children.map((c) => c.text || "").join(""))
+            .join(" ")
+            .trim()
+        : "";
       return {
         title: title || "Section",
-        subtitle: description,
+        subtitle: text.length > 90 ? `${text.slice(0, 90)}…` : text,
         media,
       };
     },
