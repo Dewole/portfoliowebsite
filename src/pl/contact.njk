@@ -12,7 +12,7 @@ eleventyComputed:
       <h1 class="big split-title">{{ sitePl.contactHeading }}</h1>
       <p class="lede reveal">{{ sitePl.contactIntro }}</p>
       <p class="contact-email reveal">Możesz też napisać bezpośrednio na <a href="mailto:{{ sitePl.email }}">{{ sitePl.email }}</a></p>
-      <img class="photo-block tall reveal" src="{{ sitePl.profilePhoto | default('/assets/images/profile.jpg') }}" alt="{{ sitePl.name }}">
+      <img class="photo-block tall reveal" src="{{ sitePl.profilePhoto | default('/assets/images/profile.jpg') }}" {% if sitePl.profilePhotoPosition %}style="object-position:{{ sitePl.profilePhotoPosition }}" {% endif %}alt="{{ sitePl.name }}">
     </div>
     <form class="contact-form reveal" data-contact-form data-sending-text="Wysyłanie…" action="{{ sitePl.contactFormEndpoint }}" method="POST"
       data-modal-title="Wiadomość wysłana!" data-modal-message="Dzięki za kontakt — odezwę się wkrótce."

@@ -80,7 +80,7 @@ eleventyComputed:
       {% endif %}
     </div>
     <div class="cta-card reveal">
-      <img class="cta-photo" src="{{ site.profilePhoto | default('/assets/images/profile.jpg') }}" alt="{{ site.name }}">
+      <img class="cta-photo" src="{{ site.profilePhoto | default('/assets/images/profile.jpg') }}" {% if site.profilePhotoPosition %}style="object-position:{{ site.profilePhotoPosition }}" {% endif %}alt="{{ site.name }}">
       <div class="cta-copy">
         <div class="pill"><span class="dot-live"></span> Available for work</div>
         <h3>{{ site.ctaCardHeading }}</h3>

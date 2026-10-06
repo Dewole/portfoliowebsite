@@ -16,7 +16,7 @@ eleventyComputed:
 <section class="about" id="s2">
   <div class="wrap about-grid">
     <div>
-      <img class="photo-block tall reveal" src="{{ sitePl.profilePhoto | default('/assets/images/profile.jpg') }}" alt="{{ sitePl.name }}">
+      <img class="photo-block tall reveal" src="{{ sitePl.profilePhoto | default('/assets/images/profile.jpg') }}" {% if sitePl.profilePhotoPosition %}style="object-position:{{ sitePl.profilePhotoPosition }}" {% endif %}alt="{{ sitePl.name }}">
     </div>
     <div>
       <div class="kicker">{{ sitePl.name }} · {{ sitePl.role }}</div>

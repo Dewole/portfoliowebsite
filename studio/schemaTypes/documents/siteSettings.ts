@@ -59,9 +59,20 @@ export default defineType({
     defineField({
       name: "profilePhoto",
       title: "Profile photo",
-      description: "Used on the homepage \"who is\" card and the About / Contact pages. Falls back to the built-in placeholder photo if left empty. Recommended: 800×1000px (4:5), portrait, subject positioned near the top — it's cropped from the top down at heights from ~220px up to ~440px.",
+      description: "Used on the homepage \"who is\" card and the About / Contact pages. Falls back to the built-in placeholder photo if left empty. Recommended: 800×1000px (4:5), portrait, subject positioned near the top. Use the crop and hotspot tools below to choose what stays in view; the previews show how it looks on desktop and mobile.",
       type: "image",
-      options: { hotspot: true },
+      options: {
+        // Drag the hotspot (the dot) onto your face — the previews below show
+        // how the photo is cropped in each place it appears on the site.
+        hotspot: {
+          previews: [
+            { title: "Home card — desktop", aspectRatio: 3 / 4 },
+            { title: "About / Contact — desktop", aspectRatio: 1.1 },
+            { title: "About / Contact — mobile", aspectRatio: 4 / 5 },
+            { title: "Home card — mobile", aspectRatio: 16 / 9 },
+          ],
+        },
+      },
       group: "identity",
     }),
     defineField({
