@@ -14,7 +14,7 @@ eleventyComputed:
       <p class="contact-email reveal">Możesz też napisać bezpośrednio na <a href="mailto:{{ sitePl.email }}">{{ sitePl.email }}</a></p>
       <img class="photo-block tall reveal" src="{{ sitePl.profilePhoto | default('/assets/images/profile.jpg') }}" alt="{{ sitePl.name }}">
     </div>
-    <form class="contact-form reveal" data-contact-form action="{{ sitePl.contactFormEndpoint }}" method="POST"
+    <form class="contact-form reveal" data-contact-form data-sending-text="Wysyłanie…" action="{{ sitePl.contactFormEndpoint }}" method="POST"
       data-modal-title="Wiadomość wysłana!" data-modal-message="Dzięki za kontakt — odezwę się wkrótce."
       data-error-text="Coś poszło nie tak przy wysyłaniu — spróbuj ponownie lub napisz do mnie bezpośrednio e-mailem.">
       <p class="hp"><label>Nie wypełniaj tego pola: <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
@@ -28,7 +28,7 @@ eleventyComputed:
         <textarea name="message" rows="6" required></textarea>
       </label>
       <button type="submit" class="btn solid cta-wide"><span class="btn-label">Wyślij wiadomość</span><span class="btn-icon arrow">{{ icons.up_right() | safe }}</span></button>
-      <p class="form-error" hidden></p>
+      <p class="form-error" role="alert" hidden></p>
     </form>
   </div>
 </section>

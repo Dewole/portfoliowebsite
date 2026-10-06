@@ -149,7 +149,7 @@ eleventyComputed:
     <div>
       <h2 class="big split-title">{{ site.statsHeading }}</h2>
       <p class="lede reveal">{{ site.statsParagraph }}</p>
-      <a href="{{ site.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Check my LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+      {% if site.linkedinUrl %}<a href="{{ site.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Check my LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
     </div>
     <div class="reveal">
       <p class="num-big">{{ site.statNumber }}</p>
@@ -273,8 +273,8 @@ eleventyComputed:
         {% endfor %}
       </div>
       <div class="testi-nav">
-        <button id="testiPrev"><span>{{ icons.chevron_left() | safe }}</span></button>
-        <button id="testiNext"><span>{{ icons.chevron_right() | safe }}</span></button>
+        <button id="testiPrev" type="button" aria-label="Previous testimonial"><span>{{ icons.chevron_left() | safe }}</span></button>
+        <button id="testiNext" type="button" aria-label="Next testimonial"><span>{{ icons.chevron_right() | safe }}</span></button>
         <div class="testi-dots" id="testiDots"></div>
       </div>
     </div>

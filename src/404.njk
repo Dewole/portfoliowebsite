@@ -1,0 +1,22 @@
+---
+layout: base.njk
+permalink: /404.html
+noindex: true
+eleventyExcludeFromCollections: true
+eleventyComputed:
+  title: "Page not found — {{ site.name }}"
+  description: "The page you're looking for doesn't exist or has moved."
+---
+{% import "icons.njk" as icons %}
+<section class="contact-hero" id="s1">
+  <div class="wrap">
+    <div class="kicker">404</div>
+    <h1 class="big split-title">This page doesn't exist.</h1>
+    <p class="lede reveal">The link may be broken, or the page may have moved. Head back home or have a look at the work.</p>
+    <div class="cs-nav-row">
+      <a href="/" class="btn solid"><span class="btn-label">Back to home</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+      <a href="/portfolio/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-label">See portfolio</span></a>
+      <a href="/pl/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-label">Polski</span></a>
+    </div>
+  </div>
+</section>

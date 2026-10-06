@@ -554,13 +554,16 @@
       e.preventDefault();
       if(!form.action){
         if(errorEl){
-          errorEl.textContent = 'This form isn\'t connected yet — set a submission endpoint in the CMS.';
+          errorEl.textContent = form.getAttribute('data-error-text') || 'Something went wrong — please try again.';
           errorEl.hidden = false;
         }
         return;
       }
       if(errorEl) errorEl.hidden = true;
+      const labelEl = submitBtn && submitBtn.querySelector('.btn-label');
+      const labelOriginal = labelEl ? labelEl.textContent : '';
       if(submitBtn) submitBtn.disabled = true;
+      if(labelEl && form.getAttribute('data-sending-text')) labelEl.textContent = form.getAttribute('data-sending-text');
       const data = new FormData(form);
       fetch(form.action, {
         method: 'POST',
@@ -583,6 +586,7 @@
         }
       }).finally(() => {
         if(submitBtn) submitBtn.disabled = false;
+        if(labelEl) labelEl.textContent = labelOriginal;
       });
     });
   })();

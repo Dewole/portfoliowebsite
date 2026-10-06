@@ -149,7 +149,7 @@ eleventyComputed:
     <div>
       <h2 class="big split-title">{{ sitePl.statsHeading }}</h2>
       <p class="lede reveal">{{ sitePl.statsParagraph }}</p>
-      <a href="{{ sitePl.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Zobacz mój LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+      {% if sitePl.linkedinUrl %}<a href="{{ sitePl.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Zobacz mój LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
     </div>
     <div class="reveal">
       <p class="num-big">{{ sitePl.statNumber }}</p>
@@ -273,8 +273,8 @@ eleventyComputed:
         {% endfor %}
       </div>
       <div class="testi-nav">
-        <button id="testiPrev"><span>{{ icons.chevron_left() | safe }}</span></button>
-        <button id="testiNext"><span>{{ icons.chevron_right() | safe }}</span></button>
+        <button id="testiPrev" type="button" aria-label="Poprzednia opinia"><span>{{ icons.chevron_left() | safe }}</span></button>
+        <button id="testiNext" type="button" aria-label="Następna opinia"><span>{{ icons.chevron_right() | safe }}</span></button>
         <div class="testi-dots" id="testiDots"></div>
       </div>
     </div>

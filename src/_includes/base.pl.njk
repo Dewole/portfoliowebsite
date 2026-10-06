@@ -6,25 +6,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ (title or (sitePl.name + " — " + sitePl.role)) | safe }}</title>
 <meta name="description" content="{{ (description or sitePl.metaDescription) | safe }}">
-{% if sitePl.siteUrl %}<link rel="canonical" href="{{ sitePl.siteUrl }}{{ page.url }}">{% endif %}
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+{% if noindex %}<meta name="robots" content="noindex">{% endif %}
+{% if sitePl.siteUrl and not noindex %}<link rel="canonical" href="{{ sitePl.siteUrl }}{{ page.url }}">
+<link rel="alternate" hreflang="pl" href="{{ sitePl.siteUrl }}{{ page.url }}">
+<link rel="alternate" hreflang="en" href="{{ sitePl.siteUrl }}{{ page.url | replace("/pl/", "/", 1) }}">
+<link rel="alternate" hreflang="x-default" href="{{ sitePl.siteUrl }}{{ page.url | replace("/pl/", "/", 1) }}">
+{% endif %}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ sitePl.name }}">
-{% if sitePl.siteUrl %}<meta property="og:url" content="{{ sitePl.siteUrl }}{{ page.url }}">{% endif %}
+{% if sitePl.siteUrl and not noindex %}<meta property="og:url" content="{{ sitePl.siteUrl }}{{ page.url }}">{% endif %}
 <meta property="og:title" content="{{ (title or (sitePl.name + " — " + sitePl.role)) | safe }}">
 <meta property="og:description" content="{{ (description or sitePl.metaDescription) | safe }}">
-{% if image or sitePl.ogImage %}
-<meta property="og:image" content="{{ image or sitePl.ogImage }}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+{% set shareImage = image or sitePl.ogImage or sitePl.profilePhoto %}
+{% if shareImage %}
+<meta property="og:image" content="{{ shareImage }}">
+<meta property="og:image:alt" content="{{ (title or sitePl.name) | safe }}">
+{% if not image and sitePl.ogImage %}<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">{% endif %}
 {% endif %}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ (title or (sitePl.name + " — " + sitePl.role)) | safe }}">
 <meta name="twitter:description" content="{{ (description or sitePl.metaDescription) | safe }}">
-{% if image or sitePl.ogImage %}<meta name="twitter:image" content="{{ image or sitePl.ogImage }}">{% endif %}
+{% if shareImage %}<meta name="twitter:image" content="{{ shareImage }}">{% endif %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}.split-title .word-inner{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 
@@ -39,7 +48,7 @@
       {% if sitePl.logoIsAnimated %}
       <span class="brand-logo brand-logo-lottie" data-lottie-inline{% if sitePl.logoWidth and sitePl.logoHeight %} style="aspect-ratio:{{ sitePl.logoWidth }}/{{ sitePl.logoHeight }}"{% endif %}>{% if sitePl.logoAnimationDataSafe %}<script type="application/json">{{ sitePl.logoAnimationDataSafe | safe }}</script>{% endif %}</span>
       {% else %}
-      <img class="brand-logo" src="{{ sitePl.logo }}" alt="">
+      <img class="brand-logo" src="{{ sitePl.logo }}" alt="{{ sitePl.name }}">
       {% endif %}
     {% endif %}
     {% if sitePl.showBrandText != false %}
@@ -49,11 +58,11 @@
   <div class="mid">
     <span>{{ sitePl.phone }}</span>
     <span>{{ sitePl.email }}</span>
-    <a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+    {% if sitePl.linkedinUrl %}<a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
   </div>
   <div class="right">
-    <select id="langSwitch"><option value="en">English</option><option value="pl">Polski</option></select>
-    <button class="menu-btn" id="menuBtn"><span>Menu</span><span class="burger"><i></i><i></i></span></button>
+    <select id="langSwitch" aria-label="Język"><option value="en">English</option><option value="pl">Polski</option></select>
+    <button class="menu-btn" id="menuBtn" aria-label="Otwórz menu"><span>Menu</span><span class="burger"><i></i><i></i></span></button>
   </div>
 </header>
 
@@ -65,14 +74,14 @@
         {% if sitePl.logoIsAnimated %}
         <span class="side-menu-logo brand-logo-lottie" data-lottie-inline{% if sitePl.logoWidth and sitePl.logoHeight %} style="aspect-ratio:{{ sitePl.logoWidth }}/{{ sitePl.logoHeight }}"{% endif %}>{% if sitePl.logoAnimationDataSafe %}<script type="application/json">{{ sitePl.logoAnimationDataSafe | safe }}</script>{% endif %}</span>
         {% else %}
-        <img class="side-menu-logo" src="{{ sitePl.logo }}" alt="">
+        <img class="side-menu-logo" src="{{ sitePl.logo }}" alt="{{ sitePl.name }}">
         {% endif %}
       {% endif %}
       {% if sitePl.showBrandText != false %}
       <b>{{ sitePl.name }}</b>
       {% endif %}
     </div>
-    <button class="side-menu-close" id="menuClose">✕</button>
+    <button class="side-menu-close" id="menuClose" aria-label="Zamknij menu">✕</button>
   </div>
   <nav class="side-menu-links">
     <a href="/pl/"><span>Strona główna</span><span class="idx">01</span></a>
@@ -82,8 +91,8 @@
     <a href="/pl/contact/"><span>Kontakt</span><span class="idx">05</span></a>
   </nav>
   <div class="side-menu-foot">
-    <a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
-    <a href="{{ sitePl.figmaUrl }}">{{ sitePl.figmaLabel or "Figma" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+    {% if sitePl.linkedinUrl %}<a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
+    {% if sitePl.figmaUrl %}<a href="{{ sitePl.figmaUrl }}">{{ sitePl.figmaLabel or "Figma" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
     <p>{{ sitePl.email }}</p>
   </div>
 </aside>
@@ -104,7 +113,7 @@
       </div>
       <div class="foot-col">
         <label>LINKI</label>
-        <a href="{{ sitePl.figmaUrl }}">{{ sitePl.figmaLabel or "Figma" }}</a><a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }}</a>
+        {% if sitePl.figmaUrl %}<a href="{{ sitePl.figmaUrl }}">{{ sitePl.figmaLabel or "Figma" }}</a>{% endif %}{% if sitePl.linkedinUrl %}<a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }}</a>{% endif %}
         {% for link in sitePl.footerLinks %}<a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label_pl }}</a>{% endfor %}
       </div>
     </div>
@@ -122,7 +131,7 @@
      JSON attachment on a case-study/product detail page's gallery. Small
      and cached from cdnjs, only activates on elements carrying
      data-lottie-src. -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
-<script src="/assets/main.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script defer src="/assets/main.js"></script>
 </body>
 </html>
