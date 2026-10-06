@@ -5,6 +5,14 @@ export default defineType({
   name: "product",
   title: "Product",
   type: "document",
+  fieldsets: [
+    {
+      name: "projectDetails",
+      title: "Product Details card (shown right after the hero banner)",
+      description: "Client, services, year, and live site link, plus the two intro paragraphs beside them.",
+      options: { collapsible: false },
+    },
+  ],
   fields: [
     defineField({
       name: "order",
@@ -53,28 +61,39 @@ export default defineType({
       type: "file",
       options: { accept: "video/mp4,application/json,.mp4,.json" },
     }),
-    defineField({ name: "link", title: "Live product URL", type: "string", initialValue: "#" }),
-    defineField({
-      name: "overviewKicker",
-      title: "Overview section — kicker label",
-      description: "Small label above the overview heading. Leave empty to show \"ABOUT THE PRODUCT\".",
-      type: "localeString",
-    }),
-    defineField({
-      name: "overviewHeading",
-      title: "Overview section — heading",
-      description: "Leave empty to show \"Product overview\".",
-      type: "localeString",
-    }),
     defineField({
       name: "galleryKicker",
       title: "Gallery section — kicker label",
-      description: "Small label above the gallery. Leave empty to show \"GALLERY\".",
+      description: "Small label above the gallery, further down the page. Leave empty to show \"GALLERY\".",
       type: "localeString",
     }),
-    defineField({ name: "problem", title: "The problem", type: "localeRichText" }),
-    defineField({ name: "approach", title: "The approach", type: "localeRichText" }),
-    defineField({ name: "outcome", title: "The outcome", type: "localeRichText" }),
+
+    // Product Details card — the banner right after the hero.
+    defineField({ name: "overview", title: "Description — main paragraph", type: "localeRichText", fieldset: "projectDetails" }),
+    defineField({
+      name: "secondaryDescription",
+      title: "Description — secondary paragraph (dimmed)",
+      description: "Optional. A second, more muted block of text shown right below the main one.",
+      type: "localeRichText",
+      fieldset: "projectDetails",
+    }),
+    defineField({ name: "client", title: "Client", type: "localeString", fieldset: "projectDetails" }),
+    defineField({
+      name: "services",
+      title: "Services",
+      description: "What you did on this product, e.g. \"Product Design, Branding\".",
+      type: "localeString",
+      fieldset: "projectDetails",
+    }),
+    defineField({ name: "date", title: "Year", type: "string", fieldset: "projectDetails" }),
+    defineField({
+      name: "link",
+      title: "Site — live product URL",
+      description: "Shown as a \"Visit website\" link. Leave as \"#\" or empty to hide this row.",
+      type: "string",
+      initialValue: "#",
+      fieldset: "projectDetails",
+    }),
     defineField({
       name: "sections",
       title: "Additional sections",

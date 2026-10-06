@@ -40,17 +40,32 @@ eleventyComputed:
   </div>
 </section>
 
+<section class="cs-details">
+  <div class="wrap cs-details-grid">
+    <div class="cs-details-left">
+      <h2 class="big split-title cs-details-title"><span class="muted">Product</span> Details</h2>
+      {% if p.overview and p.overview.length %}<div class="cs-details-desc rich-text">{{ p.overview | portableText | safe }}</div>{% endif %}
+      {% if p.secondaryDescription and p.secondaryDescription.length %}<div class="cs-details-desc-secondary rich-text">{{ p.secondaryDescription | portableText | safe }}</div>{% endif %}
+    </div>
+    <div class="cs-details-right">
+      {% if p.client %}
+      <div class="cs-details-row"><span class="cs-details-label">Client</span><span class="cs-details-value">{{ p.client }}</span></div>
+      {% endif %}
+      {% if p.services %}
+      <div class="cs-details-row"><span class="cs-details-label">Services</span><span class="cs-details-value">{{ p.services }}</span></div>
+      {% endif %}
+      {% if p.date %}
+      <div class="cs-details-row"><span class="cs-details-label">Year</span><span class="cs-details-value">{{ p.date }}</span></div>
+      {% endif %}
+      {% if p.link and p.link != '#' %}
+      <div class="cs-details-row"><span class="cs-details-label">Site</span><span class="cs-details-value"><a href="{{ p.link | absoluteUrl }}" target="_blank" rel="noopener noreferrer">Visit website <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></span></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
 <section class="cs-body">
   <div class="wrap">
-    <div class="kicker">{{ p.overviewKicker or "ABOUT THE PRODUCT" }}</div>
-    <h2 class="big split-title">{{ p.overviewHeading or "Product overview" }}</h2>
-    <div class="cs-prose">
-      {% if p.description %}<p>{{ p.description }}</p>{% endif %}
-      {% if p.problem and p.problem.length %}<div class="cs-prose-rich rich-text">{{ p.problem | portableText | safe }}</div>{% endif %}
-      {% if p.approach and p.approach.length %}<div class="cs-prose-rich rich-text">{{ p.approach | portableText | safe }}</div>{% endif %}
-      {% if p.outcome and p.outcome.length %}<div class="cs-prose-rich rich-text">{{ p.outcome | portableText | safe }}</div>{% endif %}
-    </div>
-
     {% if p.sections and p.sections.length %}
     <div class="cs-sections">
       {% for section in p.sections %}
