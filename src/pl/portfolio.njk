@@ -6,9 +6,9 @@ eleventyComputed:
 ---
 <section class="portfolio-hero" id="s1">
   <div class="wrap">
-    <div class="kicker">PORTFOLIO</div>
-    <h1 class="big split-title">Przegląd zrealizowanych projektów</h1>
-    <p class="lede reveal">Identyfikacje marek i produkty cyfrowe, przedstawione przez problem, podejście i efekt.</p>
+    <div class="kicker">{{ sitePl.portfolioKicker or "PORTFOLIO" }}</div>
+    <h1 class="big split-title">{{ sitePl.portfolioPageHeading or "Przegląd zrealizowanych projektów" }}</h1>
+    <p class="lede reveal">{{ sitePl.portfolioPageIntro or "Identyfikacje marek i produkty cyfrowe, przedstawione przez problem, podejście i efekt." }}</p>
   </div>
 </section>
 

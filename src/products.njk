@@ -7,9 +7,9 @@ eleventyComputed:
 {% import "icons.njk" as icons %}
 <section class="products-hero" id="s1">
   <div class="wrap">
-    <div class="kicker">PRODUCTS</div>
-    <h1 class="big split-title">Products I've designed and shipped</h1>
-    <p class="lede reveal">End-to-end products — brand, UX, front end, back end, and launch. Each one a working bet on a real problem.</p>
+    <div class="kicker">{{ site.productsKicker or "PRODUCTS" }}</div>
+    <h1 class="big split-title">{{ site.productsPageHeading or "Products I've designed and shipped" }}</h1>
+    <p class="lede reveal">{{ site.productsPageIntro or "End-to-end products — brand, UX, front end, back end, and launch. Each one a working bet on a real problem." }}</p>
   </div>
 </section>
 

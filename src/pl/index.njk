@@ -163,9 +163,9 @@ eleventyComputed:
 {%- if sitePl.showPortfolio != false %}
 <section class="portfolio" id="portfolio">
   <div class="wrap">
-    <div class="kicker">PORTFOLIO</div>
-    <h2 class="big split-title">Zobacz efekty na własne oczy</h2>
-    <p class="lede reveal">Przeglądaj wyselekcjonowany zbiór projektów, które zaprojektowałem — identyfikacje marek i produkty cyfrowe. <a href="/pl/portfolio/" class="text-link">Zobacz wszystkie studia przypadków <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
+    <div class="kicker">{{ sitePl.portfolioKicker or "PORTFOLIO" }}</div>
+    <h2 class="big split-title">{{ sitePl.portfolioHeading or "Zobacz efekty na własne oczy" }}</h2>
+    <p class="lede reveal">{{ sitePl.portfolioIntro or "Przeglądaj wyselekcjonowany zbiór projektów, które zaprojektowałem — identyfikacje marek i produkty cyfrowe." }} <a href="/pl/portfolio/" class="text-link">{{ sitePl.portfolioLinkLabel or "Zobacz wszystkie studia przypadków" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
   </div>
   <div class="case-marquee" id="caseMarquee">
     <div class="case-track">
@@ -198,9 +198,9 @@ eleventyComputed:
 {%- if sitePl.showProducts != false %}
 <section class="products" id="products">
   <div class="wrap">
-    <div class="kicker">PRODUKTY</div>
-    <h2 class="big split-title">Produkty, które wdrożyłem</h2>
-    <p class="lede reveal">Produkty, które projektuję i buduję od A do Z — marka, UX, front end, back end i wdrożenie. Każdy z nich jest realnym rozwiązaniem realnego problemu. <a href="/pl/products/" class="text-link">Zobacz wszystkie produkty <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
+    <div class="kicker">{{ sitePl.productsKicker or "PRODUKTY" }}</div>
+    <h2 class="big split-title">{{ sitePl.productsHeading or "Produkty, które wdrożyłem" }}</h2>
+    <p class="lede reveal">{{ sitePl.productsIntro or "Produkty, które projektuję i buduję od A do Z — marka, UX, front end, back end i wdrożenie. Każdy z nich jest realnym rozwiązaniem realnego problemu." }} <a href="/pl/products/" class="text-link">{{ sitePl.productsLinkLabel or "Zobacz wszystkie produkty" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
     <div class="prod-grid home">
       {% for p in productsPl %}
       <a class="prod-card reveal" href="/pl/products/{{ p.slug }}/">

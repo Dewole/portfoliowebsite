@@ -7,9 +7,9 @@ eleventyComputed:
 {% import "icons.njk" as icons %}
 <section class="products-hero" id="s1">
   <div class="wrap">
-    <div class="kicker">PRODUKTY</div>
-    <h1 class="big split-title">Produkty, które zaprojektowałem i wdrożyłem</h1>
-    <p class="lede reveal">Produkty od A do Z — marka, UX, front end, back end i wdrożenie. Każdy z nich to realny zakład na realny problem.</p>
+    <div class="kicker">{{ sitePl.productsKicker or "PRODUKTY" }}</div>
+    <h1 class="big split-title">{{ sitePl.productsPageHeading or "Produkty, które zaprojektowałem i wdrożyłem" }}</h1>
+    <p class="lede reveal">{{ sitePl.productsPageIntro or "Produkty od A do Z — marka, UX, front end, back end i wdrożenie. Każdy z nich to realny zakład na realny problem." }}</p>
   </div>
 </section>
 

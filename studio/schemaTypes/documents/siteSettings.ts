@@ -203,6 +203,12 @@ export default defineType({
       initialValue: true,
       group: "portfolio",
     }),
+    defineField({ name: "portfolioKicker", title: "Portfolio — small label above heading", description: "Leave empty to show \"PORTFOLIO\".", type: "localeString", group: "portfolio" }),
+    defineField({ name: "portfolioHeading", title: "Portfolio — homepage heading", type: "localeString", group: "portfolio" }),
+    defineField({ name: "portfolioIntro", title: "Portfolio — homepage body text", type: "localeText", group: "portfolio" }),
+    defineField({ name: "portfolioLinkLabel", title: "Portfolio — \"View all\" link text", type: "localeString", group: "portfolio" }),
+    defineField({ name: "portfolioPageHeading", title: "Portfolio page — heading", description: "The big heading on the /portfolio page. Leave empty to use the default.", type: "localeString", group: "portfolio" }),
+    defineField({ name: "portfolioPageIntro", title: "Portfolio page — body text", type: "localeText", group: "portfolio" }),
 
     // Products section (homepage) — content lives in the Products collection
     defineField({
@@ -212,6 +218,12 @@ export default defineType({
       initialValue: true,
       group: "products",
     }),
+    defineField({ name: "productsKicker", title: "Products — small label above heading", description: "Leave empty to show \"PRODUCTS\".", type: "localeString", group: "products" }),
+    defineField({ name: "productsHeading", title: "Products — homepage heading", type: "localeString", group: "products" }),
+    defineField({ name: "productsIntro", title: "Products — homepage body text", type: "localeText", group: "products" }),
+    defineField({ name: "productsLinkLabel", title: "Products — \"View all\" link text", type: "localeString", group: "products" }),
+    defineField({ name: "productsPageHeading", title: "Products page — heading", description: "The big heading on the /products page. Leave empty to use the default.", type: "localeString", group: "products" }),
+    defineField({ name: "productsPageIntro", title: "Products page — body text", type: "localeText", group: "products" }),
 
     // Photography section (homepage) — shared gallery, bilingual copy
     defineField({

@@ -163,9 +163,9 @@ eleventyComputed:
 {%- if site.showPortfolio != false %}
 <section class="portfolio" id="portfolio">
   <div class="wrap">
-    <div class="kicker">PORTFOLIO</div>
-    <h2 class="big split-title">See the magic for yourself</h2>
-    <p class="lede reveal">Browse a curated collection of projects I've designed — brand identities and digital products alike. <a href="/portfolio/" class="text-link">View all case studies <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
+    <div class="kicker">{{ site.portfolioKicker or "PORTFOLIO" }}</div>
+    <h2 class="big split-title">{{ site.portfolioHeading or "See the magic for yourself" }}</h2>
+    <p class="lede reveal">{{ site.portfolioIntro or "Browse a curated collection of projects I've designed — brand identities and digital products alike." }} <a href="/portfolio/" class="text-link">{{ site.portfolioLinkLabel or "View all case studies" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
   </div>
   <div class="case-marquee" id="caseMarquee">
     <div class="case-track">
@@ -198,9 +198,9 @@ eleventyComputed:
 {%- if site.showProducts != false %}
 <section class="products" id="products">
   <div class="wrap">
-    <div class="kicker">PRODUCTS</div>
-    <h2 class="big split-title">Products I've shipped</h2>
-    <p class="lede reveal">Products I design and build end-to-end — brand, UX, front end, back end, and launch. Each one a working bet on a real problem. <a href="/products/" class="text-link">View all products <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
+    <div class="kicker">{{ site.productsKicker or "PRODUCTS" }}</div>
+    <h2 class="big split-title">{{ site.productsHeading or "Products I've shipped" }}</h2>
+    <p class="lede reveal">{{ site.productsIntro or "Products I design and build end-to-end — brand, UX, front end, back end, and launch. Each one a working bet on a real problem." }} <a href="/products/" class="text-link">{{ site.productsLinkLabel or "View all products" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a></p>
     <div class="prod-grid home">
       {% for p in products %}
       <a class="prod-card reveal" href="/products/{{ p.slug }}/">

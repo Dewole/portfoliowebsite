@@ -6,9 +6,9 @@ eleventyComputed:
 ---
 <section class="portfolio-hero" id="s1">
   <div class="wrap">
-    <div class="kicker">PORTFOLIO</div>
-    <h1 class="big split-title">A showcase of completed projects</h1>
-    <p class="lede reveal">Brand identities and digital products, explored through the problem, the approach, and the outcome.</p>
+    <div class="kicker">{{ site.portfolioKicker or "PORTFOLIO" }}</div>
+    <h1 class="big split-title">{{ site.portfolioPageHeading or "A showcase of completed projects" }}</h1>
+    <p class="lede reveal">{{ site.portfolioPageIntro or "Brand identities and digital products, explored through the problem, the approach, and the outcome." }}</p>
   </div>
 </section>
 
