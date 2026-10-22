@@ -996,3 +996,5 @@ img.case-thumb, img.prod-thumb { width: 100%; object-fit: cover; display: block;
 .cs-section-has-bg .cs-section-desc *,
 .cs-section-has-bg .cs-media-caption{color:inherit}
 .cs-section-has-bg .cs-section-desc a{text-decoration:underline}
+/* Back-to-back coloured sections touch (cancels the flex gap between them) */
+.cs-section-has-bg + .cs-section-has-bg{margin-top:-56px}
