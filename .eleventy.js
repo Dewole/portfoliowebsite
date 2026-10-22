@@ -23,6 +23,21 @@ module.exports = function (eleventyConfig) {
     return `https://${trimmed}`;
   });
 
+  // Per-section background colour picked in the CMS. Returns an inline
+  // style string (background + a readable text colour chosen from the
+  // background's brightness), or "" when no background is set.
+  eleventyConfig.addFilter("sectionBg", (section) => {
+    if (!section || !section.backgroundColor || section.backgroundColor === "none") return "";
+    const presets = { white: "#ffffff", light: "#f1efea", cream: "#f6ecdc", dark: "#16161a", black: "#000000" };
+    let hex = section.backgroundColor === "custom" ? String(section.backgroundCustom || "").trim() : presets[section.backgroundColor];
+    if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex || "")) return "";
+    let h = hex.slice(1);
+    if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+    const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
+    const light = (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6;
+    return `background:${hex};color:${light ? "#111" : "#fff"};`;
+  });
+
   // Static assets (CSS, JS, fonts) copy straight through to the output.
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 

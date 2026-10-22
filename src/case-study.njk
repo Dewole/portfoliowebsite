@@ -69,7 +69,8 @@ eleventyComputed:
     {% if cs.sections and cs.sections.length %}
     <div class="cs-sections">
       {% for section in cs.sections %}
-      <div class="cs-section cs-section-{{ section.layout or 'full' }}">
+      {% set secBg = section | sectionBg %}
+      <div class="cs-section cs-section-{{ section.layout or 'full' }}{% if secBg %} cs-section-has-bg{% endif %}"{% if secBg %} style="{{ secBg }}"{% endif %}>
         {% if section.title or (section.description and section.description.length) %}
         <div class="cs-section-text">
           {% if section.title %}<h3 class="cs-section-title">{{ section.title }}</h3>{% endif %}

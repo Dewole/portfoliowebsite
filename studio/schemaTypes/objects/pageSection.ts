@@ -36,6 +36,37 @@ export default defineType({
       initialValue: "full",
     }),
     defineField({
+      name: "backgroundColor",
+      title: "Background color",
+      description: "Colors this section's background. Text switches between light and dark automatically so it stays readable. Choose \"Custom color\" to enter your own hex code.",
+      type: "string",
+      options: {
+        list: [
+          { title: "Default (no background)", value: "none" },
+          { title: "White", value: "white" },
+          { title: "Light grey", value: "light" },
+          { title: "Warm cream", value: "cream" },
+          { title: "Dark", value: "dark" },
+          { title: "Black", value: "black" },
+          { title: "Custom color…", value: "custom" },
+        ],
+        layout: "dropdown",
+      },
+      initialValue: "none",
+    }),
+    defineField({
+      name: "backgroundCustom",
+      title: "Custom background color (hex)",
+      description: "For example #1a4bff or #f5e6d3.",
+      type: "string",
+      hidden: ({ parent }) => parent?.backgroundColor !== "custom",
+      validation: (Rule) =>
+        Rule.custom((value, ctx) => {
+          if (ctx.parent?.backgroundColor !== "custom" || !value) return true;
+          return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value.trim()) || "Use a hex code like #1a4bff";
+        }),
+    }),
+    defineField({
       name: "media",
       title: "Media (images, videos, animations)",
       description: "Add as many as you like, in any mix. Images (jpg/png/gif) get Sanity's built-in cropping tool; mp4 videos autoplay in place (muted, looping) once scrolled into view; Lottie/Bodymovin .json files render as animations at their own native size. Anything here can be clicked to view full-size.",

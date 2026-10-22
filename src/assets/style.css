@@ -986,3 +986,11 @@
    .case-thumb / .prod-thumb sizing (height, border-radius, shadow) but as a
    real <img> instead of a CSS-tinted <div> when a cover photo is set. */
 img.case-thumb, img.prod-thumb { width: 100%; object-fit: cover; display: block; }
+
+/* Sections with a CMS-chosen background colour */
+.cs-section-has-bg{padding:clamp(24px,4vw,56px);border-radius:20px}
+.cs-section-has-bg .cs-section-title,
+.cs-section-has-bg .cs-section-desc,
+.cs-section-has-bg .cs-section-desc *,
+.cs-section-has-bg .cs-media-caption{color:inherit}
+.cs-section-has-bg .cs-section-desc a{text-decoration:underline}
