@@ -987,8 +987,10 @@
    real <img> instead of a CSS-tinted <div> when a cover photo is set. */
 img.case-thumb, img.prod-thumb { width: 100%; object-fit: cover; display: block; }
 
-/* Sections with a CMS-chosen background colour */
-.cs-section-has-bg{padding:clamp(24px,4vw,56px);border-radius:20px}
+/* Sections with a CMS-chosen background colour — full-bleed, edge to edge */
+.cs-body{overflow-x:clip}
+.cs-section-has-bg{position:relative;isolation:isolate;padding-top:clamp(32px,5vw,72px);padding-bottom:clamp(32px,5vw,72px);border-radius:0}
+.cs-section-has-bg::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;background:inherit}
 .cs-section-has-bg .cs-section-title,
 .cs-section-has-bg .cs-section-desc,
 .cs-section-has-bg .cs-section-desc *,
