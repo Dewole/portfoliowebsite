@@ -27,7 +27,7 @@ eleventyComputed:
       <a class="prod-card reveal filter-card" href="/products/{{ p.slug }}/" data-category="{{ p.category }}">
         {% if p.coverImage %}<img class="prod-thumb" src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
         <div class="prod-head">
-          <h4>{{ p.name }}</h4>
+          <h2>{{ p.name }}</h2>
           <span class="status {{ 'soon' if p.status == 'coming-soon' else '' }}">{{ 'COMING SOON' if p.status == 'coming-soon' else 'LIVE' }}</span>
         </div>
         <p>{{ p.description }}</p>

@@ -27,7 +27,7 @@ eleventyComputed:
         {% if cs.coverImage %}<img class="case-thumb" src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
         <div class="case-body">
           <span class="case-tag">{{ cs.tag }}</span>
-          <h4>{{ cs.title }}</h4>
+          <h2>{{ cs.title }}</h2>
           <span class="date">{{ cs.date }}</span>
         </div>
       </a>

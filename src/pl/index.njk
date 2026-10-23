@@ -131,7 +131,7 @@ eleventyComputed:
           {% endif %}
         </div>
         <div>
-          <h4>{{ service.title }}</h4>
+          <h3>{{ service.title }}</h3>
           <p>{{ service.description }}</p>
         </div>
         <span class="num">{{ loop.index | pad2 }}</span>
@@ -174,7 +174,7 @@ eleventyComputed:
         {% if cs.coverImage %}<img class="case-thumb" src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
         <div class="case-body">
           <span class="case-tag">{{ cs.tag }}</span>
-          <h4>{{ cs.title }}</h4>
+          <h3>{{ cs.title }}</h3>
           <span class="date">{{ cs.date }}</span>
         </div>
       </a>
@@ -184,7 +184,7 @@ eleventyComputed:
         {% if cs.coverImage %}<img class="case-thumb" src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
         <div class="case-body">
           <span class="case-tag">{{ cs.tag }}</span>
-          <h4>{{ cs.title }}</h4>
+          <h3>{{ cs.title }}</h3>
           <span class="date">{{ cs.date }}</span>
         </div>
       </a>
@@ -206,7 +206,7 @@ eleventyComputed:
       <a class="prod-card reveal" href="/pl/products/{{ p.slug }}/">
         {% if p.coverImage %}<img class="prod-thumb" src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
         <div class="prod-head">
-          <h4>{{ p.name }}</h4>
+          <h3>{{ p.name }}</h3>
           <span class="status {{ 'soon' if p.status == 'coming-soon' else '' }}">{{ 'WKRÓTCE' if p.status == 'coming-soon' else 'DOSTĘPNY' }}</span>
         </div>
         <p>{{ p.description }}</p>

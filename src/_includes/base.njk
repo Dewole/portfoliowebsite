@@ -36,11 +36,13 @@
 <noscript><style>.reveal{opacity:1!important;transform:none!important}.split-title .word-inner{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-<div class="rail" id="rail"></div>
+<div class="rail" id="rail" role="navigation" aria-label="Page sections"></div>
 
 <header class="nav">
   <div class="brand"><a href="/">
@@ -62,12 +64,12 @@
   </div>
   <div class="right">
     <select id="langSwitch" aria-label="Language"><option value="en">English</option><option value="pl">Polski</option></select>
-    <button class="menu-btn" id="menuBtn" aria-label="Open menu"><span>Menu</span><span class="burger"><i></i><i></i></span></button>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="sideMenu" aria-haspopup="dialog"><span>Menu</span><span class="burger"><i></i><i></i></span></button>
   </div>
 </header>
 
 <div class="side-menu-overlay" id="menuOverlay"></div>
-<aside class="side-menu" id="sideMenu">
+<aside class="side-menu" id="sideMenu" role="dialog" aria-modal="true" aria-label="Site menu" inert>
   <div class="side-menu-top">
     <div class="side-menu-brand">
       {% if site.showLogo != false and site.logo %}
@@ -97,7 +99,9 @@
   </div>
 </aside>
 
+<main id="main" tabindex="-1">
 {{ content | safe }}
+</main>
 
 <footer>
   <div class="wrap">
