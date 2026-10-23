@@ -1165,3 +1165,15 @@ body.dark-nav .rail .dot.active::after{background:var(--accent);}
 header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-bottom:1px solid transparent;}
 .foot-col a[href^="tel:"], .foot-col a[href^="mailto:"], .entity-col a[href^="mailto:"], .side-menu a[href^="mailto:"]{display:inline-block;padding:2px 0;}
 .entity-col a[href^="mailto:"]:hover, .side-menu a[href^="mailto:"]:hover{text-decoration:underline;text-underline-offset:.2em;}
+
+/* "Let's talk" / contact links: same hover underline as the top nav */
+.foot-col a[href^="tel:"], .foot-col a[href^="mailto:"],
+.entity-col a[href^="mailto:"], .side-menu a[href^="mailto:"]{
+  background:none!important;
+  border-bottom:1px solid transparent;
+  padding:0 0 1px;
+  text-decoration:none!important;
+  transition:border-color .25s ease;
+}
+.foot-col a[href^="tel:"]:hover, .foot-col a[href^="mailto:"]:hover,
+.entity-col a[href^="mailto:"]:hover, .side-menu a[href^="mailto:"]:hover{border-color:currentColor;}
