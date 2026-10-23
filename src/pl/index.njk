@@ -56,7 +56,7 @@ eleventyComputed:
       </div>
       <div class="entity-col reveal">
         <label>KONTAKT</label>
-        <p>{{ sitePl.email }}</p>
+        <p>{% if sitePl.email %}<a href="mailto:{{ sitePl.email }}">{{ sitePl.email }}</a>{% endif %}</p>
       </div>
     </div>
   </div>

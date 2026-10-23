@@ -38,6 +38,12 @@ module.exports = function (eleventyConfig) {
     return `background:${hex};color:${light ? "#111" : "#fff"};`;
   });
 
+  // "+48 660 853 823" -> "tel:+48660853823" so tapping a phone number opens the dialer.
+  eleventyConfig.addFilter("telHref", (phone) => {
+    const cleaned = String(phone || "").replace(/[^\d+]/g, "");
+    return cleaned ? `tel:${cleaned}` : "#";
+  });
+
   // Static assets (CSS, JS, fonts) copy straight through to the output.
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 

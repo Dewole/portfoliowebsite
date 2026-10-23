@@ -58,8 +58,8 @@
     {% endif %}
   </a></div>
   <div class="mid">
-    <span>{{ sitePl.phone }}</span>
-    <span>{{ sitePl.email }}</span>
+    <span>{% if sitePl.phone %}<a href="{{ sitePl.phone | telHref }}">{{ sitePl.phone }}</a>{% endif %}</span>
+    <span>{% if sitePl.email %}<a href="mailto:{{ sitePl.email }}">{{ sitePl.email }}</a>{% endif %}</span>
     {% if sitePl.linkedinUrl %}<a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
   </div>
   <div class="right">
@@ -95,7 +95,7 @@
   <div class="side-menu-foot">
     {% if sitePl.linkedinUrl %}<a href="{{ sitePl.linkedinUrl }}">{{ sitePl.linkedinLabel or "LinkedIn" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
     {% if sitePl.figmaUrl %}<a href="{{ sitePl.figmaUrl }}">{{ sitePl.figmaLabel or "Figma" }} <span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
-    <p>{{ sitePl.email }}</p>
+    <p>{% if sitePl.email %}<a href="mailto:{{ sitePl.email }}">{{ sitePl.email }}</a>{% endif %}</p>
   </div>
 </aside>
 
@@ -108,8 +108,8 @@
     <div class="foot-top">
       <div class="foot-col">
         <label>SKONTAKTUJ SIĘ</label>
-        <p>{{ sitePl.phone }}</p>
-        <p>{{ sitePl.email }}</p>
+        <p>{% if sitePl.phone %}<a href="{{ sitePl.phone | telHref }}">{{ sitePl.phone }}</a>{% endif %}</p>
+        <p>{% if sitePl.email %}<a href="mailto:{{ sitePl.email }}">{{ sitePl.email }}</a>{% endif %}</p>
       </div>
       <div class="foot-col">
         <label>NAWIGACJA</label>

@@ -1160,3 +1160,8 @@ body.dark-nav .rail .dot.active::after{background:var(--accent);}
 /* status badges sitting on the dark project header */
 .cs-meta .status, .on-dark .status{color:#7ff0bf;}
 .cs-meta .status.soon, .on-dark .status.soon{color:#a9c8ff;}
+
+/* phone / email links (nav, side menu, "Let's talk", contact) */
+header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-bottom:1px solid transparent;}
+.foot-col a[href^="tel:"], .foot-col a[href^="mailto:"], .entity-col a[href^="mailto:"], .side-menu a[href^="mailto:"]{display:inline-block;padding:2px 0;}
+.entity-col a[href^="mailto:"]:hover, .side-menu a[href^="mailto:"]:hover{text-decoration:underline;text-underline-offset:.2em;}
