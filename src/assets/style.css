@@ -167,6 +167,11 @@
   .menu-btn.is-open .burger i:nth-child(1){top:5px;transform:rotate(45deg);}
   .menu-btn.is-open .burger i:nth-child(2){top:5px;transform:rotate(-45deg);}
   @media (max-width:900px){ header.nav .mid{display:none;} }
+  /* Phones: hamburger only — drop the "Menu" word and even out the padding */
+  @media (max-width:700px){
+    header.nav .menu-btn{padding:13px 14px;gap:0;}
+    header.nav .menu-btn > span:first-child{display:none;}
+  }
 
   /* SIDE MENU */
   .side-menu-overlay{position:fixed;inset:0;background:rgba(5,6,10,.55);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .45s ease;z-index:150;}
