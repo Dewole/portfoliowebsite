@@ -16,7 +16,18 @@ eleventyComputed:
 <section class="about" id="s2">
   <div class="wrap about-grid">
     <div>
+      {% if sitePl.aboutPhotos and sitePl.aboutPhotos.length %}
+      <div class="photo-stack" id="photoStack">
+        {% for ph in sitePl.aboutPhotos %}
+        <figure class="photo-stack-item" data-pos="{{ loop.index0 if loop.index0 < 5 else 'x' }}">
+          <img src="{{ ph.src }}" alt="{{ ph.alt or sitePl.name }}" {% if ph.position %}style="object-position:{{ ph.position }}" {% endif %}loading="{{ 'eager' if loop.first else 'lazy' }}" draggable="false">
+        </figure>
+        {% endfor %}
+        {% if sitePl.aboutPhotos.length > 1 %}<button type="button" class="photo-stack-next" aria-label="Pokaż następne zdjęcie"><span aria-hidden="true">↻</span></button>{% endif %}
+      </div>
+      {% else %}
       <img class="photo-block tall reveal" src="{{ sitePl.profilePhoto | default('/assets/images/profile.jpg') }}" {% if sitePl.profilePhotoPosition %}style="object-position:{{ sitePl.profilePhotoPosition }}" {% endif %}alt="{{ sitePl.name }}">
+      {% endif %}
     </div>
     <div>
       <div class="kicker">{{ sitePl.name }} · {{ sitePl.role }}</div>
@@ -67,7 +78,7 @@ eleventyComputed:
     <p class="lede reveal">{{ sitePl.skillsIntro }}</p>
     <div class="skills-grid">
       {% for s in skillsPl %}
-      <div class="skill-chip reveal">
+      <div class="skill-chip">
         {% if s.icon %}
         <span class="skill-icon"><img src="{{ s.icon }}" alt="" loading="lazy"></span>
         {% endif %}

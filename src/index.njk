@@ -145,15 +145,22 @@ eleventyComputed:
 <!-- STATS -->
 {%- if site.showStats != false %}
 <section class="stats" id="s5">
-  <div class="wrap stats-grid">
-    <div>
-      <h2 class="big split-title">{{ site.statsHeading }}</h2>
-      <p class="lede reveal">{{ site.statsParagraph }}</p>
-      {% if site.linkedinUrl %}<a href="{{ site.linkedinUrl }}" class="btn ghost reveal" style="margin-top:20px;color:var(--ink);border-color:var(--line);"><span class="btn-label">Check my LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
-    </div>
-    <div class="reveal">
-      <p class="num-big">{{ site.statNumber }}</p>
-      <p class="lede">{{ site.statCaption }}</p>
+  <div class="wrap">
+    <div class="stats-card on-dark">
+      <div class="stats-glow" aria-hidden="true"><span></span><span></span></div>
+      <div class="stats-grid">
+        <div class="stats-copy">
+          <div class="kicker">WHY ME</div>
+          <h2 class="big split-title">{{ site.statsHeading }}</h2>
+          <p class="lede reveal">{{ site.statsParagraph }}</p>
+          {% if site.linkedinUrl %}<a href="{{ site.linkedinUrl }}" class="btn ghost stats-btn reveal"><span class="btn-label">Check my LinkedIn</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>{% endif %}
+        </div>
+        <div class="stats-figure reveal">
+          <div class="stats-ring" aria-hidden="true"></div>
+          <p class="num-big">{{ site.statNumber }}</p>
+          <p class="stats-caption">{{ site.statCaption }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>

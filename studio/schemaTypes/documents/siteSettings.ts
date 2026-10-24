@@ -296,6 +296,23 @@ export default defineType({
     defineField({ name: "finalCtaSubheading", title: "Final CTA — subheading", type: "localeString", group: "finalCta" }),
 
     // About page — not a homepage section, so no on/off toggle
+    defineField({
+      name: "aboutPhotos",
+      title: "About page — photo stack",
+      description: "Add several photos and they're shown as a stack of prints placed on top of each other at slight angles, next to your bio. Visitors can click/tap the stack to shuffle to the next photo. Drag to reorder — the first photo is on top. Leave empty to show the profile photo instead. Recommended: portrait, about 900×1100px.",
+      type: "array",
+      group: "aboutPage",
+      of: [
+        defineArrayMember({
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: "alt", title: "Description (for screen readers)", type: "string" }),
+          ],
+        }),
+      ],
+      options: { layout: "grid" },
+    }),
     defineField({ name: "aboutBioLong", title: "About page — long bio", type: "localeText", group: "aboutPage" }),
     defineField({ name: "experienceHeading", title: "Experience section heading", type: "localeString", group: "aboutPage" }),
     defineField({ name: "experienceIntro", title: "Experience section intro", type: "localeText", group: "aboutPage" }),

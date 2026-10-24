@@ -402,20 +402,6 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     // duplicate half from screen readers and the Tab order
     const kids = Array.from(track.children);
     kids.slice(Math.ceil(kids.length/2)).forEach(el=>{ el.setAttribute('aria-hidden','true'); el.setAttribute('inert',''); });
-    // WCAG 2.2.2 — anything that moves on its own for >5s needs a pause control
-    const toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'marquee-toggle';
-    const ICON_PAUSE = '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1.5" width="3.5" height="11" rx="1" fill="currentColor"/><rect x="8.5" y="1.5" width="3.5" height="11" rx="1" fill="currentColor"/></svg>';
-    const ICON_PLAY = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>';
-    const isPl = document.documentElement.lang === 'pl';
-    function paintToggle(){
-      toggle.innerHTML = (userPaused ? ICON_PLAY : ICON_PAUSE) + '<span>' + (userPaused ? (isPl ? 'Wznów przewijanie' : 'Play scrolling') : (isPl ? 'Zatrzymaj przewijanie' : 'Pause scrolling')) + '</span>';
-      toggle.setAttribute('aria-pressed', userPaused ? 'true' : 'false');
-    }
-    paintToggle();
-    toggle.addEventListener('click', ()=>{ userPaused = !userPaused; autoScroll = !userPaused; paintToggle(); });
-    container.insertAdjacentElement('afterend', toggle);
     container.addEventListener('focusin', ()=>{ autoScroll = false; });
     container.addEventListener('focusout', ()=>{ autoScroll = !userPaused; });
     let dragStartX = 0;
@@ -798,4 +784,64 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     })(t0);
   }, {threshold:.4});
   io.observe(el);
+})();
+
+// ---- ABOUT PHOTO STACK — prints stacked at angles; click/tap (or the ↻
+// button, or Enter/Space on it) sends the top photo flying to the back. ----
+(function(){
+  const stack = document.getElementById('photoStack');
+  if(!stack) return;
+  const items = Array.from(stack.querySelectorAll('.photo-stack-item'));
+  let order = items.map((_, i)=>i);          // order[pos] = item index
+  function paint(){ order.forEach((idx, pos)=>items[idx].setAttribute('data-pos', pos < 5 ? pos : 'x')); }
+  let busy = false;
+  function next(){
+    if(busy || items.length < 2) return;
+    busy = true;
+    const top = items[order[0]];
+    if(reduceMotion){ order.push(order.shift()); paint(); busy = false; return; }
+    top.classList.add('fly');
+    setTimeout(()=>{
+      order.push(order.shift());
+      paint();
+      top.classList.remove('fly');
+      setTimeout(()=>{ busy = false; }, 350);
+    }, 380);
+  }
+  stack.addEventListener('click', next);
+  // entrance: prints drop in one after another when scrolled into view
+  if(!reduceMotion){
+    stack.classList.add('pre');
+    const io = new IntersectionObserver((es)=>{
+      if(!es[0].isIntersecting) return;
+      io.disconnect();
+      items.slice().reverse().forEach((it, i)=>{ it.style.transitionDelay = (i*110) + 'ms'; });
+      requestAnimationFrame(()=>stack.classList.remove('pre'));
+      setTimeout(()=>items.forEach((it)=>{ it.style.transitionDelay = ''; }), 1600);
+    }, {threshold:.25});
+    io.observe(stack);
+  }
+})();
+
+// ---- SKILLS & TOOLS — pills fall into place when the section scrolls in ----
+(function(){
+  const grid = document.querySelector('.skills-grid');
+  if(!grid || reduceMotion) return;
+  const chips = Array.from(grid.querySelectorAll('.skill-chip'));
+  if(!chips.length) return;
+  const rand = (a,b)=>a + Math.random()*(b-a);
+  chips.forEach((c, i)=>{
+    c.style.setProperty('--d', Math.round(i*45 + rand(0,260)) + 'ms');
+    c.style.setProperty('--spin', rand(-50,50).toFixed(1) + 'deg');
+    c.style.setProperty('--rest', rand(-3,3).toFixed(1) + 'deg');
+  });
+  grid.classList.add('will-drop');
+  const io = new IntersectionObserver((es)=>{
+    if(!es[0].isIntersecting) return;
+    io.disconnect();
+    grid.classList.add('dropping');
+    const longest = chips.length*45 + 260 + 1100;
+    setTimeout(()=>{ grid.classList.remove('will-drop','dropping'); grid.classList.add('dropped'); }, longest);
+  }, {threshold:.3});
+  io.observe(grid);
 })();
