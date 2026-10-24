@@ -149,9 +149,11 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     function walk(node){
       if(node.nodeType === Node.TEXT_NODE){
         const frag = document.createDocumentFragment();
-        const tokens = node.textContent.split(/(\s+)/);
+        // split on ordinary whitespace only: a non-breaking space (Polish
+        // sierotki, set at build time) keeps its two words in one unit
+        const tokens = node.textContent.split(/([ \t\n\r\f]+)/);
         tokens.forEach(tok=>{
-          if(tok.trim()===''){ frag.appendChild(document.createTextNode(tok)); return; }
+          if(tok==='' || /^[ \t\n\r\f]+$/.test(tok)){ frag.appendChild(document.createTextNode(tok)); return; }
           const mask = document.createElement('span');
           mask.className = 'word-mask';
           const inner = document.createElement('span');
@@ -267,8 +269,8 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       function walk(node){
         if(node.nodeType === Node.TEXT_NODE){
           const frag = document.createDocumentFragment();
-          node.textContent.split(/(\s+)/).forEach(tok=>{
-            if(tok.trim()===''){ frag.appendChild(document.createTextNode(tok)); return; }
+          node.textContent.split(/([ \t\n\r\f]+)/).forEach(tok=>{
+            if(tok==='' || /^[ \t\n\r\f]+$/.test(tok)){ frag.appendChild(document.createTextNode(tok)); return; }
             const span = document.createElement('span');
             span.className = 'fill-word';
             span.textContent = tok;

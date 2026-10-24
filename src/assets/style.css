@@ -1382,3 +1382,29 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
 }
 @keyframes skillIconPop{0%{transform:scale(0) rotate(-40deg);}100%{transform:none;}}
 @keyframes skillIdle{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-2px) rotate(-6deg);}}
+
+/* =====================================================================
+   GLOBAL TYPOGRAPHY RULES — line breaks
+   Every heading (semantic or styled-as-heading) balances its lines; every
+   paragraph-like block avoids widows. Anything new — templates or text
+   from Sanity — inherits this automatically. Polish non-breaking spaces and
+   the "||" editorial break are added at build time (lib/typography.js).
+   ===================================================================== */
+h1, h2, h3, h4, h5, h6, [role="heading"], legend,
+.big, .split-title, .hero .sub, .kicker, .num-big,
+.cs-section-title, .cs-details-title, .cta-card h3, .bigquote h2,
+.case-body h2, .case-body h3, .prod-card h2, .prod-card h3,
+.service-card h3, .how-card h3, .exp-main h3, .testi-card b{
+  text-wrap:balance;
+}
+p, li, dd, blockquote, figcaption, .lede, .rich-text, .stats-caption,
+.cs-section-desc, .cs-details-desc, .cs-details-desc-secondary, .faq-a p{
+  text-wrap:pretty;
+}
+/* long unbroken strings (URLs, emails) may wrap instead of overflowing */
+p, li, dd, .lede, .rich-text{overflow-wrap:break-word;}
+h1, h2, h3, h4, h5, h6, .big{overflow-wrap:break-word;hyphens:manual;}
+/* Editorial line break typed as "||" in a CMS heading — tablet/desktop only;
+   on phones the heading wraps (and balances) by itself. */
+.ed-br{display:none;}
+@media (min-width:768px){ .ed-br{display:inline;} }

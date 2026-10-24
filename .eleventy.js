@@ -44,6 +44,18 @@ module.exports = function (eleventyConfig) {
     return cleaned ? `tel:${cleaned}` : "#";
   });
 
+  // Global typography (lib/typography.js + lib/typography.config.js):
+  // Polish "sierotki" non-breaking spaces on /pl/ pages and the editorial
+  // "||" heading line-break marker. Runs on every HTML page after it's
+  // rendered, so all text — templates, Sanity fields and rich text — gets
+  // the same rules without anything being changed in the CMS.
+  const { typographyTransform, applyLocaleTypography } = require("./lib/typography");
+  eleventyConfig.addTransform("typography", function (content) {
+    const out = this.page && this.page.outputPath;
+    return out && out.endsWith(".html") ? typographyTransform(content) : content;
+  });
+  eleventyConfig.addFilter("localeTypography", (text, locale) => applyLocaleTypography(text, locale));
+
   // Static assets (CSS, JS, fonts) copy straight through to the output.
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
