@@ -5,6 +5,7 @@ import attachment from "./objects/attachment";
 import pageSection from "./objects/pageSection";
 
 import siteSettings from "./documents/siteSettings";
+import aboutPage from "./documents/aboutPage";
 import caseStudy from "./documents/caseStudy";
 import product from "./documents/product";
 import testimonial from "./documents/testimonial";
@@ -21,6 +22,7 @@ export const schemaTypes = [
   pageSection,
   // documents
   siteSettings,
+  aboutPage,
   caseStudy,
   product,
   testimonial,

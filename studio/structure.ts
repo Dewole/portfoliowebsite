@@ -1,6 +1,6 @@
 import type { StructureResolver } from "sanity/structure";
 
-// Custom desk structure: "Home page" is a singleton (one document, no
+// Custom desk structure: "Home page" and "About page" are singletons (one document, no
 // list view / no delete), everything else is a normal collection list.
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -13,6 +13,14 @@ export const structure: StructureResolver = (S) =>
           S.document()
             .schemaType("siteSettings")
             .documentId("siteSettings")
+        ),
+      S.listItem()
+        .title("About page")
+        .id("aboutPage")
+        .child(
+          S.document()
+            .schemaType("aboutPage")
+            .documentId("aboutPage")
         ),
       S.divider(),
       S.documentTypeListItem("caseStudy").title("Case Studies (Portfolio)"),

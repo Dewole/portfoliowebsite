@@ -845,3 +845,22 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
   }, {threshold:.3});
   io.observe(grid);
 })();
+
+// ---- "6+ years" glass card — light follows the cursor, gentle 3D tilt ----
+(function(){
+  const card = document.querySelector('.stats-figure');
+  if(!card || !window.matchMedia('(hover:hover)').matches) return;
+  card.addEventListener('pointermove', (e)=>{
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    card.style.setProperty('--mx', (x*100).toFixed(1) + '%');
+    card.style.setProperty('--my', (y*100).toFixed(1) + '%');
+    if(!reduceMotion){
+      card.style.setProperty('--ty', ((x - .5) * 8).toFixed(2) + 'deg');
+      card.style.setProperty('--tx', ((.5 - y) * 8).toFixed(2) + 'deg');
+    }
+  });
+  card.addEventListener('pointerleave', ()=>{
+    card.style.setProperty('--tx', '0deg'); card.style.setProperty('--ty', '0deg');
+  });
+})();

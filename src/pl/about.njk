@@ -2,14 +2,15 @@
 layout: base.pl.njk
 eleventyComputed:
   title: "O mnie — {{ sitePl.name }}"
-  description: "{{ sitePl.aboutBioLong }}"
+  description: "{{ sitePl.aboutSeoDescription or sitePl.aboutBioLong }}"
 ---
 {% import "icons.njk" as icons %}
+{% set ctaHref = sitePl.aboutCtaButtonLink | absoluteUrl if (sitePl.aboutCtaButtonLink and not (sitePl.aboutCtaButtonLink | first == "/")) else (sitePl.aboutCtaButtonLink or "/pl/contact/") %}
 <section class="about-hero" id="s1">
   <div class="wrap">
-    <div class="kicker">O MNIE</div>
-    <h1 class="big split-title">{{ sitePl.aboutHeading }}</h1>
-    <p class="lede reveal">{{ sitePl.aboutParagraph }}</p>
+    <div class="kicker">{{ sitePl.aboutKicker or "O MNIE" }}</div>
+    <h1 class="big split-title">{{ sitePl.aboutPageHeading or sitePl.aboutHeading }}</h1>
+    <p class="lede reveal">{{ sitePl.aboutPageIntro or sitePl.aboutParagraph }}</p>
   </div>
 </section>
 
@@ -30,22 +31,23 @@ eleventyComputed:
       {% endif %}
     </div>
     <div>
-      <div class="kicker">{{ sitePl.name }} · {{ sitePl.role }}</div>
+      <div class="kicker">{% if sitePl.aboutBioKicker %}{{ sitePl.aboutBioKicker }}{% else %}{{ sitePl.name }} · {{ sitePl.role }}{% endif %}</div>
       <p class="lede reveal">{{ sitePl.aboutBioLong }}</p>
-      <a href="/pl/contact/" class="btn solid reveal"><span class="btn-label">Napisz do mnie</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+      <a href="/pl/contact/" class="btn solid reveal"><span class="btn-label">{{ sitePl.aboutContactLabel or "Napisz do mnie" }}</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     </div>
   </div>
 </section>
 
+{%- if sitePl.showHowIWork != false %}
 <section class="how-i-work" id="s3">
   <div class="wrap">
-    <div class="kicker">PROCES</div>
+    <div class="kicker">{{ sitePl.howIWorkKicker or "PROCES" }}</div>
     <h2 class="big split-title">{{ sitePl.howIWorkHeading }}</h2>
     <p class="lede reveal">{{ sitePl.howIWorkIntro }}</p>
     <div class="how-grid">
       <div class="how-card reveal">
         <div class="service-icon how-icon">
-          <svg viewBox="0 0 40 40"><circle cx="16" cy="16" r="11" fill="var(--accent)" opacity=".85"/><rect x="24" y="24" width="6" height="13" rx="3" fill="var(--accent-2)" opacity=".85" transform="rotate(45 27 30.5)"/></svg>
+          {% if sitePl.howIWorkStep1Icon %}<img src="{{ sitePl.howIWorkStep1Icon }}" alt="" width="40" height="40" loading="lazy">{% else %}<svg viewBox="0 0 40 40"><circle cx="16" cy="16" r="11" fill="var(--accent)" opacity=".85"/><rect x="24" y="24" width="6" height="13" rx="3" fill="var(--accent-2)" opacity=".85" transform="rotate(45 27 30.5)"/></svg>{% endif %}
         </div>
         <span class="num">01</span>
         <h3>{{ sitePl.howIWorkStep1Title }}</h3>
@@ -53,7 +55,7 @@ eleventyComputed:
       </div>
       <div class="how-card reveal">
         <div class="service-icon how-icon">
-          <svg viewBox="0 0 40 40"><path d="M9 31 L25 9 L31 15 L15 33 Z" fill="var(--accent)" opacity=".85"/><path d="M9 31 L6 35 L13 33 Z" fill="var(--accent-2)" opacity=".85"/></svg>
+          {% if sitePl.howIWorkStep2Icon %}<img src="{{ sitePl.howIWorkStep2Icon }}" alt="" width="40" height="40" loading="lazy">{% else %}<svg viewBox="0 0 40 40"><path d="M9 31 L25 9 L31 15 L15 33 Z" fill="var(--accent)" opacity=".85"/><path d="M9 31 L6 35 L13 33 Z" fill="var(--accent-2)" opacity=".85"/></svg>{% endif %}
         </div>
         <span class="num">02</span>
         <h3>{{ sitePl.howIWorkStep2Title }}</h3>
@@ -61,7 +63,7 @@ eleventyComputed:
       </div>
       <div class="how-card reveal">
         <div class="service-icon how-icon">
-          <svg viewBox="0 0 40 40"><path d="M6 21 L33 8 L21 34 L17 22 Z" fill="var(--accent)" opacity=".85"/><path d="M17 22 L33 8 L17 22 Z" fill="var(--accent-2)" opacity=".7"/></svg>
+          {% if sitePl.howIWorkStep3Icon %}<img src="{{ sitePl.howIWorkStep3Icon }}" alt="" width="40" height="40" loading="lazy">{% else %}<svg viewBox="0 0 40 40"><path d="M6 21 L33 8 L21 34 L17 22 Z" fill="var(--accent)" opacity=".85"/><path d="M17 22 L33 8 L17 22 Z" fill="var(--accent-2)" opacity=".7"/></svg>{% endif %}
         </div>
         <span class="num">03</span>
         <h3>{{ sitePl.howIWorkStep3Title }}</h3>
@@ -70,10 +72,12 @@ eleventyComputed:
     </div>
   </div>
 </section>
+{%- endif %}
 
+{%- if sitePl.showSkills != false %}
 <section class="skills-tools" id="s4">
   <div class="wrap">
-    <div class="kicker">NARZĘDZIA</div>
+    <div class="kicker">{{ sitePl.skillsKicker or "NARZĘDZIA" }}</div>
     <h2 class="big split-title">{{ sitePl.skillsHeading }}</h2>
     <p class="lede reveal">{{ sitePl.skillsIntro }}</p>
     <div class="skills-grid">
@@ -88,10 +92,12 @@ eleventyComputed:
     </div>
   </div>
 </section>
+{%- endif %}
 
+{%- if sitePl.showExperience != false %}
 <section class="experience" id="s5">
   <div class="wrap">
-    <div class="kicker">OSIE CZASU</div>
+    <div class="kicker">{{ sitePl.experienceKicker or "OŚ CZASU" }}</div>
     <h2 class="big split-title">{{ sitePl.experienceHeading }}</h2>
     <p class="lede reveal">{{ sitePl.experienceIntro }}</p>
     <div class="exp-list">
@@ -108,11 +114,14 @@ eleventyComputed:
     </div>
   </div>
 </section>
+{%- endif %}
 
+{%- if sitePl.showAboutCta != false %}
 <section class="final-cta" id="s6">
   <div class="wrap">
     <h2 class="big split-title">{{ sitePl.aboutCtaHeading }}</h2>
     <p class="lede reveal" style="margin:0 auto 28px;">{{ sitePl.aboutCtaParagraph }}</p>
-    <a href="/pl/contact/" class="btn solid reveal" style="color:#fff;background:var(--ink);"><span class="btn-label">{{ sitePl.aboutCtaButtonLabel }}</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+    <a href="{{ ctaHref }}" class="btn solid reveal" style="color:#fff;background:var(--ink);"{% if ctaHref | first != "/" %} target="_blank" rel="noopener noreferrer"{% endif %}><span class="btn-label">{{ sitePl.aboutCtaButtonLabel or "Napisz do mnie" }}</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
   </div>
 </section>
+{%- endif %}

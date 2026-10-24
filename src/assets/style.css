@@ -1277,3 +1277,57 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
   90% {transform:translateY(-6px) rotate(calc(var(--rest,0deg) * .4));}
   100%{opacity:1;transform:translateY(0) rotate(var(--rest,0deg));}
 }
+
+/* custom (CMS-uploaded) How-I-work step icons */
+.how-icon img{width:40px;height:40px;object-fit:contain;display:block;}
+
+/* ---------- Hero subtitle: "Thesignature" script ---------- */
+@font-face{
+  font-family:"Thesignature";
+  src:url("/assets/fonts/Thesignature.woff2") format("woff2"),url("/assets/fonts/Thesignature.ttf") format("truetype");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+.hero .sub{
+  /* Polish letters with accents aren't in this font — they fall back to Instrument Serif */
+  font-family:"Thesignature","Instrument Serif",Georgia,serif;
+  font-style:normal;font-weight:400;
+  font-size:clamp(40px,7vw,92px);
+  line-height:1.25;letter-spacing:0;
+}
+@media (max-width:700px){ .hero .sub{font-size:clamp(46px,13vw,64px);line-height:1.15;} }
+/* give the swashes room so the word masks don't clip them */
+.hero .sub .word-mask{padding:.12em .18em .28em;margin:-.12em -.18em -.28em;}
+
+/* ---------- "6+ years" card: frosted glass that reacts to the cursor ---------- */
+.stats-card .stats-figure.reveal.in{transform:perspective(900px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));}
+.stats-figure{
+  transition:opacity .8s ease,transform .5s var(--ease-out),border-color .4s ease,background .4s ease,box-shadow .5s ease,backdrop-filter .5s ease;
+}
+.stats-figure::before{ /* cursor-following light */
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.18),rgba(143,186,255,.08) 35%,transparent 65%);
+  opacity:0;transition:opacity .45s ease;
+}
+.stats-figure::after{ /* glass sheen sweep */
+  content:"";position:absolute;top:-60%;left:-80%;width:60%;height:220%;pointer-events:none;z-index:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.16) 50%,transparent 70%);
+  transform:rotate(12deg) translateX(0);opacity:0;
+}
+.stats-figure > *{position:relative;z-index:1;}
+.stats-figure .stats-ring{position:absolute;z-index:0;}
+@media (hover:hover){
+  .stats-figure:hover{
+    border-color:rgba(255,255,255,.28);
+    background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+    backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+    box-shadow:0 30px 60px -28px rgba(47,107,255,.55),inset 0 1px 0 rgba(255,255,255,.25),inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+  .stats-figure:hover::before{opacity:1;}
+  .stats-figure:hover .stats-ring{animation-duration:3.5s;opacity:1;}
+  .stats-figure:hover .num-big{filter:drop-shadow(0 0 22px rgba(120,170,255,.45));}
+}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .stats-figure:hover::after{animation:statsSheen 1.1s var(--ease-out) forwards;}
+}
+@keyframes statsSheen{0%{opacity:0;transform:rotate(12deg) translateX(0);}20%{opacity:1;}100%{opacity:0;transform:rotate(12deg) translateX(420%);}}
+.stats-figure .num-big{transition:filter .4s ease;}

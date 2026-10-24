@@ -26,7 +26,6 @@ export default defineType({
     { name: "testimonials", title: "Testimonials section" },
     { name: "bigQuote", title: "Big quote banner" },
     { name: "finalCta", title: "Final CTA banner" },
-    { name: "aboutPage", title: "About page" },
     { name: "contactPage", title: "Contact page" },
     { name: "footer", title: "Footer" },
   ],
@@ -294,41 +293,6 @@ export default defineType({
     }),
     defineField({ name: "finalCtaHeading", title: "Final CTA — heading", type: "localeString", group: "finalCta" }),
     defineField({ name: "finalCtaSubheading", title: "Final CTA — subheading", type: "localeString", group: "finalCta" }),
-
-    // About page — not a homepage section, so no on/off toggle
-    defineField({
-      name: "aboutPhotos",
-      title: "About page — photo stack",
-      description: "Add several photos and they're shown as a stack of prints placed on top of each other at slight angles, next to your bio. Visitors can click/tap the stack to shuffle to the next photo. Drag to reorder — the first photo is on top. Leave empty to show the profile photo instead. Recommended: portrait, about 900×1100px.",
-      type: "array",
-      group: "aboutPage",
-      of: [
-        defineArrayMember({
-          type: "image",
-          options: { hotspot: true },
-          fields: [
-            defineField({ name: "alt", title: "Description (for screen readers)", type: "string" }),
-          ],
-        }),
-      ],
-      options: { layout: "grid" },
-    }),
-    defineField({ name: "aboutBioLong", title: "About page — long bio", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "experienceHeading", title: "Experience section heading", type: "localeString", group: "aboutPage" }),
-    defineField({ name: "experienceIntro", title: "Experience section intro", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "howIWorkHeading", title: "\"How I work\" heading", type: "localeString", group: "aboutPage" }),
-    defineField({ name: "howIWorkIntro", title: "\"How I work\" intro", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "howIWorkStep1Title", title: "Step 1 — title", type: "localeString", group: "aboutPage" }),
-    defineField({ name: "howIWorkStep1Desc", title: "Step 1 — description", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "howIWorkStep2Title", title: "Step 2 — title", type: "localeString", group: "aboutPage" }),
-    defineField({ name: "howIWorkStep2Desc", title: "Step 2 — description", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "howIWorkStep3Title", title: "Step 3 — title", type: "localeString", group: "aboutPage" }),
-    defineField({ name: "howIWorkStep3Desc", title: "Step 3 — description", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "skillsHeading", title: "Skills & tools — heading", type: "localeString", group: "aboutPage" }),
-    defineField({ name: "skillsIntro", title: "Skills & tools — intro", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "aboutCtaHeading", title: "About page — CTA heading", type: "localeString", group: "aboutPage" }),
-    defineField({ name: "aboutCtaParagraph", title: "About page — CTA paragraph", type: "localeText", group: "aboutPage" }),
-    defineField({ name: "aboutCtaButtonLabel", title: "About page — CTA button label", type: "localeString", group: "aboutPage" }),
 
     // Contact page — not a homepage section, so no on/off toggle
     defineField({ name: "contactHeading", title: "Contact page — heading", type: "localeString", group: "contactPage" }),
