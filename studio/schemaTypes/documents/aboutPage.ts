@@ -43,7 +43,27 @@ export default defineType({
     }),
     defineField({ name: "aboutBioKicker", title: "Label above bio", type: "localeString", group: "aboutBio",
       description: "Leave empty to show your name · role.", }),
-    defineField({ name: "aboutBioLong", title: "Long bio", type: "localeText", group: "aboutBio", }),
+    defineField({
+      name: "aboutBio",
+      title: "Long bio",
+      description: "Full text editor: headings, quotes, bullet/numbered lists, bold, italic, underline, strikethrough, highlight, code, links and images.",
+      type: "localeRichTextFull",
+      group: "aboutBio",
+    }),
+    defineField({
+      name: "aboutBioLong",
+      title: "Long bio (old plain-text version)",
+      description: "Your previous bio, kept until it's copied into the editor above. It's only shown on the site while the editor above is empty. Run the conversion command (or retype it above) — this box then disappears.",
+      type: "localeText",
+      group: "aboutBio",
+      readOnly: true,
+      hidden: ({ document }) => {
+        const d = document as { aboutBio?: { en?: unknown[]; pl?: unknown[] }; aboutBioLong?: { en?: string; pl?: string } } | undefined;
+        const hasNew = !!(d?.aboutBio?.en?.length || d?.aboutBio?.pl?.length);
+        const hasOld = !!(d?.aboutBioLong?.en || d?.aboutBioLong?.pl);
+        return hasNew || !hasOld;
+      },
+    }),
     defineField({ name: "aboutContactLabel", title: "Button text", type: "localeString", group: "aboutBio",
       description: "Leave empty to show Contact me / Napisz do mnie.", }),
     defineField({ name: "showHowIWork", title: "Show this section", type: "boolean", initialValue: true, group: "aboutProcess", description: "Turn the How I work section on or off." }),

@@ -1336,3 +1336,18 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
 }
 @keyframes statsSheen{0%{opacity:0;transform:rotate(12deg) translateX(0);}20%{opacity:1;}100%{opacity:0;transform:rotate(12deg) translateX(420%);}}
 .stats-figure .num-big{transition:filter .4s ease;}
+
+/* ---------- Rich text: extra elements from the full editor ---------- */
+.rich-text h2{font-family:var(--font-display);font-size:1.5em;line-height:1.2;letter-spacing:-.015em;margin:1.4em 0 .5em;font-weight:700;}
+.rich-text h2:first-child{margin-top:0;}
+.rich-text blockquote{margin:1.4em 0;padding:.2em 0 .2em 1.1em;border-left:3px solid var(--accent-2);font-style:italic;color:var(--ink);}
+.rich-text blockquote p{margin:0;}
+.rich-text code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;background:rgba(18,20,26,.07);padding:.12em .38em;border-radius:6px;}
+.rich-text mark{background:linear-gradient(transparent 12%,#bfe0ff 12%,#bfe0ff 88%,transparent 88%);color:inherit;padding:0 .15em;}
+.rich-text s{text-decoration-thickness:1.5px;}
+.rich-text ul ul, .rich-text ol ol, .rich-text ul ol, .rich-text ol ul{margin:.4em 0 .2em 1.2em;}
+.rich-text .rt-figure{margin:1.6em 0;}
+.rich-text .rt-figure img{width:100%;height:auto;border-radius:var(--radius-sm);display:block;}
+.rich-text .rt-figure figcaption{margin-top:.6em;font-size:.82em;color:var(--ink-soft);}
+.about-bio{max-width:62ch;}
+.about-bio + .btn{margin-top:24px;}

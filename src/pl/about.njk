@@ -2,7 +2,7 @@
 layout: base.pl.njk
 eleventyComputed:
   title: "O mnie — {{ sitePl.name }}"
-  description: "{{ sitePl.aboutSeoDescription or sitePl.aboutBioLong }}"
+  description: "{{ sitePl.aboutSeoDescription or (sitePl.aboutBio | richTextPlain) or sitePl.aboutBioLong }}"
 ---
 {% import "icons.njk" as icons %}
 {% set ctaHref = sitePl.aboutCtaButtonLink | absoluteUrl if (sitePl.aboutCtaButtonLink and not (sitePl.aboutCtaButtonLink | first == "/")) else (sitePl.aboutCtaButtonLink or "/pl/contact/") %}
@@ -32,7 +32,7 @@ eleventyComputed:
     </div>
     <div>
       <div class="kicker">{% if sitePl.aboutBioKicker %}{{ sitePl.aboutBioKicker }}{% else %}{{ sitePl.name }} · {{ sitePl.role }}{% endif %}</div>
-      <p class="lede reveal">{{ sitePl.aboutBioLong }}</p>
+      {% if sitePl.aboutBio and sitePl.aboutBio.length %}<div class="lede about-bio rich-text reveal">{{ sitePl.aboutBio | portableText | safe }}</div>{% else %}<p class="lede reveal">{{ sitePl.aboutBioLong }}</p>{% endif %}
       <a href="/pl/contact/" class="btn solid reveal"><span class="btn-label">{{ sitePl.aboutContactLabel or "Napisz do mnie" }}</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     </div>
   </div>

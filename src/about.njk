@@ -2,7 +2,7 @@
 layout: base.njk
 eleventyComputed:
   title: "About — {{ site.name }}"
-  description: "{{ site.aboutSeoDescription or site.aboutBioLong }}"
+  description: "{{ site.aboutSeoDescription or (site.aboutBio | richTextPlain) or site.aboutBioLong }}"
 ---
 {% import "icons.njk" as icons %}
 {% set ctaHref = site.aboutCtaButtonLink | absoluteUrl if (site.aboutCtaButtonLink and not (site.aboutCtaButtonLink | first == "/")) else (site.aboutCtaButtonLink or "/contact/") %}
@@ -32,7 +32,7 @@ eleventyComputed:
     </div>
     <div>
       <div class="kicker">{% if site.aboutBioKicker %}{{ site.aboutBioKicker }}{% else %}{{ site.name }} · {{ site.role }}{% endif %}</div>
-      <p class="lede reveal">{{ site.aboutBioLong }}</p>
+      {% if site.aboutBio and site.aboutBio.length %}<div class="lede about-bio rich-text reveal">{{ site.aboutBio | portableText | safe }}</div>{% else %}<p class="lede reveal">{{ site.aboutBioLong }}</p>{% endif %}
       <a href="/contact/" class="btn solid reveal"><span class="btn-label">{{ site.aboutContactLabel or "Contact me" }}</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
     </div>
   </div>

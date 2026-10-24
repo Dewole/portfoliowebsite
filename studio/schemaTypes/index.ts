@@ -1,6 +1,7 @@
 import localeString from "./objects/localeString";
 import localeText from "./objects/localeText";
 import localeRichText from "./objects/localeRichText";
+import localeRichTextFull from "./objects/localeRichTextFull";
 import attachment from "./objects/attachment";
 import pageSection from "./objects/pageSection";
 
@@ -18,6 +19,7 @@ export const schemaTypes = [
   localeString,
   localeText,
   localeRichText,
+  localeRichTextFull,
   attachment,
   pageSection,
   // documents
