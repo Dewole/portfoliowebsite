@@ -1351,3 +1351,34 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
 .rich-text .rt-figure figcaption{margin-top:.6em;font-size:.82em;color:var(--ink-soft);}
 .about-bio{max-width:62ch;}
 .about-bio + .btn{margin-top:24px;}
+
+/* ---------- How I work: duotone icons (256-unit artwork) ---------- */
+.how-icon svg > *{transform-box:fill-box;transform-origin:center;}
+/* back (light) layer drifts out, front layer pops — tuned for the 256 grid */
+.how-card:hover .how-icon svg > *:nth-child(1){transform:translate(-14px,-14px) scale(1.06);}
+.how-card:hover .how-icon svg > *:nth-child(2){transform:translate(6px,6px) scale(1.04);}
+@media (prefers-reduced-motion:no-preference){
+  .how-card.in .how-icon{animation:howIconIn .9s cubic-bezier(.34,1.56,.64,1) backwards;}
+  .how-card.in:nth-child(2) .how-icon{animation-delay:.12s;}
+  .how-card.in:nth-child(3) .how-icon{animation-delay:.24s;}
+}
+@keyframes howIconIn{0%{transform:scale(.4) rotate(-25deg);opacity:0;}100%{transform:none;opacity:1;}}
+
+/* ---------- Skills & tools: icon micro-animations ---------- */
+.skill-icon img{transition:transform .5s cubic-bezier(.34,1.56,.64,1),filter .3s ease;}
+@media (hover:hover){
+  .skill-chip:hover .skill-icon img{transform:rotate(-12deg) scale(1.22);filter:drop-shadow(0 4px 6px rgba(31,85,224,.25));}
+  .skill-chip:hover{background:#fff;box-shadow:0 10px 24px -14px rgba(10,12,18,.35);}
+}
+.skill-chip{transition:border-color .2s ease,transform .35s cubic-bezier(.34,1.56,.64,1),background .25s ease,box-shadow .3s ease;}
+@media (prefers-reduced-motion:no-preference){
+  /* icon pops in just after its pill lands */
+  .skills-grid.dropping .skill-icon img{animation:skillIconPop .7s cubic-bezier(.34,1.56,.64,1) calc(var(--d,0ms) + 560ms) backwards;}
+  /* a gentle idle bob, staggered, once everything has landed */
+  .skills-grid.dropped .skill-chip:nth-child(3n+1) .skill-icon img{animation:skillIdle 4.8s ease-in-out 0s infinite;}
+  .skills-grid.dropped .skill-chip:nth-child(3n+2) .skill-icon img{animation:skillIdle 5.4s ease-in-out .8s infinite;}
+  .skills-grid.dropped .skill-chip:nth-child(3n) .skill-icon img{animation:skillIdle 6s ease-in-out 1.6s infinite;}
+  .skills-grid.dropped .skill-chip:hover .skill-icon img{animation:none;}
+}
+@keyframes skillIconPop{0%{transform:scale(0) rotate(-40deg);}100%{transform:none;}}
+@keyframes skillIdle{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-2px) rotate(-6deg);}}

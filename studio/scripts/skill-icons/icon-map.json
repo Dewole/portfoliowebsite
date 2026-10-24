@@ -1,0 +1,588 @@
+[
+ {
+  "match": [
+   "figma"
+  ],
+  "file": "figma.svg"
+ },
+ {
+  "match": [
+   "webflow"
+  ],
+  "file": "webflow.svg"
+ },
+ {
+  "match": [
+   "framer"
+  ],
+  "file": "framer.svg"
+ },
+ {
+  "match": [
+   "notion"
+  ],
+  "file": "notion.svg"
+ },
+ {
+  "match": [
+   "miro"
+  ],
+  "file": "miro.svg"
+ },
+ {
+  "match": [
+   "sanity"
+  ],
+  "file": "sanity.svg"
+ },
+ {
+  "match": [
+   "blender"
+  ],
+  "file": "blender.svg"
+ },
+ {
+  "match": [
+   "sketch"
+  ],
+  "file": "sketch.svg"
+ },
+ {
+  "match": [
+   "lottie"
+  ],
+  "file": "lottiefiles.svg"
+ },
+ {
+  "match": [
+   "rive"
+  ],
+  "file": "rive.svg"
+ },
+ {
+  "match": [
+   "jira"
+  ],
+  "file": "jira.svg"
+ },
+ {
+  "match": [
+   "eleventy",
+   "11ty"
+  ],
+  "file": "eleventy.svg"
+ },
+ {
+  "match": [
+   "claude"
+  ],
+  "file": "claude.svg"
+ },
+ {
+  "match": [
+   "github"
+  ],
+  "file": "github.svg"
+ },
+ {
+  "match": [
+   "vercel"
+  ],
+  "file": "vercel.svg"
+ },
+ {
+  "match": [
+   "tailwind"
+  ],
+  "file": "tailwindcss.svg"
+ },
+ {
+  "match": [
+   "wordpress"
+  ],
+  "file": "wordpress.svg"
+ },
+ {
+  "match": [
+   "shopify"
+  ],
+  "file": "shopify.svg"
+ },
+ {
+  "match": [
+   "dribbble"
+  ],
+  "file": "dribbble.svg"
+ },
+ {
+  "match": [
+   "behance"
+  ],
+  "file": "behance.svg"
+ },
+ {
+  "match": [
+   "next.js",
+   "nextjs"
+  ],
+  "file": "nextdotjs.svg"
+ },
+ {
+  "match": [
+   "vue"
+  ],
+  "file": "vuedotjs.svg"
+ },
+ {
+  "match": [
+   "svelte"
+  ],
+  "file": "svelte.svg"
+ },
+ {
+  "match": [
+   "trello"
+  ],
+  "file": "trello.svg"
+ },
+ {
+  "match": [
+   "asana"
+  ],
+  "file": "asana.svg"
+ },
+ {
+  "match": [
+   "linear"
+  ],
+  "file": "linear.svg"
+ },
+ {
+  "match": [
+   "maze"
+  ],
+  "file": "maze.svg"
+ },
+ {
+  "match": [
+   "hotjar"
+  ],
+  "file": "hotjar.svg"
+ },
+ {
+  "match": [
+   "google analytics"
+  ],
+  "file": "googleanalytics.svg"
+ },
+ {
+  "match": [
+   "python"
+  ],
+  "file": "python.svg"
+ },
+ {
+  "match": [
+   "node"
+  ],
+  "file": "nodedotjs.svg"
+ },
+ {
+  "match": [
+   "davinci"
+  ],
+  "file": "davinciresolve.svg"
+ },
+ {
+  "match": [
+   "cinema 4d",
+   "c4d"
+  ],
+  "file": "cinema4d.svg"
+ },
+ {
+  "match": [
+   "typescript"
+  ],
+  "file": "typescript.svg"
+ },
+ {
+  "match": [
+   "react"
+  ],
+  "file": "react.svg"
+ },
+ {
+  "match": [
+   "javascript",
+   " js"
+  ],
+  "file": "javascript.svg"
+ },
+ {
+  "match": [
+   "html"
+  ],
+  "file": "html5.svg"
+ },
+ {
+  "match": [
+   "illustrator"
+  ],
+  "file": "pen-nib.svg"
+ },
+ {
+  "match": [
+   "photoshop"
+  ],
+  "file": "image.svg"
+ },
+ {
+  "match": [
+   "after effects"
+  ],
+  "file": "film-slate.svg"
+ },
+ {
+  "match": [
+   "premiere"
+  ],
+  "file": "film-strip.svg"
+ },
+ {
+  "match": [
+   "indesign"
+  ],
+  "file": "book-open.svg"
+ },
+ {
+  "match": [
+   "adobe xd",
+   " xd"
+  ],
+  "file": "frame-corners.svg"
+ },
+ {
+  "match": [
+   "affinity"
+  ],
+  "file": "bezier-curve.svg"
+ },
+ {
+  "match": [
+   "creative cloud",
+   "adobe"
+  ],
+  "file": "palette.svg"
+ },
+ {
+  "match": [
+   "css"
+  ],
+  "file": "brackets-curly.svg"
+ },
+ {
+  "match": [
+   "spline",
+   "3d"
+  ],
+  "file": "cube.svg"
+ },
+ {
+  "match": [
+   "protopie",
+   "invision"
+  ],
+  "file": "cursor-click.svg"
+ },
+ {
+  "match": [
+   "canva"
+  ],
+  "file": "palette.svg"
+ },
+ {
+  "match": [
+   "vs code",
+   "visual studio",
+   "zeplin"
+  ],
+  "file": "code.svg"
+ },
+ {
+  "match": [
+   "slack"
+  ],
+  "file": "chats-circle.svg"
+ },
+ {
+  "match": [
+   "midjourney",
+   "chatgpt",
+   "openai",
+   "ai "
+  ],
+  "file": "sparkle.svg"
+ },
+ {
+  "match": [
+   "design system"
+  ],
+  "file": "stack.svg"
+ },
+ {
+  "match": [
+   "brand",
+   "identity"
+  ],
+  "file": "crown.svg"
+ },
+ {
+  "match": [
+   "logo"
+  ],
+  "file": "seal.svg"
+ },
+ {
+  "match": [
+   "strategy"
+  ],
+  "file": "strategy.svg"
+ },
+ {
+  "match": [
+   "user research",
+   "ux research",
+   "research",
+   "interview"
+  ],
+  "file": "binoculars.svg"
+ },
+ {
+  "match": [
+   "usability",
+   "user testing",
+   "testing"
+  ],
+  "file": "eye.svg"
+ },
+ {
+  "match": [
+   "prototyp"
+  ],
+  "file": "cursor-click.svg"
+ },
+ {
+  "match": [
+   "wirefram"
+  ],
+  "file": "layout.svg"
+ },
+ {
+  "match": [
+   "motion",
+   "animation"
+  ],
+  "file": "play-circle.svg"
+ },
+ {
+  "match": [
+   "typograph"
+  ],
+  "file": "text-aa.svg"
+ },
+ {
+  "match": [
+   "illustration",
+   "drawing"
+  ],
+  "file": "paint-brush.svg"
+ },
+ {
+  "match": [
+   "icon"
+  ],
+  "file": "shapes.svg"
+ },
+ {
+  "match": [
+   "colour",
+   "color"
+  ],
+  "file": "swatches.svg"
+ },
+ {
+  "match": [
+   "web design",
+   "website",
+   "web"
+  ],
+  "file": "browser.svg"
+ },
+ {
+  "match": [
+   "mobile",
+   "app design"
+  ],
+  "file": "device-mobile.svg"
+ },
+ {
+  "match": [
+   "front-end",
+   "frontend",
+   "front end",
+   "development",
+   "coding",
+   "code"
+  ],
+  "file": "code.svg"
+ },
+ {
+  "match": [
+   "accessibility",
+   "a11y",
+   "wcag"
+  ],
+  "file": "wheelchair.svg"
+ },
+ {
+  "match": [
+   "workshop",
+   "facilitat",
+   "teaching",
+   "mentor"
+  ],
+  "file": "chalkboard-teacher.svg"
+ },
+ {
+  "match": [
+   "presentation",
+   "pitch"
+  ],
+  "file": "presentation-chart.svg"
+ },
+ {
+  "match": [
+   "information architecture"
+  ],
+  "file": "tree-structure.svg"
+ },
+ {
+  "match": [
+   "user flow",
+   "journey",
+   "flow"
+  ],
+  "file": "path.svg"
+ },
+ {
+  "match": [
+   "ui design",
+   "ui/ux",
+   "ux/ui",
+   "interface",
+   " ui"
+  ],
+  "file": "app-window.svg"
+ },
+ {
+  "match": [
+   "ux"
+  ],
+  "file": "flow-arrow.svg"
+ },
+ {
+  "match": [
+   "product design",
+   "product"
+  ],
+  "file": "squares-four.svg"
+ },
+ {
+  "match": [
+   "photo"
+  ],
+  "file": "camera.svg"
+ },
+ {
+  "match": [
+   "video"
+  ],
+  "file": "video-camera.svg"
+ },
+ {
+  "match": [
+   "art direction"
+  ],
+  "file": "aperture.svg"
+ },
+ {
+  "match": [
+   "copy",
+   "content",
+   "writing"
+  ],
+  "file": "note-pencil.svg"
+ },
+ {
+  "match": [
+   "analytics",
+   "data"
+  ],
+  "file": "chart-line-up.svg"
+ },
+ {
+  "match": [
+   "seo"
+  ],
+  "file": "magnifying-glass.svg"
+ },
+ {
+  "match": [
+   "collaborat",
+   "stakeholder"
+  ],
+  "file": "handshake.svg"
+ },
+ {
+  "match": [
+   "agile",
+   "scrum"
+  ],
+  "file": "kanban.svg"
+ },
+ {
+  "match": [
+   "design thinking",
+   "ideation",
+   "creative"
+  ],
+  "file": "lightbulb.svg"
+ },
+ {
+  "match": [
+   "packaging"
+  ],
+  "file": "cube.svg"
+ },
+ {
+  "match": [
+   "print",
+   "editorial"
+  ],
+  "file": "newspaper.svg"
+ },
+ {
+  "match": [
+   "social media",
+   "marketing"
+  ],
+  "file": "megaphone.svg"
+ },
+ {
+  "match": [
+   "ai"
+  ],
+  "file": "sparkle.svg"
+ }
+]
