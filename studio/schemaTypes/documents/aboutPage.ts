@@ -27,13 +27,23 @@ export default defineType({
     defineField({
       name: "aboutPhotos",
       title: "Photo stack",
-      description: "Add several photos and they're shown as a stack of prints placed on top of each other at slight angles, next to your bio. Visitors can click/tap the stack to shuffle to the next photo. Drag to reorder — the first photo is on top. Leave empty to show the profile photo instead. Recommended: portrait, about 900×1100px.",
+      description: "Add several photos and they're shown as a stack of prints placed on top of each other at slight angles, next to your bio. Visitors can click/tap the stack to shuffle to the next photo. Drag to reorder — the first photo is on top. Leave empty to show the profile photo instead. Every print is a 4:5 portrait on all screen sizes. Click a photo, then use Crop (to choose the area) and the hotspot dot (what must stay in view) — the previews show exactly how it appears on desktop, tablet and phone. Recommended: portrait, at least 900×1125px.",
       type: "array",
       group: "aboutBio",
       of: [
         defineArrayMember({
           type: "image",
-          options: { hotspot: true },
+          options: {
+            hotspot: {
+              // The print is the same 4:5 shape everywhere (see .photo-stack
+              // in style.css), so what you see here is what visitors get.
+              previews: [
+                { title: "Desktop & laptop — print (4:5)", aspectRatio: 4 / 5 },
+                { title: "Tablet — print (4:5)", aspectRatio: 4 / 5 },
+                { title: "Phone — print (4:5)", aspectRatio: 4 / 5 },
+              ],
+            },
+          },
           fields: [
             defineField({ name: "alt", title: "Description (for screen readers)", type: "string" }),
           ],

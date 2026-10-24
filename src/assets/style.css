@@ -1219,16 +1219,18 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
 @media (max-width:900px){ .stats-card .stats-grid{grid-template-columns:1fr;} .stats-card{border-radius:24px;} }
 
 /* ---------- About: photo stack ---------- */
-.photo-stack{position:relative;height:500px;margin-top:26px;cursor:pointer;-webkit-user-select:none;user-select:none;}
+.photo-stack{position:relative;height:500px;margin-top:26px;cursor:pointer;-webkit-user-select:none;user-select:none;--pw:340px;}
+/* Each print is a fixed width with a 4:5 photo, the same shape on every
+   screen size — so the crop/hotspot previews in the CMS match the site. */
 .photo-stack-item{
-  position:absolute;inset:18px 34px;margin:0;
+  position:absolute;top:18px;left:50%;width:var(--pw);margin:0 0 0 calc(var(--pw) / -2);
   padding:10px 10px 38px;background:#fff;border-radius:14px;
   box-shadow:0 24px 50px -22px rgba(10,12,18,.45),0 2px 6px rgba(10,12,18,.08);
   transform:translate(var(--x,0),var(--y,0)) rotate(var(--r,0deg));
   transition:transform .75s var(--ease-out),opacity .5s ease,box-shadow .4s ease;
   will-change:transform;
 }
-.photo-stack-item img{width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:8px;display:block;pointer-events:none;}
+.photo-stack-item img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center top;border-radius:8px;display:block;pointer-events:none;}
 .photo-stack-item[data-pos="0"]{--r:-3deg;z-index:6;}
 .photo-stack-item[data-pos="1"]{--r:5deg;--x:14px;--y:6px;z-index:5;}
 .photo-stack-item[data-pos="2"]{--r:-9deg;--x:-16px;--y:12px;z-index:4;}
@@ -1251,8 +1253,8 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
   transition:transform .4s var(--ease-out),background .25s;
 }
 .photo-stack-next:hover{background:#1c1f28;transform:rotate(-90deg);}
-@media (max-width:900px){ .photo-stack{height:440px;} .photo-stack-item{inset:14px 26px;} }
-@media (max-width:500px){ .photo-stack{height:400px;} .photo-stack-item{inset:14px 40px;} .photo-stack-item[data-pos="3"],.photo-stack-item[data-pos="4"]{--x:0px;} }
+@media (max-width:900px){ .photo-stack{height:440px;--pw:300px;} .photo-stack-item{top:14px;} }
+@media (max-width:500px){ .photo-stack{height:400px;--pw:min(270px,calc(100vw - 110px));} .photo-stack-item{top:14px;} .photo-stack-item[data-pos="3"],.photo-stack-item[data-pos="4"]{--x:0px;} }
 
 /* ---------- Skills & tools: pills ---------- */
 .skills-grid{gap:12px;}
@@ -1408,3 +1410,5 @@ h1, h2, h3, h4, h5, h6, .big{overflow-wrap:break-word;hyphens:manual;}
    on phones the heading wraps (and balances) by itself. */
 .ed-br{display:none;}
 @media (min-width:768px){ .ed-br{display:inline;} }
+/* shuffle button sits on the top print's corner, whatever the print size */
+.photo-stack-next{right:auto;bottom:auto;left:calc(50% + var(--pw) / 2 - 28px);top:calc(18px + (var(--pw) - 20px) * 1.25 + 48px - 30px);}
