@@ -1473,3 +1473,22 @@ h1, h2, h3, h4, h5, h6, .big{overflow-wrap:break-word;hyphens:manual;}
 @media (max-width:640px){
   .filter-pills{margin:0 -20px 24px;padding:10px 20px;scroll-padding-inline:20px;}
 }
+
+/* ---------- Inline text links ("View all case studies ↗") ----------
+   One underline only: a faint resting line, and a solid line that draws
+   over it on hover (the old text-decoration underline + the draw-in line
+   showed as two stacked underlines). */
+.text-link{
+  text-decoration:none;
+  background-image:linear-gradient(currentColor,currentColor),linear-gradient(var(--line),var(--line));
+  background-size:0% 1.5px,100% 1px;
+  background-position:0 100%,0 100%;
+  background-repeat:no-repeat;
+  padding-bottom:3px;
+}
+.text-link:hover, .text-link:focus-visible{background-size:100% 1.5px,100% 1px;text-decoration:none;}
+@media (prefers-reduced-motion:no-preference){
+  .text-link{transition:background-size .4s var(--ease-out),color .25s ease;}
+}
+.on-dark .text-link{background-image:linear-gradient(currentColor,currentColor),linear-gradient(rgba(255,255,255,.25),rgba(255,255,255,.25));}
+.text-link:hover{color:var(--accent-ink);}
