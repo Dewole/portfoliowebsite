@@ -1422,3 +1422,54 @@ h1, h2, h3, h4, h5, h6, .big{overflow-wrap:break-word;hyphens:manual;}
 /* Polish words run longer: scale the heading with the column (never larger
    than the English size) so every word fits inside the card's padding. */
 :lang(pl) .cta-card h3{font-size:clamp(20px,min(2.8vw,11.2cqi),34px);}
+
+/* =====================================================================
+   FILTER PILLS (Portfolio + Products listing pages)
+   ===================================================================== */
+.filter-pills{gap:10px;align-items:center;}
+.filter-pills .pill{
+  min-height:44px;padding:0 18px;font-size:14px;line-height:1.5;white-space:nowrap;flex:0 0 auto;
+  align-self:center;
+}
+/* Active pill: paint the gradient under the (transparent) border too — with
+   the default padding-box origin the gradient repeated into the 1px border,
+   leaving a dark blue edge. Dark text keeps it readable on the light end of
+   the gradient (white text failed contrast there). */
+.filter-pills .pill.active{
+  background:var(--accent-grad) border-box;
+  color:#0a0b10;border-color:transparent;font-weight:600;
+  box-shadow:0 8px 18px -10px rgba(47,107,255,.7);
+}
+.filter-pills .pill.active:hover{color:#0a0b10;}
+.filter-pills .pill:focus-visible{outline-offset:2px;}
+.filter-status{margin:-22px 0 28px;font-size:13px;color:var(--ink-soft);min-height:1em;}
+
+/* Cards that come back after filtering fade/slide in */
+@media (prefers-reduced-motion:no-preference){
+  .filter-card.just-shown{animation:filterIn .45s var(--ease-out) both;}
+}
+@keyframes filterIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+
+/* Tablet & phone: one swipeable row instead of a tall block of wrapped
+   pills, pinned under the nav while the grid scrolls, with edge fades that
+   only appear on the side that has more pills to reveal. */
+@media (max-width:900px){
+  .filter-pills{
+    flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;scroll-padding-inline:32px;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    margin:0 -32px 28px;padding:12px 32px;
+    position:sticky;top:var(--nav-h,74px);z-index:20;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  }
+  .filter-pills::-webkit-scrollbar{display:none;}
+  .filter-pills .pill{scroll-snap-align:start;}
+  .filter-pills.fade-right{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);}
+  .filter-pills.fade-left{-webkit-mask-image:linear-gradient(90deg,transparent,#000 48px);mask-image:linear-gradient(90deg,transparent,#000 48px);}
+  .filter-pills.fade-left.fade-right{-webkit-mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,transparent,#000 48px,#000 calc(100% - 48px),transparent);}
+  .filter-status{margin:-16px 0 22px;}
+}
+@media (max-width:640px){
+  .filter-pills{margin:0 -20px 24px;padding:10px 20px;scroll-padding-inline:20px;}
+}

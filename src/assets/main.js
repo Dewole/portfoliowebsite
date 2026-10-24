@@ -66,18 +66,72 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     const grid = document.getElementById(gridId);
     if(!filters || !grid) return;
     const cards = Array.from(grid.querySelectorAll('.filter-card'));
-    filters.querySelectorAll('.pill').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        filters.querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        cards.forEach(card=>{
-          const match = filter === 'all' || card.dataset.category === filter;
-          card.classList.toggle('hide', !match);
-        });
+    const pills = Array.from(filters.querySelectorAll('.pill'));
+    const isPl = document.documentElement.lang === 'pl';
+    // Semantics: a labelled group of toggle buttons, plus a polite live
+    // region so screen-reader users hear how many items are showing.
+    filters.setAttribute('role', 'group');
+    filters.setAttribute('aria-label', isPl ? 'Filtruj według kategorii' : 'Filter by category');
+    const status = document.createElement('p');
+    status.className = 'filter-status';
+    status.setAttribute('aria-live', 'polite');
+    filters.insertAdjacentElement('afterend', status);
+    const countText = (n)=> isPl
+      ? `Wyświetlono: ${n} z ${cards.length}`
+      : `Showing ${n} of ${cards.length}`;
+
+    // Edge fades only on the side that can still scroll (tablet/phone row)
+    function updateFades(){
+      const max = filters.scrollWidth - filters.clientWidth;
+      filters.classList.toggle('fade-left', filters.scrollLeft > 4);
+      filters.classList.toggle('fade-right', max > 4 && filters.scrollLeft < max - 4);
+    }
+    filters.addEventListener('scroll', updateFades, {passive:true});
+    window.addEventListener('resize', updateFades);
+    updateFades();
+
+    function select(btn, focus){
+      pills.forEach(b=>{ const on = b === btn; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      const filter = btn.dataset.filter;
+      let shown = 0;
+      cards.forEach(card=>{
+        const match = filter === 'all' || card.dataset.category === filter;
+        const wasHidden = card.classList.contains('hide');
+        card.classList.toggle('hide', !match);
+        if(match){ shown++; if(wasHidden || focus){ card.classList.remove('just-shown'); void card.offsetWidth; card.classList.add('just-shown'); } }
       });
+      status.textContent = filter === 'all' ? '' : countText(shown);
+      // keep the chosen pill fully visible in the swipeable row
+      if(filters.scrollWidth > filters.clientWidth){
+        btn.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'nearest', inline:'center'});
+      }
+    }
+    pills.forEach(btn=>{
+      btn.setAttribute('type', 'button');
+      btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
+      btn.addEventListener('click', ()=>select(btn, true));
+    });
+    // Arrow keys move between pills (Home/End jump to the ends)
+    filters.addEventListener('keydown', (e)=>{
+      const i = pills.indexOf(document.activeElement);
+      if(i < 0) return;
+      let n = null;
+      if(e.key === 'ArrowRight') n = (i + 1) % pills.length;
+      else if(e.key === 'ArrowLeft') n = (i - 1 + pills.length) % pills.length;
+      else if(e.key === 'Home') n = 0;
+      else if(e.key === 'End') n = pills.length - 1;
+      if(n === null) return;
+      e.preventDefault();
+      pills[n].focus();
     });
   }
+  // the sticky filter row sits right under the fixed nav, whatever its height
+  (function(){
+    const nav = document.querySelector('header.nav');
+    if(!nav) return;
+    const setH = ()=>document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+    setH(); window.addEventListener('resize', setH);
+  })();
   wireFilterPills('portfolioFilters', 'portfolioGrid');
   wireFilterPills('productFilters', 'productsGrid');
 
