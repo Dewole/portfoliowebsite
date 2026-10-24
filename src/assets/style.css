@@ -1412,3 +1412,13 @@ h1, h2, h3, h4, h5, h6, .big{overflow-wrap:break-word;hyphens:manual;}
 @media (min-width:768px){ .ed-br{display:inline;} }
 /* shuffle button sits on the top print's corner, whatever the print size */
 .photo-stack-next{right:auto;bottom:auto;left:calc(50% + var(--pw) / 2 - 28px);top:calc(18px + (var(--pw) - 20px) * 1.25 + 48px - 30px);}
+
+/* ---------- Home "CTA card" (photo + copy) ----------
+   The copy column could not shrink below its longest word, so a long Polish
+   word ("doprecyzowania?") pushed the heading past the card's padding. Let
+   the column shrink, and size the heading to the column it actually has. */
+.cta-copy{flex:1 1 0;min-width:0;container-type:inline-size;}
+.cta-card h3{overflow-wrap:break-word;}
+/* Polish words run longer: scale the heading with the column (never larger
+   than the English size) so every word fits inside the card's padding. */
+:lang(pl) .cta-card h3{font-size:clamp(20px,min(2.8vw,11.2cqi),34px);}
