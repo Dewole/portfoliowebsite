@@ -5,7 +5,10 @@
 //
 // Run from inside studio/:
 //   npx sanity exec scripts/moveAboutPage.mjs --with-user-token
-import { getCliClient } from "sanity/cli";
+// sanity/cli is a CommonJS module, so it has to be imported as a default
+// export and destructured (a named ESM import fails on Node 22+).
+import sanityCli from "sanity/cli";
+const { getCliClient } = sanityCli;
 
 const client = getCliClient({ apiVersion: "2024-01-01" });
 const FIELDS = ["aboutKicker", "aboutPageHeading", "aboutPageIntro", "aboutSeoDescription", "aboutPhotos", "aboutBioKicker", "aboutBioLong", "aboutContactLabel", "showHowIWork", "howIWorkKicker", "howIWorkHeading", "howIWorkIntro", "howIWorkStep1Title", "howIWorkStep1Desc", "howIWorkStep1Icon", "howIWorkStep2Title", "howIWorkStep2Desc", "howIWorkStep2Icon", "howIWorkStep3Title", "howIWorkStep3Desc", "howIWorkStep3Icon", "showSkills", "skillsKicker", "skillsHeading", "skillsIntro", "showExperience", "experienceKicker", "experienceHeading", "experienceIntro", "showAboutCta", "aboutCtaHeading", "aboutCtaParagraph", "aboutCtaButtonLabel", "aboutCtaButtonLink"];

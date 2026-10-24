@@ -1281,22 +1281,21 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
 /* custom (CMS-uploaded) How-I-work step icons */
 .how-icon img{width:40px;height:40px;object-fit:contain;display:block;}
 
-/* ---------- Hero subtitle: "Thesignature" script ---------- */
+/* ---------- Hero subtitle: "Holimount" script ---------- */
 @font-face{
-  font-family:"Thesignature";
-  src:url("/assets/fonts/Thesignature.woff2") format("woff2"),url("/assets/fonts/Thesignature.ttf") format("truetype");
+  font-family:"Holimount";
+  src:url("/assets/fonts/Holimount.woff2") format("woff2"),url("/assets/fonts/Holimount.woff") format("woff");
   font-weight:400;font-style:normal;font-display:swap;
 }
 .hero .sub{
-  /* Polish letters with accents aren't in this font — they fall back to Instrument Serif */
-  font-family:"Thesignature","Instrument Serif",Georgia,serif;
+  font-family:"Holimount","Instrument Serif",Georgia,serif;
   font-style:normal;font-weight:400;
-  font-size:clamp(40px,7vw,92px);
-  line-height:1.25;letter-spacing:0;
+  font-size:clamp(44px,7.4vw,100px);
+  line-height:1.3;letter-spacing:0;
 }
-@media (max-width:700px){ .hero .sub{font-size:clamp(46px,13vw,64px);line-height:1.15;} }
+@media (max-width:700px){ .hero .sub{font-size:clamp(44px,12.5vw,62px);line-height:1.25;} }
 /* give the swashes room so the word masks don't clip them */
-.hero .sub .word-mask{padding:.12em .18em .28em;margin:-.12em -.18em -.28em;}
+.hero .sub .word-mask{padding:.14em .2em .4em;margin:-.14em -.2em -.4em;}
 
 /* ---------- "6+ years" card: frosted glass that reacts to the cursor ---------- */
 .stats-card .stats-figure.reveal.in{transform:perspective(900px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));}
