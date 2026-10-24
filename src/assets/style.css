@@ -1295,7 +1295,13 @@ header.nav .mid a[href^="tel:"], header.nav .mid a[href^="mailto:"]{border-botto
 }
 @media (max-width:700px){ .hero .sub{font-size:clamp(44px,12.5vw,62px);line-height:1.25;} }
 /* give the swashes room so the word masks don't clip them */
-.hero .sub .word-mask{padding:.14em .2em .4em;margin:-.14em -.2em -.4em;}
+/* Script swashes reach far outside each letter's box. Two things clipped them:
+   the reveal mask (overflow:hidden) and the gradient text fill, which only paints
+   inside the element's own box. Pad both generously (and cancel the padding with
+   negative margins so spacing is unchanged), then drop the mask once revealed. */
+.hero .sub .word-mask{padding:.45em .45em .55em;margin:-.45em -.45em -.55em;}
+.hero .sub .word-inner{padding:.45em .45em .55em;margin:-.45em -.45em -.55em;}
+.hero .sub.in .word-mask{overflow:visible;}
 
 /* ---------- "6+ years" card: frosted glass that reacts to the cursor ---------- */
 .stats-card .stats-figure.reveal.in{transform:perspective(900px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg));}
