@@ -18,11 +18,14 @@
 {% if sitePl.siteUrl and not noindex %}<meta property="og:url" content="{{ sitePl.siteUrl }}{{ page.url }}">{% endif %}
 <meta property="og:title" content="{{ (title or (sitePl.name + " — " + sitePl.role)) | safe }}">
 <meta property="og:description" content="{{ (description or sitePl.metaDescription) | safe }}">
-{% set shareImage = image or sitePl.ogImage or sitePl.profilePhoto %}
+{#- Share image: page's own image → CMS "Social share image" → the built-in
+    hero-style card (/assets/og-image.jpg, needs the site URL for an absolute link) → profile photo -#}
+{% set builtInOg = (sitePl.siteUrl + "/assets/og-image.jpg") if sitePl.siteUrl else "" %}
+{% set shareImage = image or sitePl.ogImage or builtInOg or sitePl.profilePhoto %}
 {% if shareImage %}
 <meta property="og:image" content="{{ shareImage }}">
 <meta property="og:image:alt" content="{{ (title or sitePl.name) | safe }}">
-{% if not image and sitePl.ogImage %}<meta property="og:image:width" content="1200">
+{% if not image and (sitePl.ogImage or builtInOg) %}<meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">{% endif %}
 {% endif %}
 <meta name="twitter:card" content="summary_large_image">
