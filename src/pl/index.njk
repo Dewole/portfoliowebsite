@@ -34,6 +34,8 @@ eleventyComputed:
   </div>
 </section>
 
+{% set ml = sitePl %}{% set slot = "hero" %}{% include "home-extra-sections.njk" %}
+
 <!-- ENTITY OVERVIEW -->
 {%- if sitePl.showOverview != false %}
 <section class="entity" id="s2">
@@ -62,6 +64,8 @@ eleventyComputed:
   </div>
 </section>
 {%- endif %}
+
+{% set ml = sitePl %}{% set slot = "overview" %}{% include "home-extra-sections.njk" %}
 
 <!-- ABOUT SPLIT -->
 {%- if sitePl.showAbout != false %}
@@ -98,6 +102,8 @@ eleventyComputed:
   </div>
 </section>
 {%- endif %}
+
+{% set ml = sitePl %}{% set slot = "about" %}{% include "home-extra-sections.njk" %}
 
 <!-- SERVICES -->
 {%- if sitePl.showServices != false %}
@@ -142,6 +148,8 @@ eleventyComputed:
 </section>
 {%- endif %}
 
+{% set ml = sitePl %}{% set slot = "services" %}{% include "home-extra-sections.njk" %}
+
 <!-- STATS -->
 {%- if sitePl.showStats != false %}
 <section class="stats" id="s5">
@@ -165,6 +173,8 @@ eleventyComputed:
   </div>
 </section>
 {%- endif %}
+
+{% set ml = sitePl %}{% set slot = "stats" %}{% include "home-extra-sections.njk" %}
 
 <!-- PORTFOLIO -->
 {%- if sitePl.showPortfolio != false %}
@@ -201,6 +211,8 @@ eleventyComputed:
 </section>
 {%- endif %}
 
+{% set ml = sitePl %}{% set slot = "portfolio" %}{% include "home-extra-sections.njk" %}
+
 <!-- PRODUCTS -->
 {%- if sitePl.showProducts != false %}
 <section class="products" id="products">
@@ -227,6 +239,8 @@ eleventyComputed:
   </div>
 </section>
 {%- endif %}
+
+{% set ml = sitePl %}{% set slot = "products" %}{% include "home-extra-sections.njk" %}
 
 <!-- PHOTOGRAPHY -->
 {%- if sitePl.showPhotography != false %}
@@ -260,6 +274,8 @@ eleventyComputed:
 </section>
 {%- endif %}
 
+{% set ml = sitePl %}{% set slot = "photography" %}{% include "home-extra-sections.njk" %}
+
 <!-- TESTIMONIALS -->
 {%- if sitePl.showTestimonials != false %}
 <section class="testi" id="s7">
@@ -289,6 +305,8 @@ eleventyComputed:
 </section>
 {%- endif %}
 
+{% set ml = sitePl %}{% set slot = "testimonials" %}{% include "home-extra-sections.njk" %}
+
 <!-- BIG QUOTE CTA -->
 {%- if sitePl.showBigQuote != false %}
 <section class="bigquote on-dark">
@@ -310,6 +328,8 @@ eleventyComputed:
 </section>
 {%- endif %}
 
+{% set ml = sitePl %}{% set slot = "bigQuote" %}{% include "home-extra-sections.njk" %}
+
 <!-- FINAL CTA -->
 {%- if sitePl.showFinalCta != false %}
 <section class="final-cta" id="contact">
@@ -320,3 +340,4 @@ eleventyComputed:
   </div>
 </section>
 {%- endif %}
+{% set ml = sitePl %}{% set slot = "finalCta" %}{% include "home-extra-sections.njk" %}

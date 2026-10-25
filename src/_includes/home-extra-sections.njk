@@ -1,0 +1,47 @@
+{%- import "icons.njk" as icons -%}
+{#- Renders the CMS "Extra homepage sections" that belong in this spot.
+    Set `ml` (site / sitePl) and `slot` before including. -#}
+{%- for s in ml.homeSections or [] %}{% if s.placeAfter == slot %}
+{%- set bg = s | sectionBg %}
+{%- set layout = s.layout or 'full' %}
+{%- set hasText = s.kicker or s.title or (s.description and s.description.length) or s.buttonLabel %}
+<section class="home-x home-x-{{ layout }}{% if s | sectionIsDark %} on-dark{% endif %}{% if bg %} home-x-has-bg{% endif %}" id="x-{{ s._key }}"{% if bg %} style="{{ bg }}"{% endif %}>
+  <div class="wrap">
+    <div class="cs-section cs-section-{{ 'full' if layout == 'centered' else layout }}">
+      {%- if hasText %}
+      <div class="cs-section-text home-x-text">
+        {% if s.kicker %}<div class="kicker">{{ s.kicker }}</div>{% endif %}
+        {% if s.title %}<h2 class="big split-title">{{ s.title }}</h2>{% endif %}
+        {% if s.description and s.description.length %}<div class="lede rich-text reveal">{{ s.description | portableText | safe }}</div>{% endif %}
+        {% if s.buttonLabel and s.buttonLink %}
+        {%- set ext = not (s.buttonLink | first == "/" or s.buttonLink | first == "#") %}
+        <a href="{{ s.buttonLink | absoluteUrl if ext else s.buttonLink }}" class="btn solid reveal"{% if ext %} target="_blank" rel="noopener noreferrer"{% endif %}><span class="btn-label">{{ s.buttonLabel }}</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
+        {% endif %}
+      </div>
+      {%- endif %}
+      {%- if s.media and s.media.length %}
+      <div class="cs-section-media cs-media-grid">
+        {%- for m in s.media %}
+        <div class="cs-grid-item">
+          {% if m.mimeType == 'video/mp4' %}
+          <div class="cs-media-video-wrap" data-lightbox-src="{{ m.src }}" data-lightbox-type="video" data-lightbox-alt="{{ m.caption or s.title or ml.name }}">
+            <video class="cs-media-video" muted loop playsinline preload="metadata" src="{{ m.src }}"></video>
+            <span class="cs-media-expand" aria-hidden="true">⤢</span>
+          </div>
+          {% elif m.mimeType == 'application/json' %}
+          <div class="cs-media-lottie-wrap" data-lightbox-src="{{ m.src }}" data-lightbox-type="lottie" data-lightbox-alt="{{ m.caption or s.title or ml.name }}">
+            <div class="cs-media-lottie" data-lottie-inline{% if m.jsonWidth and m.jsonHeight %} style="aspect-ratio:{{ m.jsonWidth }}/{{ m.jsonHeight }}"{% endif %}>{% if m.jsonDataSafe %}<script type="application/json">{{ m.jsonDataSafe | safe }}</script>{% endif %}</div>
+            <span class="cs-media-expand" aria-hidden="true">⤢</span>
+          </div>
+          {% else %}
+          <button type="button" class="cs-media-img" data-lightbox-src="{{ m.src }}" data-lightbox-alt="{{ m.alt or m.caption or s.title or ml.name }}"><img src="{{ m.src }}?w=1600&auto=format&q=82" alt="{{ m.alt or '' }}" loading="lazy"></button>
+          {% endif %}
+          {% if m.caption %}<p class="cs-media-caption">{{ m.caption }}</p>{% endif %}
+        </div>
+        {%- endfor %}
+      </div>
+      {%- endif %}
+    </div>
+  </div>
+</section>
+{%- endif %}{% endfor %}

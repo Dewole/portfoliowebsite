@@ -1590,3 +1590,24 @@ header.nav select option{background-color:#fff;color:#12141a;}
    section gap that scales with the screen. */
 .stats:has(+ .portfolio){padding-bottom:0;}
 .stats + .portfolio{padding-top:clamp(64px,8vw,112px);}
+
+/* =====================================================================
+   EXTRA HOMEPAGE SECTIONS (Home page → ➕ Extra sections in the CMS)
+   Reuse the case-study section layouts; add section spacing + backgrounds.
+   ===================================================================== */
+.home-x{padding:clamp(64px,8vw,112px) 0;}
+.home-x .cs-section{margin:0;}
+.home-x-text .kicker{margin-bottom:14px;}
+.home-x-text h2.big{margin:0 0 18px;}
+.home-x-text .lede{max-width:62ch;}
+.home-x-text .btn{margin-top:26px;}
+.home-x .cs-section-text + .cs-section-media{margin-top:40px;}
+.home-x-centered .home-x-text{text-align:center;margin-inline:auto;max-width:760px;}
+.home-x-centered .home-x-text .lede{margin-inline:auto;}
+.home-x.on-dark .lede, .home-x.on-dark .rich-text{color:#c2c7cf;}
+.home-x.on-dark .kicker{color:#9fc4ff;}
+.home-x.on-dark .btn.solid{color:#0a0b10;}
+.home-x-has-bg + .home-x-has-bg{margin-top:0;}
+.home-x-centered .home-x-text .kicker{justify-content:center;text-align:center;}
+.home-x .cs-media-grid:has(> .cs-grid-item:only-child){column-count:1;}
+.home-x .cs-media-grid:has(> .cs-grid-item:only-child) .cs-grid-item{width:100%;}

@@ -38,6 +38,10 @@ module.exports = function (eleventyConfig) {
     return `background:${hex};color:${light ? "#111" : "#fff"};`;
   });
 
+  // true when a section's chosen background is dark (so it can get the
+  // site's on-dark styles: light kicker, focus ring, etc.)
+  eleventyConfig.addFilter("sectionIsDark", (section) => /color:#fff/.test(eleventyConfig.getFilter("sectionBg")(section)));
+
   // "+48 660 853 823" -> "tel:+48660853823" so tapping a phone number opens the dialer.
   eleventyConfig.addFilter("telHref", (phone) => {
     const cleaned = String(phone || "").replace(/[^\d+]/g, "");

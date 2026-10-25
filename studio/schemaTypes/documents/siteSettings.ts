@@ -26,6 +26,7 @@ export default defineType({
     { name: "testimonials", title: "Testimonials section" },
     { name: "bigQuote", title: "Big quote banner" },
     { name: "finalCta", title: "Final CTA banner" },
+    { name: "extraSections", title: "➕ Extra sections" },
     { name: "contactPage", title: "Contact page" },
     { name: "footer", title: "Footer" },
   ],
@@ -303,6 +304,16 @@ export default defineType({
       description: "Where the contact form sends its submissions. Sign up free at formspree.io, create a form pointed at your email, and paste the endpoint it gives you here (looks like https://formspree.io/f/xxxxxxxx). Leave empty and the form will still display, but submissions won't go anywhere until this is set.",
       type: "url",
       group: "contactPage",
+    }),
+
+    // Extra sections — your own sections, placed anywhere on the homepage
+    defineField({
+      name: "homeSections",
+      title: "Extra homepage sections",
+      description: "Add your own sections to the homepage. For each one, pick where it goes (\"Place after\"), then add a heading, text, images/videos and an optional button. Drag to reorder sections that share the same spot.",
+      type: "array",
+      of: [{ type: "homeSection" }],
+      group: "extraSections",
     }),
 
     // Footer
