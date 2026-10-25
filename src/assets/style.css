@@ -1611,3 +1611,71 @@ header.nav select option{background-color:#fff;color:#12141a;}
 .home-x-centered .home-x-text .kicker{justify-content:center;text-align:center;}
 .home-x .cs-media-grid:has(> .cs-grid-item:only-child){column-count:1;}
 .home-x .cs-media-grid:has(> .cs-grid-item:only-child) .cs-grid-item{width:100%;}
+
+/* =====================================================================
+   SPACING SYSTEM — Gestalt proximity
+   Things that belong together sit close; separate groups sit far apart.
+   Four steps, each clearly larger than the one before, so the eye reads
+   the hierarchy without borders:
+     1. label → heading ............ 14px   (one unit: the section title)
+     2. heading → intro text ....... 18px   (still the same title group)
+     3. title group → its content .. --sp-content  (grid, cards, list…)
+     4. section → section .......... --sp-section  (a new idea)
+   Neighbouring sections on the same background don't stack two paddings
+   (that doubled the gap and broke the rhythm); a change of background
+   already separates them, so each keeps its own padding there.
+   ===================================================================== */
+:root{
+  --sp-section:clamp(72px,8.5vw,128px);
+  --sp-content:clamp(32px,3.6vw,52px);
+  --sp-intro:clamp(40px,5vw,72px);
+  --sp-page-top:clamp(124px,13vw,176px);
+}
+
+/* 4 · sections */
+:is(.entity,.about,.stats,.portfolio,.products,.photography,.testi,.final-cta,
+    .how-i-work,.skills-tools,.experience,.portfolio-list,.products-list,.home-x){
+  padding-top:var(--sp-section);padding-bottom:var(--sp-section);
+}
+.services{padding:var(--sp-section) 0;}
+.bigquote{padding-top:calc(var(--sp-section) * 1.2);padding-bottom:calc(var(--sp-section) * 1.2);}
+/* same (light) background back-to-back → one gap, not two */
+:is(.entity,.about,.stats,.portfolio,.products,.photography,.testi,.final-cta,
+    .how-i-work,.skills-tools,.experience,.home-x:not(.home-x-has-bg),
+    .about-hero,.portfolio-hero,.products-hero,.contact-hero)
+  + :is(.entity,.about,.stats,.portfolio,.products,.photography,.testi,.final-cta,
+        .how-i-work,.skills-tools,.experience,.portfolio-list,.products-list,.home-x:not(.home-x-has-bg)){
+  padding-top:0;
+}
+.stats:has(+ .portfolio){padding-bottom:var(--sp-section);}
+.stats + .portfolio{padding-top:0;}
+
+/* page intros (About / Portfolio / Products / Contact) — the intro is the
+   title for what follows, so it sits a step closer than a new section */
+:is(.about-hero,.portfolio-hero,.products-hero){padding-top:var(--sp-page-top);padding-bottom:var(--sp-intro);}
+.contact-hero{padding-top:var(--sp-page-top);padding-bottom:var(--sp-section);}
+
+/* 1–2 · title group */
+.kicker{margin-bottom:14px;}
+:is(h1,h2).big{margin-bottom:18px;}
+:is(h1,h2).big + .lede, .portfolio-hero .lede, .products-hero .lede, .about-hero .lede{margin-top:0;}
+section .lede{margin-bottom:0;}
+
+/* 3 · title group → content (consistent everywhere) */
+.services-head{margin-bottom:var(--sp-content);}
+:is(.entity-grid,.how-grid,.skills-grid,.exp-list,.prod-grid,.home-x .cs-section-media){margin-top:var(--sp-content);}
+.home-x .cs-section-text + .cs-section-media{margin-top:var(--sp-content);}
+.case-marquee,.photo-marquee{margin-top:calc(var(--sp-content) - 28px);}
+.testi-grid{gap:clamp(36px,5vw,64px);}
+.about-grid,.contact-grid{gap:clamp(36px,5vw,64px);}
+.portfolio-list .filter-pills,.products-list .filter-pills{margin-bottom:var(--sp-content);}
+
+/* inside cards: content hugs its card, cards keep breathing room between them */
+:is(.services-grid,.how-grid,.prod-grid){gap:clamp(16px,1.8vw,24px);}
+
+/* case study / product pages */
+.cs-details{padding:var(--sp-section) 0;}
+.cs-body{padding:var(--sp-section) 0;}
+.final-cta .lede{margin:0 auto 28px;}
+
+footer{padding-top:clamp(56px,6vw,80px);}
