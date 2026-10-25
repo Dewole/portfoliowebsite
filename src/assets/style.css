@@ -1561,3 +1561,25 @@ header.nav select option{color:#12141a;}
 }
 /* content anchors land below the floating bar */
 html{scroll-padding-top:104px;}
+
+/* ---------- "What I do" cards ----------
+   The number sat in the bottom-right corner on top of long (Polish)
+   descriptions, and titles started at different heights from card to card.
+   Now: number top-right on the icon row, titles start on one line across
+   each row, and every card has the same inner padding. */
+.service-card{justify-content:flex-start;gap:0;padding:28px 28px 30px;}
+.service-card > div:not(.service-icon){margin-top:44px;}
+.service-card h3{margin:0 0 10px;}
+.service-card .num{top:30px;right:28px;bottom:auto;letter-spacing:.06em;}
+@media (max-width:600px){
+  .service-card{padding:24px 22px 26px;min-height:0;}
+  .service-card > div:not(.service-icon){margin-top:28px;}
+  .service-card .num{top:26px;right:22px;}
+}
+
+/* ---------- Language switch: readable options on Windows ----------
+   Windows draws the native dropdown list with the page's text colour; the
+   white nav text made "Polski" white-on-white until hovered. */
+header.nav select{color-scheme:dark;}
+header.nav.nav-light select{color-scheme:light;}
+header.nav select option{background-color:#fff;color:#12141a;}
