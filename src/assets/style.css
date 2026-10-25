@@ -1706,3 +1706,22 @@ footer{padding-top:clamp(56px,6vw,80px);}
 @media (max-width:980px){ .related-grid{grid-template-columns:1fr 1fr;} }
 @media (max-width:600px){ .related-grid{grid-template-columns:1fr;} }
 .related-grid{margin-top:0;}
+
+/* ---------- Title → intro spacing fixes ----------
+   "What I do": the heading sat ~60px above its intro because the flex gap
+   (24px) stacked on top of the heading's own margin once the header wrapped
+   into a column. Now heading → intro is the same 18px as everywhere else.
+   CTA card: the copy column used space-between, so the gaps between label,
+   heading, text and buttons changed with the card's height. Heading + text
+   are now one tight group; the buttons sit a clear step below. */
+.services-head{gap:0 40px;}
+.services-head h2.big{margin-bottom:18px;}
+.services-head > p, .services-head .lede{margin:0;}
+@media (min-width:641px){ .services-head > div + *{margin-top:0;} }
+
+.cta-copy{justify-content:flex-start;gap:0;}
+.cta-copy .pill{margin-bottom:18px;}
+.cta-card h3{margin:0 0 12px;}
+.cta-card h3 + p{margin:0;}
+.cta-copy-btns{margin-top:28px;}
+@media (min-width:641px){ .cta-copy-btns{margin-top:auto;padding-top:28px;} }
