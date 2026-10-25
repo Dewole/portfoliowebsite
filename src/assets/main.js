@@ -469,16 +469,36 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       else if(container.scrollLeft < 0) container.scrollLeft += setWidth;
     }
 
-    (function marqueeLoop(){
-      if(autoScroll && !dragging){
-        container.scrollLeft += speed;
-        wrapScroll();
+    // Track the position as a float and write a rounded value: phones
+    // (iOS Safari especially) ignore fractional scrollLeft changes, so
+    // "+= 0.6" every frame never actually moved the strip on mobile.
+    let pos = container.scrollLeft;
+    let touching = false;
+    let resumeTimer = null;
+    let last = performance.now();
+    (function marqueeLoop(now){
+      const dt = Math.min(64, (now || performance.now()) - last); // steady speed at any refresh rate
+      last = now || performance.now();
+      if(autoScroll && !dragging && !touching && setWidth > 0){
+        // if the visitor scrolled it themselves, carry on from there
+        if(Math.abs(container.scrollLeft - Math.round(pos)) > 2) pos = container.scrollLeft;
+        pos += speed * (dt / 12);   // ≈ 40–50px a second, the same on 60Hz phones and 120Hz screens
+        if(pos >= setWidth) pos -= setWidth;
+        container.scrollLeft = Math.round(pos);
       }
       requestAnimationFrame(marqueeLoop);
     })();
 
-    container.addEventListener('mouseenter', ()=>{ autoScroll = false; });
-    container.addEventListener('mouseleave', ()=>{ autoScroll = !userPaused; });
+    // Mouse: pause while hovering. (Touch devices fire a fake mouseenter on
+    // tap with no mouseleave, which used to stop the strip for good — so
+    // only real mouse pointers count here.)
+    container.addEventListener('pointerenter', (e)=>{ if(e.pointerType === 'mouse') autoScroll = false; });
+    container.addEventListener('pointerleave', (e)=>{ if(e.pointerType === 'mouse') autoScroll = !userPaused; });
+    // Touch: pause while the finger is down / swiping, resume shortly after
+    container.addEventListener('touchstart', ()=>{ touching = true; clearTimeout(resumeTimer); }, {passive:true});
+    const endTouch = ()=>{ clearTimeout(resumeTimer); resumeTimer = setTimeout(()=>{ touching = false; pos = container.scrollLeft; }, 1800); };
+    container.addEventListener('touchend', endTouch, {passive:true});
+    container.addEventListener('touchcancel', endTouch, {passive:true});
 
     container.addEventListener('pointerdown', (e)=>{
       if(e.pointerType && e.pointerType !== 'mouse') return; // let touch/pen use native swipe scrolling
