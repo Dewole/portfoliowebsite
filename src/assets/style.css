@@ -1583,3 +1583,10 @@ html{scroll-padding-top:104px;}
 header.nav select{color-scheme:dark;}
 header.nav.nav-light select{color-scheme:light;}
 header.nav select option{background-color:#fff;color:#12141a;}
+
+/* ---------- Spacing: "Why me" card → Portfolio ----------
+   Both sections carried their own full padding (≈120px + 110px), leaving a
+   ~230px hole between the card and the PORTFOLIO label. Collapse it to one
+   section gap that scales with the screen. */
+.stats:has(+ .portfolio){padding-bottom:0;}
+.stats + .portfolio{padding-top:clamp(64px,8vw,112px);}
