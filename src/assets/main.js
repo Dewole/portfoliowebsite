@@ -920,3 +920,47 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     card.style.setProperty('--tx', '0deg'); card.style.setProperty('--ty', '0deg');
   });
 })();
+
+// ---- FLOATING NAV THEME — dark glass over dark sections, light glass over
+// light ones. Samples what's behind the bar at a few points (left / centre /
+// right) and goes light when most of it is light. ----
+(function(){
+  const nav = document.querySelector('header.nav');
+  if(!nav) return;
+  const parse = (c)=>{ const m = c && c.match(/rgba?\(([^)]+)\)/); if(!m) return null; const p = m[1].split(',').map(parseFloat); return {r:p[0],g:p[1],b:p[2],a:p.length>3?p[3]:1}; };
+  const lum = ({r,g,b})=>(0.299*r + 0.587*g + 0.114*b) / 255;
+  function bgAt(x, y){
+    const stack = document.elementsFromPoint(x, y);
+    for(const el of stack){
+      if(nav.contains(el) || el.closest('.scroll-progress,.rail,.to-top,.cursor-dot,.cursor-ring,.side-menu,.side-menu-overlay')) continue;
+      let e = el;
+      while(e && e !== document.documentElement){
+        const cs = getComputedStyle(e);
+        const c = parse(cs.backgroundColor);
+        if(c && c.a > 0.5) return lum(c);
+        if(cs.backgroundImage && cs.backgroundImage !== 'none'){
+          const g = parse(cs.backgroundImage);   // first colour stop of a gradient
+          if(g) return lum(g);
+        }
+        e = e.parentElement;
+      }
+      break;
+    }
+    return lum(parse(getComputedStyle(document.body).backgroundColor) || {r:237,g:240,b:243});
+  }
+  let ticking = false;
+  function update(){
+    ticking = false;
+    const r = nav.getBoundingClientRect();
+    const y = r.bottom - 4;
+    const xs = [r.left + r.width*0.12, r.left + r.width*0.5, r.left + r.width*0.88];
+    const light = xs.filter((x)=>bgAt(x, y) > 0.6).length >= 2;
+    nav.classList.toggle('nav-light', light);
+    document.body.classList.toggle('dark-nav', !light);
+  }
+  const req = ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', req, {passive:true});
+  window.addEventListener('resize', req);
+  window.addEventListener('load', req);
+  update();
+})();
