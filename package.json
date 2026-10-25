@@ -7,7 +7,8 @@
     "build": "eleventy",
     "start": "eleventy --serve",
     "watch:sanity": "node scripts/watch-sanity.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eleventy && node scripts/seo-check.mjs",
+    "seo:check": "node scripts/seo-check.mjs"
   },
   "keywords": [],
   "author": "",

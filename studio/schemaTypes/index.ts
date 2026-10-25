@@ -5,6 +5,7 @@ import localeRichTextFull from "./objects/localeRichTextFull";
 import attachment from "./objects/attachment";
 import pageSection from "./objects/pageSection";
 import homeSection from "./objects/homeSection";
+import seo from "./objects/seo";
 
 import siteSettings from "./documents/siteSettings";
 import aboutPage from "./documents/aboutPage";
@@ -24,6 +25,7 @@ export const schemaTypes = [
   attachment,
   pageSection,
   homeSection,
+  seo,
   // documents
   siteSettings,
   aboutPage,

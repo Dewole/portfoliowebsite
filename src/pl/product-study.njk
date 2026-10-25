@@ -5,10 +5,6 @@ pagination:
   size: 1
   alias: p
 permalink: "/pl/products/{{ p.slug }}/"
-eleventyComputed:
-  title: "{{ p.name }} — {{ sitePl.name }}"
-  description: "{{ p.description }}"
-  image: "{{ p.coverImage or p.heroImage }}"
 ---
 {% import "icons.njk" as icons %}
 <section class="cs-detail" id="s1">
@@ -142,6 +138,22 @@ eleventyComputed:
       </div>
       {% endif %}
     </div>
+    {% endif %}
+    {% set related = productsPl | relatedItems(p) %}
+    {% if related.length %}
+    <section class="related-work" aria-labelledby="relatedTitle">
+      <h2 class="related-title" id="relatedTitle">Więcej produktów</h2>
+      <div class="prod-grid wide related-grid">
+        {% for r in related %}
+        <a class="prod-card reveal" href="/pl/products/{{ r.slug }}/">
+          {% if r.coverImage %}<img class="prod-thumb" src="{{ r.coverImage }}" alt="{{ r.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
+          <div class="prod-head"><h3>{{ r.name }}</h3></div>
+          <p>{{ r.description }}</p>
+          <div class="prod-foot"><span class="cat">{{ r.category }}</span><span class="view-link">Zobacz produkt <span class="btn-icon">{{ icons.up_right() | safe }}</span></span></div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
     {% endif %}
     <div class="cs-nav-row">
       <a href="/pl/products/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">{{ icons.up_left() | safe }}</span><span class="btn-label">Wszystkie produkty</span></a>

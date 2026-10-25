@@ -5,10 +5,6 @@ pagination:
   size: 1
   alias: cs
 permalink: "/pl/portfolio/{{ cs.slug }}/"
-eleventyComputed:
-  title: "{{ cs.title }} — {{ sitePl.name }}"
-  description: "{{ cs.overview | richTextPlain }}"
-  image: "{{ cs.coverImage or cs.heroImage }}"
 ---
 {% import "icons.njk" as icons %}
 <section class="cs-detail" id="s1">
@@ -143,6 +139,24 @@ eleventyComputed:
       </div>
       {% endif %}
     </div>
+    {% endif %}
+    {% set related = caseStudiesPl | relatedItems(cs) %}
+    {% if related.length %}
+    <section class="related-work" aria-labelledby="relatedTitle">
+      <h2 class="related-title" id="relatedTitle">Więcej studiów przypadków</h2>
+      <div class="case-grid wide related-grid">
+        {% for r in related %}
+        <a class="case-card reveal" href="/pl/portfolio/{{ r.slug }}/">
+          {% if r.coverImage %}<img class="case-thumb" src="{{ r.coverImage }}" alt="{{ r.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
+          <div class="case-body">
+            <span class="case-tag">{{ r.tag }}</span>
+            <h3>{{ r.title }}</h3>
+            <span class="date">{{ r.date }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
     {% endif %}
     <div class="cs-nav-row">
       <a href="/pl/portfolio/" class="btn ghost" style="color:var(--ink);border-color:var(--line);"><span class="btn-icon btn-icon-ul">{{ icons.up_left() | safe }}</span><span class="btn-label">Wszystkie studia przypadków</span></a>

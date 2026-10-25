@@ -29,6 +29,7 @@ export default defineType({
     { name: "extraSections", title: "➕ Extra sections" },
     { name: "contactPage", title: "Contact page" },
     { name: "footer", title: "Footer" },
+    { name: "seo", title: "🔍 SEO & profile" },
   ],
   fields: [
 
@@ -337,6 +338,20 @@ export default defineType({
       ],
       group: "footer",
     }),
+
+    // SEO & professional profile — used for search results, link previews
+    // and structured data (Google's understanding of who you are).
+    defineField({ name: "fullName", title: "Full name", description: "Your real name, used in search results and structured data (e.g. \"Emmanuel Ikuesan\"). The short \"Name\" in Identity stays your brand name.", type: "string", initialValue: "Emmanuel Ikuesan", group: "seo" }),
+    defineField({ name: "seoJobTitle", title: "Job title (for search)", description: "E.g. \"Product & UI/UX Designer\". Leave empty to use your Role.", type: "localeString", group: "seo" }),
+    defineField({ name: "seoCity", title: "City", type: "string", initialValue: "Poznań", group: "seo" }),
+    defineField({ name: "seoCountry", title: "Country", type: "string", initialValue: "Poland", group: "seo" }),
+    defineField({ name: "seoCountryCode", title: "Country code (ISO)", type: "string", initialValue: "PL", group: "seo" }),
+    defineField({ name: "seoEmployer", title: "Current employer (optional)", description: "Only fill this in if you want it in your public structured data, e.g. \"Brandma\".", type: "string", group: "seo" }),
+    defineField({ name: "seoProfiles", title: "Other public profiles", description: "Behance, Dribbble, GitHub, Instagram… (LinkedIn and Figma from Identity are added automatically). Helps Google connect your profiles to this site.", type: "array", of: [{ type: "url" }], group: "seo" }),
+    defineField({ name: "seoHome", title: "Homepage — search & sharing", type: "seo", group: "seo" }),
+    defineField({ name: "seoPortfolio", title: "Portfolio page — search & sharing", type: "seo", group: "seo" }),
+    defineField({ name: "seoProducts", title: "Products page — search & sharing", type: "seo", group: "seo" }),
+    defineField({ name: "seoContact", title: "Contact page — search & sharing", type: "seo", group: "seo" }),
   ],
   preview: {
     prepare() {

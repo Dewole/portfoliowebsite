@@ -54,11 +54,32 @@ module.exports = function (eleventyConfig) {
   // rendered, so all text — templates, Sanity fields and rich text — gets
   // the same rules without anything being changed in the CMS.
   const { typographyTransform, applyLocaleTypography } = require("./lib/typography");
+  // Responsive, compressed Sanity images (srcset/sizes/auto-format) — lib/images.js
+  const { imagesTransform } = require("./lib/images");
+  eleventyConfig.addTransform("images", function (content) {
+    const out = this.page && this.page.outputPath;
+    return out && out.endsWith(".html") ? imagesTransform(content) : content;
+  });
   eleventyConfig.addTransform("typography", function (content) {
     const out = this.page && this.page.outputPath;
     return out && out.endsWith(".html") ? typographyTransform(content) : content;
   });
   eleventyConfig.addFilter("localeTypography", (text, locale) => applyLocaleTypography(text, locale));
+
+  // Related case studies / products for internal linking: same category
+  // first, then the rest; never the current page, never placeholder/noindex.
+  eleventyConfig.addFilter("relatedItems", (list, current, n = 3) => {
+    const { decideNoindex } = require("./lib/seo");
+    if (!Array.isArray(list) || !current) return [];
+    const cat = current.category || current.tag;
+    const pool = list.filter((x) => x && x.slug !== current.slug && !decideNoindex(x, x.seo));
+    const same = pool.filter((x) => (x.category || x.tag) === cat);
+    const rest = pool.filter((x) => (x.category || x.tag) !== cat);
+    return [...same, ...rest].slice(0, n);
+  });
+
+  // JSON-LD structured data, safe to drop inside a <script> tag
+  eleventyConfig.addFilter("jsonLd", (obj) => JSON.stringify(obj).replace(/</g, "\\u003c"));
 
   // Static assets (CSS, JS, fonts) copy straight through to the output.
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });

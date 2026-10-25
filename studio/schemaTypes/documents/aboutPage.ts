@@ -14,6 +14,7 @@ export default defineType({
     { name: "aboutSkills", title: "Skills & tools" },
     { name: "aboutExperience", title: "Experience" },
     { name: "aboutCta", title: "Closing call to action" },
+    { name: "aboutSeo", title: "Search & sharing" },
   ],
   fields: [
     defineField({ name: "aboutKicker", title: "Small label above heading", type: "localeString", group: "aboutTop",
@@ -109,6 +110,13 @@ export default defineType({
     defineField({ name: "aboutCtaButtonLabel", title: "Button text", type: "localeString", group: "aboutCta", }),
     defineField({ name: "aboutCtaButtonLink", title: "Button link", type: "string", group: "aboutCta",
       description: "Where the button goes. Leave empty for the Contact page. Use a full https:// address for external links.", }),
+    defineField({
+      name: "seo",
+      title: "Search & sharing (SEO)",
+      description: "Optional — leave empty for automatic SEO built from this page's content.",
+      type: "seo",
+      group: "aboutSeo",
+    }),
   ],
   preview: { prepare: () => ({ title: "About page" }) },
 });

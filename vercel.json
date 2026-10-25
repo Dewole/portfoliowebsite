@@ -1,5 +1,36 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "_site",
-  "framework": null
+  "framework": null,
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/en", "destination": "/", "permanent": true },
+    { "source": "/en/:path*", "destination": "/:path*", "permanent": true },
+    { "source": "/work", "destination": "/portfolio/", "permanent": true },
+    { "source": "/case-studies", "destination": "/portfolio/", "permanent": true },
+    { "source": "/case-studies/:slug", "destination": "/portfolio/:slug/", "permanent": true },
+    { "source": "/case-study/:slug", "destination": "/portfolio/:slug/", "permanent": true },
+    { "source": "/projects", "destination": "/products/", "permanent": true },
+    { "source": "/projects/:slug", "destination": "/products/:slug/", "permanent": true },
+    { "source": "/about-me", "destination": "/about/", "permanent": true },
+    { "source": "/hire", "destination": "/contact/", "permanent": true },
+    { "source": "/admin", "destination": "/", "permanent": false },
+    { "source": "/admin/:path*", "destination": "/", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/assets/fonts/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/assets/(.*)\\.(jpg|png|svg|webp)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [{ "key": "Content-Type", "value": "application/xml; charset=utf-8" }]
+    }
+  ]
 }

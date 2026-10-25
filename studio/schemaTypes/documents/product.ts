@@ -115,6 +115,12 @@ export default defineType({
       type: "array",
       of: [{ type: "attachment" }],
     }),
+    defineField({
+      name: "seo",
+      title: "Search & sharing (SEO)",
+      description: "Optional — leave empty for automatic SEO built from this page's content.",
+      type: "seo",
+    }),
   ],
   orderings: [
     { title: "Display order", name: "orderAsc", by: [{ field: "order", direction: "asc" }] },

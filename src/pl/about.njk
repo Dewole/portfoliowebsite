@@ -1,8 +1,5 @@
 ---
 layout: base.pl.njk
-eleventyComputed:
-  title: "O mnie — {{ sitePl.name }}"
-  description: "{{ sitePl.aboutSeoDescription or (sitePl.aboutBio | richTextPlain) or sitePl.aboutBioLong }}"
 ---
 {% import "icons.njk" as icons %}
 {% set ctaHref = sitePl.aboutCtaButtonLink | absoluteUrl if (sitePl.aboutCtaButtonLink and not (sitePl.aboutCtaButtonLink | first == "/")) else (sitePl.aboutCtaButtonLink or "/pl/contact/") %}

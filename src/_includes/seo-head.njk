@@ -1,0 +1,46 @@
+{#- Search & sharing tags for every page. Values come from lib/seo.js via
+    each template's .11tydata.js (CMS overrides first, then defaults).
+    Expects `ml` = site / sitePl. -#}
+{%- set isPl = (seoLocale == "pl") %}
+{%- set pageTitle = title or (ml.name + " — " + ml.role) %}
+{%- set pageDesc = description or ml.metaDescription %}
+{%- set enUrl = (page.url | replace("/pl/", "/", 1)) if isPl else page.url %}
+{%- set plUrl = page.url if isPl else ("/pl" + page.url) %}
+<title>{{ pageTitle }}</title>
+<meta name="description" content="{{ pageDesc }}">
+<meta name="author" content="{{ ml.fullName or ml.name or 'Emmanuel Ikuesan' }}">
+{% if noindex %}<meta name="robots" content="noindex, follow">{% else %}<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">{% endif %}
+{%- if ml.siteUrl and not noindex %}
+<link rel="canonical" href="{{ canonical or (ml.siteUrl + page.url) }}">
+{%- if page.url != "/404.html" %}
+<link rel="alternate" hreflang="en" href="{{ ml.siteUrl }}{{ enUrl }}">
+<link rel="alternate" hreflang="pl" href="{{ ml.siteUrl }}{{ plUrl }}">
+<link rel="alternate" hreflang="x-default" href="{{ ml.siteUrl }}{{ enUrl }}">
+{%- endif %}
+{%- endif %}
+<meta property="og:type" content="{{ ogType or 'website' }}">
+<meta property="og:site_name" content="{{ ml.name or 'Dewole' }}">
+<meta property="og:locale" content="{{ 'pl_PL' if isPl else 'en_US' }}">
+<meta property="og:locale:alternate" content="{{ 'en_US' if isPl else 'pl_PL' }}">
+{% if ml.siteUrl and not noindex %}<meta property="og:url" content="{{ canonical or (ml.siteUrl + page.url) }}">{% endif %}
+<meta property="og:title" content="{{ pageTitle }}">
+<meta property="og:description" content="{{ pageDesc }}">
+{#- Share image: page's own (SEO image / cover) → CMS site-wide share image →
+    built-in hero card (/assets/og-image.jpg) → profile photo -#}
+{%- set builtInOg = (ml.siteUrl + "/assets/og-image.jpg") if ml.siteUrl else "" %}
+{%- set shareImage = image or ml.ogImage or builtInOg or ml.profilePhoto %}
+{%- if shareImage %}
+<meta property="og:image" content="{{ shareImage }}">
+<meta property="og:image:alt" content="{{ pageTitle }}">
+{%- if (image and 'w=1200&h=630' in image) or (not image and (ml.ogImage or builtInOg)) %}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{%- endif %}
+{%- endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ pageTitle }}">
+<meta name="twitter:description" content="{{ pageDesc }}">
+{% if shareImage %}<meta name="twitter:image" content="{{ shareImage }}">{% endif %}
+{%- if jsonld %}
+<script type="application/ld+json">{{ jsonld | jsonLd | safe }}</script>
+{%- endif %}

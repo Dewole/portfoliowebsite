@@ -1,0 +1,13 @@
+---
+permalink: /robots.txt
+eleventyExcludeFromCollections: true
+---
+# dewole.me — everything public may be crawled. Pages that shouldn't be in
+# search results carry <meta name="robots" content="noindex"> instead of a
+# Disallow here, so search engines can still see (and drop) them.
+User-agent: *
+Allow: /
+Disallow: /admin/
+{% if site.siteUrl %}
+Sitemap: {{ site.siteUrl }}/sitemap.xml
+{% endif %}

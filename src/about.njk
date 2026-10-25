@@ -1,8 +1,5 @@
 ---
 layout: base.njk
-eleventyComputed:
-  title: "About — {{ site.name }}"
-  description: "{{ site.aboutSeoDescription or (site.aboutBio | richTextPlain) or site.aboutBioLong }}"
 ---
 {% import "icons.njk" as icons %}
 {% set ctaHref = site.aboutCtaButtonLink | absoluteUrl if (site.aboutCtaButtonLink and not (site.aboutCtaButtonLink | first == "/")) else (site.aboutCtaButtonLink or "/contact/") %}

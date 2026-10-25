@@ -1,0 +1,27 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+{#- Only real, indexable pages: no 404, no noindex (drafts/placeholders),
+    each English page paired with its Polish version via hreflang. -#}
+{%- set siteUrl = site.siteUrl -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+{%- for item in collections.all %}
+{%- if item.url and item.url.endsWith("/") and not item.data.noindex and siteUrl %}
+{%- set isPl = item.url.startsWith("/pl/") %}
+{%- set enUrl = (item.url | replace("/pl/", "/", 1)) if isPl else item.url %}
+{%- set plUrl = item.url if isPl else ("/pl" + item.url) %}
+{%- set upd = (item.data.cs and item.data.cs._updatedAt) or (item.data.p and item.data.p._updatedAt) or "" %}
+  <url>
+    <loc>{{ siteUrl }}{{ item.url }}</loc>
+    {%- if upd %}
+    <lastmod>{{ upd | truncate(10, true, "") }}</lastmod>
+    {%- endif %}
+    <xhtml:link rel="alternate" hreflang="en" href="{{ siteUrl }}{{ enUrl }}"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="{{ siteUrl }}{{ plUrl }}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="{{ siteUrl }}{{ enUrl }}"/>
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

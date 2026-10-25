@@ -1,8 +1,5 @@
 ---
 layout: base.pl.njk
-eleventyComputed:
-  title: "{{ sitePl.name }} — {{ sitePl.role }}"
-  description: "{{ sitePl.metaDescription }}"
 ---
 {% import "icons.njk" as icons %}
 <!-- HERO -->
@@ -25,8 +22,10 @@ eleventyComputed:
   <div class="blob-wrap w2"><div class="hero-blob b2"></div></div>
   <div class="brackets"><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span></div>
   <div class="eyebrow"><span class="plus">+</span> {{ sitePl.heroEyebrow }}</div>
-  <h1 class="split-title" id="heroTitle">{{ sitePl.heroTitle }}</h1>
-  <div class="sub script split-title" id="heroSub">{{ sitePl.heroSubtitle }}</div>
+  <h1 class="hero-heading">
+    <span class="hero-title split-title" id="heroTitle">{{ sitePl.heroTitle }}</span>
+    <span class="sub script split-title" id="heroSub">{{ sitePl.heroSubtitle }}</span>
+  </h1>
   <div class="hero-handwrite" id="heroHandwrite">{{ sitePl.heroHandwriteText }}</div>
   <div class="cta-row">
     <a href="/pl/portfolio/" class="btn solid"><span class="btn-label">Studia przypadków</span><span class="btn-icon">{{ icons.up_right() | safe }}</span></a>
