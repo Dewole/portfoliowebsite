@@ -60,14 +60,20 @@ export default defineType({
     defineField({
       name: "heroImage",
       title: "Hero banner — image (jpg / png / gif)",
-      description: "The large banner image at the top of this item's detail page. Recommended: 1600×700px or larger, landscape (~2.3:1) — it's cropped to fill a wide banner. Independent of the cover photo above and the gallery below — if left empty, the first gallery photo is used instead. To use a video or animation as the banner instead, fill in \"Hero banner — video / animation\" below; when both are set, the video/animation takes priority.",
+      description: "The banner at the top of this project's page. It's always 16:9 on every screen (desktop and mobile), so a 16:9 upload shows in full with nothing cut off. Recommended: 1920×1080px (or 2560×1440px). The image and the video/animation below use the same size. If empty, the cover photo is used. A video/animation below takes priority over this image.",
       type: "image",
-      options: { hotspot: true },
+      options: {
+        hotspot: {
+          previews: [
+            { title: "Banner — desktop & mobile (16:9)", aspectRatio: 16 / 9 },
+          ],
+        },
+      },
     }),
     defineField({
       name: "heroAttachment",
       title: "Hero banner — video / animation (mp4 / json)",
-      description: "Optional. Upload an mp4 to autoplay a looping video as the banner, or a Lottie/Bodymovin .json to show an animation instead — either replaces the image above. Recommended for video: 1600×900px (16:9), landscape, a few seconds long, no audio needed since it plays muted. A Lottie file sizes itself to its own artboard automatically, so any dimensions work, but a landscape-ish shape reads best in a wide banner.",
+      description: "Optional. An mp4 (plays muted and looping) or a Lottie .json animation, shown in the same 16:9 banner as the image above. Export at 1920×1080px (16:9) — the same size as the banner image — and it shows in full on every screen. Takes priority over the banner image.",
       type: "file",
       options: { accept: "video/mp4,application/json,.mp4,.json" },
     }),

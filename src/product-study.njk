@@ -20,9 +20,9 @@ permalink: "/products/{{ p.slug }}/"
     {% elif p.heroAttachment and p.heroAttachment.mimeType == 'application/json' %}
     <div class="cs-hero-img"><div class="cs-hero-lottie" data-lottie-inline>{% if p.heroAttachment.jsonDataSafe %}<script type="application/json">{{ p.heroAttachment.jsonDataSafe | safe }}</script>{% endif %}</div></div>
     {% elif p.heroImage %}
-    <div class="cs-hero-img"><img src="{{ p.heroImage }}" alt="{{ p.name }}" loading="lazy"></div>
+    <div class="cs-hero-img"><img {% if p.heroPosition %}style="object-position:{{ p.heroPosition }}" {% endif %}src="{{ p.heroImage }}" alt="{{ p.name }}" loading="lazy"></div>
     {% elif p.coverImage %}
-    <div class="cs-hero-img"><img src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy"></div>
+    <div class="cs-hero-img"><img {% if p.coverPosition %}style="object-position:{{ p.coverPosition }}" {% endif %}src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy"></div>
     {% else %}
     <div class="cs-hero-thumb"></div>
     {% endif %}

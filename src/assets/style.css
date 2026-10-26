@@ -1781,3 +1781,12 @@ body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
 .prod-grid.wide .prod-thumb{height:auto;aspect-ratio:3/2;}
 @media (max-width:900px){ .case-grid.wide .case-thumb, .prod-grid.wide .prod-thumb, .prod-grid.home .prod-thumb{height:auto;} }
 @media (max-width:700px){ .case-track .case-card{flex:0 0 min(82vw,360px);} .case-track .case-thumb{height:auto;} }
+
+/* ---------- Project hero banner: one fixed shape on every screen ----------
+   The banner used a fixed height, so its shape changed with the screen
+   (≈2.5:1 on desktop, ≈2:1 on phones) and images/videos were cropped.
+   It's now always 16:9 — upload a 1920×1080 image or video and nothing
+   is cut, on desktop or mobile. */
+.cs-hero-img img,
+.cs-hero-img .cs-hero-video,
+.cs-hero-img .cs-hero-lottie{height:auto;aspect-ratio:16/9;}
