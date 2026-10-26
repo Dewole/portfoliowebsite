@@ -83,6 +83,8 @@ module.exports = function (eleventyConfig) {
 
   // Static assets (CSS, JS, fonts) copy straight through to the output.
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  // Favicons at the site root — Google and older browsers look for /favicon.ico
+  eleventyConfig.addPassthroughCopy({ "src/favicon.ico": "favicon.ico", "src/apple-touch-icon.png": "apple-touch-icon.png" });
 
   // Content itself now lives in Sanity, not local files, so Eleventy has
   // nothing local to watch that would tell it content changed. This file
