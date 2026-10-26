@@ -1725,3 +1725,46 @@ footer{padding-top:clamp(56px,6vw,80px);}
 .cta-card h3 + p{margin:0;}
 .cta-copy-btns{margin-top:28px;}
 @media (min-width:641px){ .cta-copy-btns{margin-top:auto;padding-top:28px;} }
+
+/* ---------- Side dots: section-name bubble on hover / keyboard focus ---------- */
+.rail .dot{overflow:visible;}
+.rail-tip{
+  position:absolute;right:calc(100% + 10px);top:50%;
+  transform:translate(6px,-50%) scale(.96);transform-origin:right center;
+  white-space:nowrap;pointer-events:none;
+  padding:6px 12px;border-radius:999px;
+  font:500 12px/1.2 "Instrument Sans",Inter,Arial,sans-serif;letter-spacing:.02em;
+  background:#0a0b10;color:#fff;
+  box-shadow:0 8px 20px -8px rgba(0,0,0,.45);
+  opacity:0;visibility:hidden;
+  transition:opacity .2s ease,transform .25s var(--ease-out),visibility 0s linear .25s;
+}
+.rail-tip::after{ /* little pointer toward the dot */
+  content:"";position:absolute;left:100%;top:50%;transform:translateY(-50%);
+  border:5px solid transparent;border-left-color:#0a0b10;
+}
+.rail .dot:hover .rail-tip, .rail .dot:focus-visible .rail-tip{
+  opacity:1;visibility:visible;transform:translate(0,-50%) scale(1);
+  transition:opacity .2s ease,transform .25s var(--ease-out),visibility 0s;
+}
+/* over dark sections the bubble turns light so it stays visible */
+body.dark-nav .rail-tip{background:#fff;color:#0a0b10;}
+body.dark-nav .rail-tip::after{border-left-color:#fff;}
+@media (prefers-reduced-motion:reduce){ .rail-tip{transition:none;transform:translate(0,-50%);} }
+
+/* Side-dot bubble: frosted glass, same family as the floating nav */
+.rail-tip{
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04)),rgba(14,16,24,.62);
+  -webkit-backdrop-filter:blur(16px) saturate(1.7);backdrop-filter:blur(16px) saturate(1.7);
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 10px 26px -10px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.22);
+  color:#fff;
+}
+.rail-tip::after{border-left-color:rgba(14,16,24,.62);}
+body.dark-nav .rail-tip{
+  background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(246,248,251,.78));
+  border-color:rgba(255,255,255,.8);color:#0a0b10;
+  box-shadow:0 10px 26px -12px rgba(0,0,0,.45),inset 0 1px 0 #fff;
+}
+body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
+@media (prefers-reduced-transparency:reduce){ .rail-tip{background:#0a0b10;-webkit-backdrop-filter:none;backdrop-filter:none;} body.dark-nav .rail-tip{background:#fff;} }

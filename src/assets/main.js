@@ -37,6 +37,29 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
   revealEls.forEach(el=>io.observe(el));
 
   // section progress rail
+  // Each dot gets a hover bubble with the section's name: its small label
+  // ("PORTFOLIO" → "Portfolio"), else its heading, else "Intro" for the hero.
+  function sectionLabel(sec, i){
+    const pl = document.documentElement.lang === 'pl';
+    const clean = (t)=>(t || '').replace(/\s+/g, ' ').trim();
+    const named = [
+      ['hero', 'Intro', 'Start'], ['about-hero', 'About', 'O mnie'], ['about', pl ? 'O mnie' : 'About', 'O mnie'],
+      ['testi', 'Testimonials', 'Opinie'], ['final-cta', 'Contact', 'Kontakt'], ['contact-hero', 'Contact', 'Kontakt'],
+      ['cs-detail', 'Overview', 'Przegląd'], ['cs-details', 'Project details', 'Szczegóły'], ['cs-body', 'Project', 'Projekt'],
+    ];
+    // on the About page the photo/bio block follows the intro — call it "Bio"
+    if(sec.classList.contains('about') && document.querySelector('.about-hero')) return 'Bio';
+    for(const [cls, en, plName] of named){ if(sec.classList.contains(cls)) return pl ? plName : en; }
+    let kicker = clean(sec.querySelector('.kicker')?.textContent).replace(/\s*·.*$/, '');
+    if(kicker){
+      kicker = kicker.charAt(0).toUpperCase() + kicker.slice(1).toLowerCase();
+      return pl ? kicker : kicker.replace(/\bi\b/g, 'I');
+    }
+    const h = clean(sec.querySelector('h1, h2, h3')?.textContent);
+    if(h) return h.length > 30 ? h.slice(0, 28).replace(/\s+\S*$/, '') + '…' : h;
+    return (pl ? 'Sekcja ' : 'Section ') + (i + 1);
+  }
+
   const sections = document.querySelectorAll('section');
   const rail = document.getElementById('rail');
   sections.forEach((s,i)=>{
@@ -45,7 +68,13 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     d.dataset.i=i;
     d.setAttribute('role','button');
     d.setAttribute('tabindex','0');
-    d.setAttribute('aria-label', 'Jump to section ' + (i+1));
+    const label = sectionLabel(s, i);
+    d.setAttribute('aria-label', (document.documentElement.lang === 'pl' ? 'Przejdź do: ' : 'Jump to: ') + label);
+    const tip = document.createElement('span');
+    tip.className = 'rail-tip';
+    tip.setAttribute('aria-hidden', 'true');
+    tip.textContent = label;
+    d.appendChild(tip);
     const jump = ()=>s.scrollIntoView({behavior:'smooth', block:'start'});
     d.addEventListener('click', jump);
     d.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); jump(); } });
