@@ -38,9 +38,19 @@ export default defineType({
     defineField({
       name: "coverImage",
       title: "Cover photo",
-      description: "Shown on listing cards only (homepage, portfolio/products grid). Separate from the Hero image below. Recommended: 1200×900px (4:3) or wider/landscape — it's cropped to fit card sizes that range from ~150px to ~380px tall.",
+      description: "Shown on every card for this project (homepage, listing page, related work) — always cropped to a 3:2 landscape shape. Upload at least 1500×1000px. Use Crop and the hotspot dot to choose what stays in view; the previews below show the result.",
       type: "image",
-      options: { hotspot: true },
+      options: {
+        // Every card shows the cover at the same 3:2 shape (homepage strip,
+        // listing grid, related work). Drag the hotspot onto what must stay
+        // in view; the previews show exactly what visitors see.
+        hotspot: {
+          previews: [
+            { title: "Homepage card (3:2)", aspectRatio: 3 / 2 },
+            { title: "Listing page card (3:2)", aspectRatio: 3 / 2 },
+          ],
+        },
+      },
     }),
     defineField({
       name: "heroImage",

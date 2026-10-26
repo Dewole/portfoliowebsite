@@ -1768,3 +1768,16 @@ body.dark-nav .rail-tip{
 }
 body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
 @media (prefers-reduced-transparency:reduce){ .rail-tip{background:#0a0b10;-webkit-backdrop-filter:none;backdrop-filter:none;} body.dark-nav .rail-tip{background:#fff;} }
+
+/* ---------- Cover photos: one shape everywhere ----------
+   The homepage strip used tall, almost square cards (360×380) while the
+   listing page used wide ones, so landscape covers lost their sides on the
+   homepage. Every case-study and product card now shows the cover at 3:2,
+   positioned by the hotspot chosen in the CMS. */
+.case-track .case-card{flex:0 0 clamp(300px,36vw,500px);}
+.case-track .case-thumb,
+.case-grid.wide .case-thumb,
+.prod-grid.home .prod-thumb,
+.prod-grid.wide .prod-thumb{height:auto;aspect-ratio:3/2;}
+@media (max-width:900px){ .case-grid.wide .case-thumb, .prod-grid.wide .prod-thumb, .prod-grid.home .prod-thumb{height:auto;} }
+@media (max-width:700px){ .case-track .case-card{flex:0 0 min(82vw,360px);} .case-track .case-thumb{height:auto;} }

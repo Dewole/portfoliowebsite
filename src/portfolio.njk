@@ -21,7 +21,7 @@ layout: base.njk
     <div class="case-grid wide" id="portfolioGrid">
       {% for cs in caseStudies %}
       <a class="case-card reveal filter-card" href="/portfolio/{{ cs.slug }}/" data-category="{{ cs.category | default(cs.tag) }}">
-        {% if cs.coverImage %}<img class="case-thumb" src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
+        {% if cs.coverImage %}<img class="case-thumb" {% if cs.coverPosition %}style="object-position:{{ cs.coverPosition }}" {% endif %}src="{{ cs.coverImage }}" alt="{{ cs.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
         <div class="case-body">
           <span class="case-tag">{{ cs.tag }}</span>
           <h2>{{ cs.title }}</h2>

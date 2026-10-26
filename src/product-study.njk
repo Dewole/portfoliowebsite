@@ -146,7 +146,7 @@ permalink: "/products/{{ p.slug }}/"
       <div class="prod-grid wide related-grid">
         {% for r in related %}
         <a class="prod-card reveal" href="/products/{{ r.slug }}/">
-          {% if r.coverImage %}<img class="prod-thumb" src="{{ r.coverImage }}" alt="{{ r.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
+          {% if r.coverImage %}<img class="prod-thumb" {% if r.coverPosition %}style="object-position:{{ r.coverPosition }}" {% endif %}src="{{ r.coverImage }}" alt="{{ r.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
           <div class="prod-head"><h3>{{ r.name }}</h3></div>
           <p>{{ r.description }}</p>
           <div class="prod-foot"><span class="cat">{{ r.category }}</span><span class="view-link">View product <span class="btn-icon">{{ icons.up_right() | safe }}</span></span></div>

@@ -22,7 +22,7 @@ layout: base.pl.njk
     <div class="prod-grid wide" id="productsGrid">
       {% for p in productsPl %}
       <a class="prod-card reveal filter-card" href="/pl/products/{{ p.slug }}/" data-category="{{ p.category }}">
-        {% if p.coverImage %}<img class="prod-thumb" src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
+        {% if p.coverImage %}<img class="prod-thumb" {% if p.coverPosition %}style="object-position:{{ p.coverPosition }}" {% endif %}src="{{ p.coverImage }}" alt="{{ p.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}
         <div class="prod-head">
           <h2>{{ p.name }}</h2>
           <span class="status {{ 'soon' if p.status == 'coming-soon' else '' }}">{{ 'WKRÓTCE' if p.status == 'coming-soon' else 'DOSTĘPNY' }}</span>
