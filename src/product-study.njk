@@ -139,11 +139,17 @@ permalink: "/products/{{ p.slug }}/"
       {% endif %}
     </div>
     {% endif %}
-    {% set related = products | relatedItems(p) %}
+    {% set related = products | relatedItems(p, 10) %}
     {% if related.length %}
     <section class="related-work" aria-labelledby="relatedTitle">
-      <h2 class="related-title" id="relatedTitle">More products</h2>
-      <div class="prod-grid wide related-grid">
+      <div class="related-head">
+        <h2 class="related-title" id="relatedTitle">More products</h2>
+        <div class="related-nav">
+          <button type="button" class="related-btn" data-dir="-1" aria-label="Previous" disabled><span aria-hidden="true">←</span></button>
+          <button type="button" class="related-btn" data-dir="1" aria-label="Next"><span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <div class="prod-grid wide related-grid" tabindex="0" role="region" aria-labelledby="relatedTitle">
         {% for r in related %}
         <a class="prod-card reveal" href="/products/{{ r.slug }}/">
           {% if r.coverImage %}<img class="prod-thumb" {% if r.coverPosition %}style="object-position:{{ r.coverPosition }}" {% endif %}src="{{ r.coverImage }}" alt="{{ r.name }}" loading="lazy">{% else %}<div class="prod-thumb"></div>{% endif %}

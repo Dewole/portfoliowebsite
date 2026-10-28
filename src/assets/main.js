@@ -1013,3 +1013,42 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
   window.addEventListener('load', req);
   update();
 })();
+
+// ---- RELATED WORK ROW — arrow buttons, mouse drag, button states ----
+(function(){
+  document.querySelectorAll('.related-work').forEach((sec)=>{
+    const row = sec.querySelector('.related-grid');
+    if(!row) return;
+    const btns = sec.querySelectorAll('.related-btn');
+    const step = ()=>{ const c = row.querySelector('.case-card, .prod-card'); return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 24) : row.clientWidth * 0.8; };
+    function update(){
+      const max = row.scrollWidth - row.clientWidth - 2;
+      btns.forEach((b)=>{ b.disabled = b.dataset.dir === '-1' ? row.scrollLeft <= 2 : row.scrollLeft >= max; });
+      sec.classList.toggle('no-overflow', row.scrollWidth <= row.clientWidth + 2);
+    }
+    btns.forEach((b)=>b.addEventListener('click', ()=>{
+      row.scrollBy({left: step() * Number(b.dataset.dir), behavior: reduceMotion ? 'auto' : 'smooth'});
+    }));
+    row.addEventListener('scroll', ()=>requestAnimationFrame(update), {passive:true});
+    window.addEventListener('resize', update);
+    update();
+    // keyboard: arrow keys when the row is focused
+    row.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){ e.preventDefault(); row.scrollBy({left: step() * (e.key === 'ArrowRight' ? 1 : -1), behavior: reduceMotion ? 'auto' : 'smooth'}); }
+    });
+    // mouse drag (touch uses native swipe)
+    let down = false, startX = 0, startL = 0, moved = false;
+    row.addEventListener('pointerdown', (e)=>{ if(e.pointerType !== 'mouse') return; down = true; moved = false; startX = e.clientX; startL = row.scrollLeft; });
+    window.addEventListener('pointermove', (e)=>{
+      if(!down) return;
+      const dx = e.clientX - startX;
+      if(Math.abs(dx) > 5){ moved = true; row.classList.add('dragging'); }
+      if(moved) row.scrollLeft = startL - dx;
+    });
+    window.addEventListener('pointerup', ()=>{
+      if(!down) return; down = false;
+      if(moved){ row.classList.remove('dragging'); const s = step(); row.scrollTo({left: Math.round(row.scrollLeft / s) * s, behavior: reduceMotion ? 'auto' : 'smooth'}); }
+    });
+    row.addEventListener('click', (e)=>{ if(moved){ e.preventDefault(); moved = false; } }, true);
+  });
+})();

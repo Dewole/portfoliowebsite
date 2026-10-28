@@ -1790,3 +1790,40 @@ body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
 .cs-hero-img img,
 .cs-hero-img .cs-hero-video,
 .cs-hero-img .cs-hero-lottie{height:auto;aspect-ratio:16/9;}
+
+/* ---------- Related work: horizontal scroll ----------
+   Swipe on touch, drag or use the arrow buttons with a mouse, Shift+wheel or
+   arrow keys on the keyboard. The row runs to the right edge of the screen
+   so the next card peeks in, signalling there's more. */
+.related-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:var(--sp-content);}
+.related-head .related-title{margin:0;}
+.related-nav{display:flex;gap:10px;flex:0 0 auto;}
+.related-btn{
+  width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);
+  font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;
+  transition:background .25s,border-color .25s,opacity .25s,transform .3s var(--ease-out);
+}
+.related-btn:hover:not(:disabled){background:var(--ink);border-color:var(--ink);color:#fff;}
+.related-btn[data-dir="1"]:hover:not(:disabled){transform:translateX(2px);}
+.related-btn[data-dir="-1"]:hover:not(:disabled){transform:translateX(-2px);}
+.related-btn:disabled{opacity:.35;cursor:default;}
+.related-grid.case-grid, .related-grid.prod-grid{
+  display:flex;gap:clamp(16px,2vw,28px);grid-template-columns:none;
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+  scroll-padding-left:0;scrollbar-width:none;
+  margin-right:calc(-1 * max(32px, (100vw - var(--maxw)) / 2 + 32px));
+  padding:8px max(32px, calc((100vw - var(--maxw)) / 2 + 32px)) 28px 0;
+  cursor:grab;
+}
+.related-grid::-webkit-scrollbar{display:none;}
+.related-grid.dragging{cursor:grabbing;scroll-snap-type:none;}
+.related-grid.dragging a{pointer-events:none;}
+.related-grid > .case-card, .related-grid > .prod-card{flex:0 0 clamp(280px,34vw,460px);scroll-snap-align:start;}
+.related-grid:focus-visible{outline-offset:6px;}
+.case-grid.wide.related-grid:hover .case-card{opacity:1;}
+@media (max-width:640px){
+  .related-grid.case-grid, .related-grid.prod-grid{margin-right:-20px;padding-right:20px;}
+  .related-grid > .case-card, .related-grid > .prod-card{flex-basis:80vw;}
+  .related-nav{display:none;}
+}
+.related-work.no-overflow .related-nav{display:none;}

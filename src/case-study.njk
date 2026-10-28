@@ -140,11 +140,17 @@ permalink: "/portfolio/{{ cs.slug }}/"
       {% endif %}
     </div>
     {% endif %}
-    {% set related = caseStudies | relatedItems(cs) %}
+    {% set related = caseStudies | relatedItems(cs, 10) %}
     {% if related.length %}
     <section class="related-work" aria-labelledby="relatedTitle">
-      <h2 class="related-title" id="relatedTitle">More case studies</h2>
-      <div class="case-grid wide related-grid">
+      <div class="related-head">
+        <h2 class="related-title" id="relatedTitle">More case studies</h2>
+        <div class="related-nav">
+          <button type="button" class="related-btn" data-dir="-1" aria-label="Previous" disabled><span aria-hidden="true">←</span></button>
+          <button type="button" class="related-btn" data-dir="1" aria-label="Next"><span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <div class="case-grid wide related-grid" tabindex="0" role="region" aria-labelledby="relatedTitle">
         {% for r in related %}
         <a class="case-card reveal" href="/portfolio/{{ r.slug }}/">
           {% if r.coverImage %}<img class="case-thumb" {% if r.coverPosition %}style="object-position:{{ r.coverPosition }}" {% endif %}src="{{ r.coverImage }}" alt="{{ r.title }}" loading="lazy">{% else %}<div class="case-thumb"></div>{% endif %}
