@@ -130,16 +130,145 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
         if(match){ shown++; if(wasHidden || focus){ card.classList.remove('just-shown'); void card.offsetWidth; card.classList.add('just-shown'); } }
       });
       status.textContent = filter === 'all' ? '' : countText(shown);
-      // keep the chosen pill fully visible in the swipeable row
+      // keep the chosen pill fully visible in the swipeable row (scroll the
+      // row itself — scrollIntoView would also jerk the page vertically)
       if(filters.scrollWidth > filters.clientWidth){
-        btn.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'nearest', inline:'center'});
+        const left = btn.offsetLeft - (filters.clientWidth - btn.offsetWidth) / 2;
+        filters.scrollTo({left, behavior: reduceMotion ? 'auto' : 'smooth'});
       }
+      updateDock();
     }
     pills.forEach(btn=>{
       btn.setAttribute('type', 'button');
       btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
       btn.addEventListener('click', ()=>select(btn, true));
     });
+    // ---- Phones/tablets: floating filter dock + bottom sheet ----
+    // The pill row stays where it is (no sticky strip eating screen space
+    // under the floating nav). Once it scrolls away, a small glass button
+    // docks at the bottom of the screen — in thumb reach — showing the
+    // current category; tapping it opens a bottom sheet with every category.
+    const mq = window.matchMedia('(max-width:900px)');
+    const counts = {};
+    cards.forEach(c=>{ const k = c.dataset.category; counts[k] = (counts[k] || 0) + 1; });
+    const T = isPl
+      ? { title:'Filtruj według kategorii', close:'Zamknij', open:'Zmień kategorię', items:'pozycji' }
+      : { title:'Filter by category', close:'Close', open:'Change category', items:'items' };
+    const ICON_FILTER = '<svg class="fd-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 17h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".35"/><circle cx="9" cy="7" r="3" fill="currentColor"/><circle cx="15" cy="17" r="3" fill="currentColor"/></svg>';
+    const ICON_CHEV = '<svg class="fd-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const ICON_CHECK = '<svg class="fs-check" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".18"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const ICON_CLOSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" opacity=".12"/><path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+    const sheetId = filtersId + 'Sheet';
+    // read labels now — the hover text-reveal later duplicates pill text
+    const labels = pills.map(p=>p.textContent.trim());
+
+    const dock = document.createElement('div');
+    dock.className = 'filter-dock';
+    dock.innerHTML = '<button type="button" class="filter-dock-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="'+sheetId+'">'
+      + ICON_FILTER + '<span class="fd-label"></span><span class="fd-count"></span>' + ICON_CHEV + '</button>';
+    const dockBtn = dock.querySelector('button');
+    const backdrop = document.createElement('div');
+    backdrop.className = 'filter-sheet-backdrop';
+    const sheet = document.createElement('div');
+    sheet.className = 'filter-sheet';
+    sheet.id = sheetId;
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-labelledby', sheetId + 'Title');
+    sheet.innerHTML = '<div class="fs-grip" aria-hidden="true"></div>'
+      + '<div class="fs-head"><h2 class="fs-title" id="'+sheetId+'Title">'+T.title+'</h2>'
+      + '<button type="button" class="fs-close" aria-label="'+T.close+'">'+ICON_CLOSE+'</button></div>'
+      + '<div class="fs-list"></div>';
+    const list = sheet.querySelector('.fs-list');
+    const options = pills.map(p=>{
+      const o = document.createElement('button');
+      o.type = 'button';
+      o.className = 'fs-option';
+      const n = p.dataset.filter === 'all' ? cards.length : (counts[p.dataset.filter] || 0);
+      o.innerHTML = '<span class="fs-name"></span><span class="fs-n">'+n+'</span>' + ICON_CHECK;
+      o.querySelector('.fs-name').textContent = labels[pills.indexOf(p)];
+      o.addEventListener('click', ()=>{
+        select(p, true);
+        closeSheet();
+        // bring the results into view, just under the floating nav
+        const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 74;
+        const y = status.getBoundingClientRect().top + window.scrollY - navH - 28;
+        window.scrollTo({ top: Math.max(0, y), behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+      list.appendChild(o);
+      return o;
+    });
+    document.body.append(dock, backdrop, sheet);
+
+    function updateDock(){
+      const active = pills.find(p=>p.classList.contains('active')) || pills[0];
+      const n = active.dataset.filter === 'all' ? cards.length : (counts[active.dataset.filter] || 0);
+      const label = labels[pills.indexOf(active)];
+      dock.querySelector('.fd-label').textContent = label;
+      dock.querySelector('.fd-count').textContent = n;
+      dockBtn.setAttribute('aria-label', T.open + ': ' + label + ', ' + n + ' ' + T.items);
+      options.forEach((o, i)=>{ const on = pills[i] === active; o.classList.toggle('is-active', on); o.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    }
+
+    let sheetOpen = false;
+    function openSheet(){
+      sheetOpen = true;
+      document.body.classList.add('filter-sheet-open');
+      sheet.classList.add('is-open'); backdrop.classList.add('is-open');
+      dockBtn.setAttribute('aria-expanded', 'true');
+      (options.find(o=>o.classList.contains('is-active')) || options[0]).focus({preventScroll:true});
+    }
+    function closeSheet(){
+      if(!sheetOpen) return;
+      sheetOpen = false;
+      document.body.classList.remove('filter-sheet-open');
+      sheet.classList.remove('is-open'); backdrop.classList.remove('is-open');
+      dockBtn.setAttribute('aria-expanded', 'false');
+      dockBtn.focus({preventScroll:true});
+    }
+    dockBtn.addEventListener('click', openSheet);
+    backdrop.addEventListener('click', closeSheet);
+    sheet.querySelector('.fs-close').addEventListener('click', closeSheet);
+    sheet.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){ e.preventDefault(); closeSheet(); return; }
+      if(e.key !== 'Tab') return;
+      const f = Array.from(sheet.querySelectorAll('button'));
+      const first = f[0], last = f[f.length - 1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    });
+    // Swipe the sheet down to dismiss
+    let dragY = null;
+    sheet.addEventListener('touchstart', (e)=>{ if(list.scrollTop <= 0) dragY = e.touches[0].clientY; }, {passive:true});
+    sheet.addEventListener('touchmove', (e)=>{
+      if(dragY === null) return;
+      const d = Math.max(0, e.touches[0].clientY - dragY);
+      sheet.style.transform = d ? 'translateY(' + d + 'px)' : '';
+    }, {passive:true});
+    sheet.addEventListener('touchend', (e)=>{
+      if(dragY === null) return;
+      const d = e.changedTouches[0].clientY - dragY;
+      dragY = null; sheet.style.transform = '';
+      if(d > 80) closeSheet();
+    });
+
+    // Show the dock only while the pill row is scrolled off the top and
+    // the grid is still on screen (hidden near the footer and on desktop).
+    let dockTick = false;
+    function placeDock(){
+      dockTick = false;
+      const fr = filters.getBoundingClientRect();
+      const gr = grid.getBoundingClientRect();
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 74;
+      // "scrolled away" = tucked behind the floating nav or above the screen
+      const show = mq.matches && fr.bottom < navH + 14 && gr.bottom > window.innerHeight * 0.35;
+      dock.classList.toggle('is-visible', show);
+      if(!show && sheetOpen && !mq.matches) closeSheet();
+    }
+    window.addEventListener('scroll', ()=>{ if(!dockTick){ dockTick = true; requestAnimationFrame(placeDock); } }, {passive:true});
+    window.addEventListener('resize', placeDock);
+    updateDock(); placeDock();
+
     // Arrow keys move between pills (Home/End jump to the ends)
     filters.addEventListener('keydown', (e)=>{
       const i = pills.indexOf(document.activeElement);
@@ -767,18 +896,21 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     //    visible and the lightbox is closed.
     //  - "Heavy" animations (big files — e.g. Figma exports with dozens of
     //    text layers, masks and effects) cost ~25-30ms per frame to redraw
-    //    even on a fast laptop, which makes scrolling stutter. Inline, they
-    //    show a still frame and only play (stepped at 30fps) while hovered;
-    //    the full-size lightbox plays them normally. For smooth always-on
-    //    motion, upload such animations as MP4 instead.
+    //    even on a fast laptop. They still play when scrolled into view, but:
+    //    stepped at 24fps by our own ticker, only the most visible one at a
+    //    time, and *paused while the page is actively scrolling* (resuming
+    //    ~150ms after scrolling stops) — so the browser's frame budget goes
+    //    to smooth scrolling first. Upload as MP4 for perfectly smooth motion.
     //  - Always the SVG renderer: the canvas renderer draws a blank frame
     //    for files with image assets + mattes, so don't use it.
     const state = new Map();       // el -> { hovering, inView, ratio }
     let lightboxOpen = false;
     const HEAVY_BYTES = 400000;
-    const HEAVY_FPS = 30;
+    const HEAVY_FPS = 24;
+    let scrolling = false, scrollTimer = 0;
 
-    function canRun(){ return !lightboxOpen && !document.hidden && !reduceMotion; }
+    function visibleToUser(){ return !lightboxOpen && !document.hidden; }
+    function canRun(){ return visibleToUser() && !reduceMotion; }
 
     // ---- 30fps ticker for heavy animations ----
     const ticking = new Set();
@@ -809,7 +941,7 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       if(el.tagName === 'VIDEO'){ el.play().catch(()=>{}); return; }
       const anim = el._lottieInstance;
       if(!anim) return;
-      if(el._heavy){ anim.pause(); startTick(el); }
+      if(el._heavy){ anim.pause(); startTick(el); el.classList.add('has-played'); }
       else anim.play();
     }
     function pause(el){
@@ -823,9 +955,18 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       return !!s && canRun() && (s.hovering || s.inView);
     }
     function syncAll(){
-      // Only the single most-visible (or hovered) heavy animation runs.
+      // Heavy ones: only the single most-visible one autoplays, never while
+      // scrolling; hovering always plays (even with reduced motion, since
+      // it's a deliberate action).
+      let best = null, bestRatio = 0;
       state.forEach((s, el) => {
-        const on = el._heavy ? (canRun() && s.hovering) : wants(el);
+        if(el._heavy && s.inView && s.ratio > bestRatio){ bestRatio = s.ratio; best = el; }
+      });
+      state.forEach((s, el) => {
+        let on;
+        if(el._heavy){
+          on = visibleToUser() && (s.hovering || (el === best && !scrolling && !reduceMotion));
+        } else on = wants(el);
         if(on) play(el); else pause(el);
       });
     }
@@ -928,6 +1069,13 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     } else {
       state.forEach((s) => { s.inView = true; });
     }
+
+    // Pause heavy animations during active scrolling, resume when it stops.
+    window.addEventListener('scroll', () => {
+      if(!scrolling){ scrolling = true; if(ticking.size) syncAll(); }
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => { scrolling = false; syncAll(); }, 150);
+    }, { passive: true });
 
     document.addEventListener('visibilitychange', syncAll);
     document.addEventListener('lightbox:open', () => { lightboxOpen = true; syncAll(); });
