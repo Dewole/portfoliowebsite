@@ -9,3 +9,7 @@ studio/.sanity
 sanity-live-reload.json
 _to_delete/
 .mock_site.tgz
+*.bak
+.env.*
+!.env.example
+studio/.env
