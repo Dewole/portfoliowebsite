@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 module.exports = function (eleventyConfig) {
+  // Write lazily-loaded Lottie JSON files (see lib/lottieStore.js).
+  eleventyConfig.on("eleventy.after", ({ dir }) => require("./lib/lottieStore").writeAll(dir.output));
   // "01", "02", ... for the numbered service cards.
   eleventyConfig.addFilter("pad2", (n) => String(n).padStart(2, "0"));
 

@@ -605,7 +605,7 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
         if(window.lottie && src){
           lottieInstance = window.lottie.loadAnimation({
             container: lottieBox,
-            renderer: 'svg',
+            renderer: (JSON.stringify(src).length > 400000) ? 'canvas' : 'svg',
             loop: true,
             autoplay: true,
             animationData: src,
@@ -618,11 +618,13 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       }
       overlay.removeAttribute('hidden');
       document.body.classList.add('lightbox-open');
+      document.dispatchEvent(new CustomEvent('lightbox:open'));
     }
     function closeLightbox(){
       overlay.setAttribute('hidden', '');
       resetMedia();
       document.body.classList.remove('lightbox-open');
+      document.dispatchEvent(new CustomEvent('lightbox:close'));
     }
 
     document.addEventListener('click', (e)=>{
@@ -633,7 +635,8 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
         const alt = trigger.getAttribute('data-lightbox-alt');
         if(type === 'lottie'){
           const inner = trigger.querySelector('.cs-media-lottie');
-          openLightbox(inner && inner._lottieAnimationData, alt, 'lottie');
+          if(inner && inner._lottieAnimationData) openLightbox(inner._lottieAnimationData, alt, 'lottie');
+          else if(inner && window.__loadLottieData) window.__loadLottieData(inner).then((d) => openLightbox(d, alt, 'lottie')).catch(()=>{});
         } else {
           openLightbox(trigger.getAttribute('data-lightbox-src'), alt, type);
         }
@@ -757,7 +760,15 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
   // data isn't instantaneous even when the data itself is already inline.
   (function(){
     const state = new Map();
+    let lightboxOpen = false;
+    // Big animations (lots of layers/masks, or embedded images) are far
+    // cheaper to draw on a <canvas> than as a live SVG DOM tree.
+    const HEAVY_BYTES = 400000;
 
+    function inPlay(el){
+      const s = state.get(el);
+      return !!s && !lightboxOpen && !document.hidden && !reduceMotion && (s.hovering || s.inView);
+    }
     function play(el){
       if(el.tagName === 'VIDEO'){ el.play().catch(()=>{}); return; }
       const anim = el._lottieInstance;
@@ -768,42 +779,78 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       const anim = el._lottieInstance;
       if(anim && anim.isLoaded) anim.pause();
     }
-    function sync(el){
-      const s = state.get(el);
-      if(s && (s.hovering || s.inView)) play(el); else pause(el);
+    function sync(el){ if(inPlay(el)) play(el); else pause(el); }
+    function syncAll(){ state.forEach((_, el) => sync(el)); }
+
+    // Fetch (once) the animation JSON for a lazily-loaded gallery Lottie.
+    function loadData(el){
+      if(el._lottieDataPromise) return el._lottieDataPromise;
+      const dataScript = el.querySelector('script[type="application/json"]');
+      if(dataScript){
+        const text = dataScript.textContent;
+        el._lottieDataPromise = Promise.resolve().then(() => ({ data: JSON.parse(text), bytes: text.length }));
+      } else if(el.dataset.lottieUrl){
+        el._lottieDataPromise = fetch(el.dataset.lottieUrl)
+          .then((r) => r.ok ? r.text() : Promise.reject(r.status))
+          .then((text) => ({ data: JSON.parse(text), bytes: text.length }));
+      } else {
+        el._lottieDataPromise = Promise.reject('no data');
+      }
+      el._lottieDataPromise = el._lottieDataPromise.then((res) => { el._lottieAnimationData = res.data; return res; });
+      el._lottieDataPromise.catch(() => {});
+      return el._lottieDataPromise;
+    }
+    window.__loadLottieData = (el) => loadData(el).then((r) => r.data);
+
+    function build(el){
+      if(el._lottieBuilding || !window.lottie) return;
+      el._lottieBuilding = true;
+      loadData(el).then(({ data, bytes }) => {
+        el.innerHTML = '';
+        const isGalleryItem = el.classList.contains('cs-media-lottie');
+        // A hero banner Lottie fills a fixed banner shape, so it's cropped
+        // to cover rather than kept at its native ratio.
+        const isHeroItem = el.classList.contains('cs-hero-lottie') || el.classList.contains('hero-bg-lottie') || el.classList.contains('bigquote-bg-lottie');
+        const heavy = isGalleryItem && bytes > HEAVY_BYTES;
+        const anim = window.lottie.loadAnimation({
+          container: el,
+          renderer: heavy ? 'canvas' : 'svg',
+          loop: true,
+          autoplay: !isGalleryItem && !reduceMotion,
+          animationData: data,
+          rendererSettings: heavy
+            ? { clearCanvas: true, preserveAspectRatio: 'xMidYMid meet', progressiveLoad: true }
+            : { progressiveLoad: true, preserveAspectRatio: isHeroItem ? 'xMidYMid slice' : 'xMidYMid meet' },
+        });
+        el._lottieInstance = anim;
+        anim.addEventListener('DOMLoaded', () => {
+          if(isGalleryItem) sync(el);
+          else if(reduceMotion) anim.goToAndStop(0, true);
+        });
+      }).catch(() => { el._lottieBuilding = false; });
     }
 
-    document.querySelectorAll('[data-lottie-inline]').forEach((el) => {
-      if (!window.lottie) return;
-      const dataScript = el.querySelector('script[type="application/json"]');
-      if (!dataScript) return;
-      let animationData;
-      try {
-        animationData = JSON.parse(dataScript.textContent);
-      } catch (err) {
-        return;
-      }
-      el._lottieAnimationData = animationData;
-      el.innerHTML = ''; // clear the data script before lottie renders its SVG in
-      const isGalleryItem = el.classList.contains('cs-media-lottie');
-      // A hero banner Lottie (.cs-hero-lottie) fills a fixed banner shape
-      // like the hero image/video next to it, so it's cropped to cover
-      // (same idea as CSS object-fit:cover) rather than kept at its native
-      // ratio the way a gallery Lottie is.
-      const isHeroItem = el.classList.contains('cs-hero-lottie') || el.classList.contains('hero-bg-lottie') || el.classList.contains('bigquote-bg-lottie');
-      const anim = window.lottie.loadAnimation({
-        container: el,
-        renderer: 'svg',
-        loop: true,
-        autoplay: !isGalleryItem,
-        animationData,
-        rendererSettings: isHeroItem ? { preserveAspectRatio: 'xMidYMid slice' } : undefined,
-      });
-      el._lottieInstance = anim;
-      if(isGalleryItem){
-        anim.addEventListener('DOMLoaded', () => sync(el));
-      }
+    const all = document.querySelectorAll('[data-lottie-inline]');
+    const gallery = [];
+    all.forEach((el) => {
+      if(el.classList.contains('cs-media-lottie')) gallery.push(el);
+      else build(el); // logo / hero: small or above the fold, build now
     });
+
+    // Gallery/section Lotties: don't download, parse or build anything
+    // until the visitor scrolls near them.
+    if(gallery.length){
+      if('IntersectionObserver' in window){
+        const near = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if(entry.isIntersecting){ near.unobserve(entry.target); build(entry.target); }
+          });
+        }, { rootMargin: '600px 0px' });
+        gallery.forEach((el) => near.observe(el));
+      } else {
+        gallery.forEach(build);
+      }
+    }
 
     const items = document.querySelectorAll('.cs-media-video, .cs-media-lottie');
     if(!items.length) return;
@@ -816,14 +863,20 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
     });
 
     if('IntersectionObserver' in window){
+      // 0.25 (not 0.5) so tall, full-width media still counts as "in view".
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const s = state.get(entry.target);
           if(s){ s.inView = entry.isIntersecting; sync(entry.target); }
         });
-      }, { threshold: 0.5 });
+      }, { threshold: 0.25 });
       items.forEach((el) => io.observe(el));
     }
+
+    // Stop drawing in the background: hidden tab or lightbox on top.
+    document.addEventListener('visibilitychange', syncAll);
+    document.addEventListener('lightbox:open', () => { lightboxOpen = true; syncAll(); });
+    document.addEventListener('lightbox:close', () => { lightboxOpen = false; syncAll(); });
   })();
 
 

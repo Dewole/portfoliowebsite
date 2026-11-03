@@ -1836,7 +1836,6 @@ body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
 .cs-section .cs-media-grid:has(> .cs-grid-item:nth-child(2):last-child){column-count:2}
 .cs-section .cs-media-lottie,
 .cs-section .cs-media-video{max-width:none;width:100%}
-.cs-section .cs-media-lottie:not([style*="aspect-ratio"]){aspect-ratio:auto}
 .cs-section .cs-grid-item,
 .cs-section .cs-media-img,
 .cs-section .cs-media-img img{width:100%}
@@ -1853,3 +1852,6 @@ body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
   .cs-section .cs-media-grid:has(> .cs-grid-item:only-child) .cs-grid-item{flex:0 0 100%}
   .cs-section .cs-media-grid:has(> .cs-grid-item:only-child) img{height:auto;max-height:none;object-fit:contain}
 }
+
+/* Lazy Lottie: keep its space reserved before it loads; canvas fills it */
+.cs-media-lottie canvas{width:100%!important;height:100%!important;display:block}

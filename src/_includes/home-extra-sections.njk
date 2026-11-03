@@ -30,7 +30,7 @@
           </div>
           {% elif m.mimeType == 'application/json' %}
           <div class="cs-media-lottie-wrap" data-lightbox-src="{{ m.src }}" data-lightbox-type="lottie" data-lightbox-alt="{{ m.caption or s.title or ml.name }}">
-            <div class="cs-media-lottie" data-lottie-inline{% if m.jsonWidth and m.jsonHeight %} style="aspect-ratio:{{ m.jsonWidth }}/{{ m.jsonHeight }}"{% endif %}>{% if m.jsonDataSafe %}<script type="application/json">{{ m.jsonDataSafe | safe }}</script>{% endif %}</div>
+            <div class="cs-media-lottie" data-lottie-inline{% if m.jsonUrl %} data-lottie-url="{{ m.jsonUrl }}"{% endif %}{% if m.jsonWidth and m.jsonHeight %} style="aspect-ratio:{{ m.jsonWidth }}/{{ m.jsonHeight }}"{% endif %}>{% if m.jsonDataSafe and not m.jsonUrl %}<script type="application/json">{{ m.jsonDataSafe | safe }}</script>{% endif %}</div>
             <span class="cs-media-expand" aria-hidden="true">⤢</span>
           </div>
           {% else %}
