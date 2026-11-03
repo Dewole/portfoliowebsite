@@ -944,6 +944,13 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       if(el._heavy){ anim.pause(); startTick(el); el.classList.add('has-played'); }
       else anim.play();
     }
+    function rewind(el){
+      if(el.tagName === 'VIDEO'){ if(el.paused) el.currentTime = 0; return; }
+      const anim = el._lottieInstance;
+      if(!anim || !anim.isLoaded) return;
+      el._heavyFrame = 0;
+      anim.goToAndStop(0, true);
+    }
     function pause(el){
       if(el.tagName === 'VIDEO'){ el.pause(); return; }
       stopTick(el);
@@ -1015,8 +1022,9 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
           if(isLogo) return;
           if(!state.has(el)) return;
           // Still frame: a quarter of the way in, past any build-in intro.
-          el._heavyFrame = el._heavy ? Math.floor((anim.totalFrames || 0) * 0.25) : 0;
-          anim.goToAndStop(el._heavyFrame, true);
+          // Wait on the first frame until it's actually in view.
+          el._heavyFrame = 0;
+          anim.goToAndStop(0, true);
           if(el._heavy) el.classList.add('is-heavy');
           syncAll();
         });
@@ -1059,12 +1067,23 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
 
     if('IntersectionObserver' in window){
       const io = new IntersectionObserver((entries) => {
+        const exits = [];
         entries.forEach((entry) => {
           const s = state.get(entry.target);
-          if(s){ s.inView = entry.intersectionRatio >= 0.2; s.ratio = entry.intersectionRatio; }
+          if(!s) return;
+          // "In view" = at least half of it on screen, or — for media taller
+          // than the screen — it fills at least half the screen.
+          const r = entry.intersectionRect.height;
+          const vh = window.innerHeight || 1;
+          s.inView = entry.isIntersecting && (entry.intersectionRatio >= 0.5 || r >= vh * 0.5);
+          s.ratio = entry.intersectionRatio;
+          // Fully off screen again → rewind, so it starts from the beginning
+          // the next time it comes into view.
+          if(!entry.isIntersecting) exits.push(entry.target);
         });
         syncAll();
-      }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] });
+        exits.forEach(rewind);
+      }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
       items.forEach((el) => io.observe(el));
     } else {
       state.forEach((s) => { s.inView = true; });
