@@ -8,3 +8,4 @@ studio/dist
 studio/.sanity
 sanity-live-reload.json
 _to_delete/
+.mock_site.tgz

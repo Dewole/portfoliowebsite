@@ -69,7 +69,7 @@ export default defineType({
     defineField({
       name: "media",
       title: "Media (images, videos, animations)",
-      description: "Add as many as you like, in any mix. Images (jpg/png/gif) get Sanity's built-in cropping tool; mp4 videos autoplay in place (muted, looping) once scrolled into view; Lottie/Bodymovin .json files render as animations at their own native size. Anything here can be clicked to view full-size.",
+      description: "Add as many as you like, in any mix. Images get cropping tools; mp4 videos autoplay muted when in view; Lottie .json files play as animations. Everything can be clicked to view full-size. 📐 Recommended sizes — Full width: 1 item → 2400 px wide (e.g. 2400×1350 for 16:9), 2 items → 1600 px wide each, 3+ items → 1200 px wide each (heights can vary, nothing gets cropped). Text + media side by side: 1600 px wide, ideally 4:3 (1600×1200) or square (1600×1600) so it sits level with the text. Videos: mp4 (H.264) at the same widths, under ~10 MB. Lottie .json: any size, it scales to fill the space and keeps its proportions. Images: jpg for photos, png for UI with sharp text; keep files under ~2 MB.",
       type: "array",
       of: [
         defineArrayMember({ type: "image" }),
