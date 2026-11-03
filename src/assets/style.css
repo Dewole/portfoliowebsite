@@ -1807,9 +1807,12 @@ body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
 .related-grid.case-grid, .related-grid.prod-grid{
   display:flex;gap:clamp(16px,2vw,28px);grid-template-columns:none;
   overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
-  scroll-padding-left:0;scrollbar-width:none;
-  margin-right:calc(-1 * max(32px, (100vw - var(--maxw)) / 2 + 32px));
-  padding:8px max(32px, calc((100vw - var(--maxw)) / 2 + 32px)) 28px 0;
+  --bleed:max(32px, calc((100vw - var(--maxw)) / 2 + 32px));
+  scrollbar-width:none;
+  /* bleed to BOTH screen edges; padding + scroll-padding keep the first
+     card (and every snap stop) aligned with the page's content margin */
+  margin-left:calc(-1 * var(--bleed));margin-right:calc(-1 * var(--bleed));
+  padding:8px var(--bleed) 28px;scroll-padding-inline:var(--bleed);
   cursor:grab;
 }
 .related-grid::-webkit-scrollbar{display:none;}
@@ -1819,7 +1822,7 @@ body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
 .related-grid:focus-visible{outline-offset:6px;}
 .case-grid.wide.related-grid:hover .case-card{opacity:1;}
 @media (max-width:640px){
-  .related-grid.case-grid, .related-grid.prod-grid{margin-right:-20px;padding-right:20px;}
+  .related-grid.case-grid, .related-grid.prod-grid{--bleed:20px;}
   .related-grid > .case-card, .related-grid > .prod-card{flex-basis:80vw;}
   .related-nav{display:none;}
 }
