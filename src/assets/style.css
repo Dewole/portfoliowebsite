@@ -1855,3 +1855,15 @@ body.dark-nav .rail-tip::after{border-left-color:rgba(246,248,251,.85);}
 
 /* Lazy Lottie: keep its space reserved before it loads; canvas fills it */
 .cs-media-lottie canvas{width:100%!important;height:100%!important;display:block}
+
+/* Heavy Lottie: shows a still frame; small hint that it plays on hover / tap */
+.cs-media-lottie-wrap:has(.is-heavy)::after{
+  content:"▶  Hover to play";position:absolute;left:12px;bottom:12px;z-index:2;
+  font:600 12px/1 var(--font-body,inherit);letter-spacing:.01em;color:#fff;
+  padding:8px 12px;border-radius:999px;background:rgba(17,17,17,.55);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  pointer-events:none;transition:opacity .25s var(--ease-out,ease)}
+.cs-media-lottie-wrap:has(.is-heavy):hover::after{opacity:0}
+@media (hover:none){.cs-media-lottie-wrap:has(.is-heavy)::after{content:"▶  Tap to play"}}
+html[lang="pl"] .cs-media-lottie-wrap:has(.is-heavy)::after{content:"▶  Najedź, aby odtworzyć"}
+@media (hover:none){html[lang="pl"] .cs-media-lottie-wrap:has(.is-heavy)::after{content:"▶  Dotknij, aby odtworzyć"}}

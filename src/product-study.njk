@@ -18,7 +18,7 @@ permalink: "/products/{{ p.slug }}/"
     {% if p.heroAttachment and p.heroAttachment.mimeType == 'video/mp4' %}
     <div class="cs-hero-img"><video class="cs-hero-video" autoplay muted loop playsinline preload="metadata" src="{{ p.heroAttachment.src }}"></video></div>
     {% elif p.heroAttachment and p.heroAttachment.mimeType == 'application/json' %}
-    <div class="cs-hero-img"><div class="cs-hero-lottie" data-lottie-inline>{% if p.heroAttachment.jsonDataSafe %}<script type="application/json">{{ p.heroAttachment.jsonDataSafe | safe }}</script>{% endif %}</div></div>
+    <div class="cs-hero-img"><div class="cs-hero-lottie" data-lottie-inline{% if p.heroAttachment.jsonUrl %} data-lottie-url="{{ p.heroAttachment.jsonUrl }}"{% endif %}>{% if p.heroAttachment.jsonDataSafe and not p.heroAttachment.jsonUrl %}<script type="application/json">{{ p.heroAttachment.jsonDataSafe | safe }}</script>{% endif %}</div></div>
     {% elif p.heroImage %}
     <div class="cs-hero-img"><img {% if p.heroPosition %}style="object-position:{{ p.heroPosition }}" {% endif %}src="{{ p.heroImage }}" alt="{{ p.name }}" loading="lazy"></div>
     {% elif p.coverImage %}

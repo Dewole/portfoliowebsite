@@ -605,7 +605,8 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
         if(window.lottie && src){
           lottieInstance = window.lottie.loadAnimation({
             container: lottieBox,
-            renderer: (JSON.stringify(src).length > 400000) ? 'canvas' : 'svg',
+            renderer: 'svg',
+            rendererSettings: { progressiveLoad: true, preserveAspectRatio: 'xMidYMid meet' },
             loop: true,
             autoplay: true,
             animationData: src,
@@ -759,44 +760,94 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
   // call already took effect), since building the SVG from the animation
   // data isn't instantaneous even when the data itself is already inline.
   (function(){
-    const state = new Map();
+    // Lottie + gallery video playback controller.
+    //  - Animation data is only downloaded/parsed/built when the element is
+    //    near the viewport (logo excepted — it's tiny).
+    //  - Anything animated only runs while it's on screen, the tab is
+    //    visible and the lightbox is closed.
+    //  - "Heavy" animations (big files — e.g. Figma exports with dozens of
+    //    text layers, masks and effects) cost ~25-30ms per frame to redraw
+    //    even on a fast laptop, which makes scrolling stutter. Inline, they
+    //    show a still frame and only play (stepped at 30fps) while hovered;
+    //    the full-size lightbox plays them normally. For smooth always-on
+    //    motion, upload such animations as MP4 instead.
+    //  - Always the SVG renderer: the canvas renderer draws a blank frame
+    //    for files with image assets + mattes, so don't use it.
+    const state = new Map();       // el -> { hovering, inView, ratio }
     let lightboxOpen = false;
-    // Big animations (lots of layers/masks, or embedded images) are far
-    // cheaper to draw on a <canvas> than as a live SVG DOM tree.
     const HEAVY_BYTES = 400000;
+    const HEAVY_FPS = 30;
 
-    function inPlay(el){
-      const s = state.get(el);
-      return !!s && !lightboxOpen && !document.hidden && !reduceMotion && (s.hovering || s.inView);
+    function canRun(){ return !lightboxOpen && !document.hidden && !reduceMotion; }
+
+    // ---- 30fps ticker for heavy animations ----
+    const ticking = new Set();
+    let rafId = 0, lastStep = 0;
+    function tick(now){
+      rafId = 0;
+      if(!ticking.size) return;
+      if(now - lastStep >= 1000 / HEAVY_FPS - 1){
+        const dt = lastStep ? Math.min(now - lastStep, 100) : 0;
+        lastStep = now;
+        ticking.forEach((el) => {
+          const anim = el._lottieInstance;
+          if(!anim || !anim.isLoaded) return;
+          const fr = anim.frameRate || 30;
+          let f = (el._heavyFrame || 0) + dt / 1000 * fr;
+          const total = anim.totalFrames || 1;
+          if(f >= total) f = f % total;
+          el._heavyFrame = f;
+          anim.goToAndStop(Math.floor(f), true);
+        });
+      }
+      rafId = requestAnimationFrame(tick);
     }
+    function startTick(el){ ticking.add(el); if(!rafId){ lastStep = 0; rafId = requestAnimationFrame(tick); } }
+    function stopTick(el){ ticking.delete(el); }
+
     function play(el){
       if(el.tagName === 'VIDEO'){ el.play().catch(()=>{}); return; }
       const anim = el._lottieInstance;
-      if(anim && anim.isLoaded) anim.play();
+      if(!anim) return;
+      if(el._heavy){ anim.pause(); startTick(el); }
+      else anim.play();
     }
     function pause(el){
       if(el.tagName === 'VIDEO'){ el.pause(); return; }
+      stopTick(el);
       const anim = el._lottieInstance;
-      if(anim && anim.isLoaded) anim.pause();
+      if(anim) anim.pause();
     }
-    function sync(el){ if(inPlay(el)) play(el); else pause(el); }
-    function syncAll(){ state.forEach((_, el) => sync(el)); }
+    function wants(el){
+      const s = state.get(el);
+      return !!s && canRun() && (s.hovering || s.inView);
+    }
+    function syncAll(){
+      // Only the single most-visible (or hovered) heavy animation runs.
+      state.forEach((s, el) => {
+        const on = el._heavy ? (canRun() && s.hovering) : wants(el);
+        if(on) play(el); else pause(el);
+      });
+    }
 
-    // Fetch (once) the animation JSON for a lazily-loaded gallery Lottie.
     function loadData(el){
       if(el._lottieDataPromise) return el._lottieDataPromise;
       const dataScript = el.querySelector('script[type="application/json"]');
+      let p;
       if(dataScript){
         const text = dataScript.textContent;
-        el._lottieDataPromise = Promise.resolve().then(() => ({ data: JSON.parse(text), bytes: text.length }));
+        p = Promise.resolve(text);
       } else if(el.dataset.lottieUrl){
-        el._lottieDataPromise = fetch(el.dataset.lottieUrl)
-          .then((r) => r.ok ? r.text() : Promise.reject(r.status))
-          .then((text) => ({ data: JSON.parse(text), bytes: text.length }));
+        p = fetch(el.dataset.lottieUrl).then((r) => r.ok ? r.text() : Promise.reject(r.status));
       } else {
-        el._lottieDataPromise = Promise.reject('no data');
+        p = Promise.reject('no data');
       }
-      el._lottieDataPromise = el._lottieDataPromise.then((res) => { el._lottieAnimationData = res.data; return res; });
+      el._lottieDataPromise = p.then((text) => {
+        const data = JSON.parse(text);
+        el._lottieAnimationData = data;
+        el._lottieBytes = text.length;
+        return { data, bytes: text.length };
+      });
       el._lottieDataPromise.catch(() => {});
       return el._lottieDataPromise;
     }
@@ -807,73 +858,77 @@ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-mo
       el._lottieBuilding = true;
       loadData(el).then(({ data, bytes }) => {
         el.innerHTML = '';
-        const isGalleryItem = el.classList.contains('cs-media-lottie');
-        // A hero banner Lottie fills a fixed banner shape, so it's cropped
-        // to cover rather than kept at its native ratio.
+        const isLogo = el.classList.contains('brand-logo-lottie');
         const isHeroItem = el.classList.contains('cs-hero-lottie') || el.classList.contains('hero-bg-lottie') || el.classList.contains('bigquote-bg-lottie');
-        const heavy = isGalleryItem && bytes > HEAVY_BYTES;
+        el._heavy = !isLogo && bytes > HEAVY_BYTES;
         const anim = window.lottie.loadAnimation({
           container: el,
-          renderer: heavy ? 'canvas' : 'svg',
+          renderer: 'svg',
           loop: true,
-          autoplay: !isGalleryItem && !reduceMotion,
+          autoplay: isLogo && !reduceMotion,
           animationData: data,
-          rendererSettings: heavy
-            ? { clearCanvas: true, preserveAspectRatio: 'xMidYMid meet', progressiveLoad: true }
-            : { progressiveLoad: true, preserveAspectRatio: isHeroItem ? 'xMidYMid slice' : 'xMidYMid meet' },
+          rendererSettings: { progressiveLoad: true, preserveAspectRatio: isHeroItem ? 'xMidYMid slice' : 'xMidYMid meet' },
         });
         el._lottieInstance = anim;
         anim.addEventListener('DOMLoaded', () => {
-          if(isGalleryItem) sync(el);
-          else if(reduceMotion) anim.goToAndStop(0, true);
+          if(isLogo) return;
+          if(!state.has(el)) return;
+          // Still frame: a quarter of the way in, past any build-in intro.
+          el._heavyFrame = el._heavy ? Math.floor((anim.totalFrames || 0) * 0.25) : 0;
+          anim.goToAndStop(el._heavyFrame, true);
+          if(el._heavy) el.classList.add('is-heavy');
+          syncAll();
         });
       }).catch(() => { el._lottieBuilding = false; });
     }
 
-    const all = document.querySelectorAll('[data-lottie-inline]');
-    const gallery = [];
-    all.forEach((el) => {
-      if(el.classList.contains('cs-media-lottie')) gallery.push(el);
-      else build(el); // logo / hero: small or above the fold, build now
+    // Logo builds straight away; everything else lazily.
+    const lazy = [];
+    document.querySelectorAll('[data-lottie-inline]').forEach((el) => {
+      if(el.classList.contains('brand-logo-lottie')) build(el);
+      else lazy.push(el);
     });
-
-    // Gallery/section Lotties: don't download, parse or build anything
-    // until the visitor scrolls near them.
-    if(gallery.length){
-      if('IntersectionObserver' in window){
-        const near = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if(entry.isIntersecting){ near.unobserve(entry.target); build(entry.target); }
-          });
-        }, { rootMargin: '600px 0px' });
-        gallery.forEach((el) => near.observe(el));
-      } else {
-        gallery.forEach(build);
-      }
+    if(lazy.length){
+      const start = () => {
+        if('IntersectionObserver' in window){
+          const near = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if(entry.isIntersecting){ near.unobserve(entry.target); build(entry.target); }
+            });
+          }, { rootMargin: '400px 0px' });
+          lazy.forEach((el) => near.observe(el));
+        } else lazy.forEach(build);
+      };
+      // Let the page paint and become interactive before any heavy parsing.
+      if(document.readyState === 'complete') setTimeout(start, 200);
+      else window.addEventListener('load', () => setTimeout(start, 200), { once: true });
     }
 
-    const items = document.querySelectorAll('.cs-media-video, .cs-media-lottie');
+    const items = [...document.querySelectorAll('.cs-media-video, .cs-media-lottie')].concat(lazy.filter((el) => !el.classList.contains('cs-media-lottie')));
     if(!items.length) return;
 
     items.forEach((el) => {
-      state.set(el, { hovering: false, inView: false });
-      const wrap = el.closest('.cs-media-video-wrap, .cs-media-lottie-wrap') || el;
-      wrap.addEventListener('mouseenter', () => { state.get(el).hovering = true; sync(el); });
-      wrap.addEventListener('mouseleave', () => { state.get(el).hovering = false; sync(el); });
+      state.set(el, { hovering: false, inView: false, ratio: 0 });
+      const wrap = el.closest('.cs-media-video-wrap, .cs-media-lottie-wrap') || (el.classList.contains('cs-hero-lottie') ? el : null);
+      if(wrap){
+        wrap.addEventListener('mouseenter', () => { state.get(el).hovering = true; syncAll(); });
+        wrap.addEventListener('mouseleave', () => { state.get(el).hovering = false; syncAll(); });
+      }
     });
 
     if('IntersectionObserver' in window){
-      // 0.25 (not 0.5) so tall, full-width media still counts as "in view".
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const s = state.get(entry.target);
-          if(s){ s.inView = entry.isIntersecting; sync(entry.target); }
+          if(s){ s.inView = entry.intersectionRatio >= 0.2; s.ratio = entry.intersectionRatio; }
         });
-      }, { threshold: 0.25 });
+        syncAll();
+      }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] });
       items.forEach((el) => io.observe(el));
+    } else {
+      state.forEach((s) => { s.inView = true; });
     }
 
-    // Stop drawing in the background: hidden tab or lightbox on top.
     document.addEventListener('visibilitychange', syncAll);
     document.addEventListener('lightbox:open', () => { lightboxOpen = true; syncAll(); });
     document.addEventListener('lightbox:close', () => { lightboxOpen = false; syncAll(); });
