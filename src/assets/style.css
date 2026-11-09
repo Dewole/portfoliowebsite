@@ -1929,3 +1929,21 @@ body.filter-sheet-open .to-top{opacity:0;pointer-events:none}
    background between "Project details" and the section's own colour). */
 .cs-body:has(> .wrap > .cs-sections > .cs-section-has-bg:first-child){padding-top:0}
 .cs-sections:has(> .cs-section-has-bg:first-child){margin-top:0}
+
+/* ── Case study / product section rhythm ────────────────────────────────
+   Every section-to-section distance is one --sp-section, whether sections
+   are coloured or not:
+   - plain → plain: the gap itself;
+   - coloured sections get half a step of padding top & bottom, and pull
+     up by half (next to a plain one) or a full step (next to another
+     coloured one, so they touch);
+   - "Project details" → coloured first section: half + half. */
+.cs-sections{gap:var(--sp-section);margin-top:var(--sp-section)}
+.cs-section-has-bg{padding-top:calc(var(--sp-section) / 2);padding-bottom:calc(var(--sp-section) / 2)}
+.cs-sections > .cs-section-has-bg + .cs-section:not(.cs-section-has-bg),
+.cs-sections > .cs-section:not(.cs-section-has-bg) + .cs-section-has-bg{margin-top:calc(var(--sp-section) / -2)}
+.cs-sections > .cs-section-has-bg + .cs-section-has-bg{margin-top:calc(var(--sp-section) * -1)}
+.cs-sections:has(> .cs-section-has-bg:first-child){margin-top:0}
+.cs-details:has(+ .cs-body > .wrap > .cs-sections > .cs-section-has-bg:first-child){padding-bottom:calc(var(--sp-section) / 2)}
+/* last coloured section → "More case studies": same single step */
+.cs-sections:has(> .cs-section-has-bg:last-child) + .related-work{margin-top:calc(var(--sp-section) / 2)}
