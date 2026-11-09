@@ -1924,3 +1924,8 @@ body.filter-sheet-open{overflow:hidden}
 body.filter-sheet-open .to-top{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.filter-dock,.filter-sheet,.filter-sheet-backdrop{transition:none}}
 @media (forced-colors:active){.filter-dock-btn,.filter-sheet{border:1px solid CanvasText}}
+
+/* A coloured first section meets the block above it (no strip of page
+   background between "Project details" and the section's own colour). */
+.cs-body:has(> .wrap > .cs-sections > .cs-section-has-bg:first-child){padding-top:0}
+.cs-sections:has(> .cs-section-has-bg:first-child){margin-top:0}
