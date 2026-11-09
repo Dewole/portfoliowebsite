@@ -80,11 +80,11 @@ export default defineType({
       options: {
         list: [
           { title: "Default (page background)", value: "none" },
-          { title: "White", value: "white" },
-          { title: "Light grey", value: "light" },
-          { title: "Warm cream", value: "cream" },
-          { title: "Dark", value: "dark" },
-          { title: "Black", value: "black" },
+          { title: "White — #FFFFFF", value: "white" },
+          { title: "Light grey — #EDF0F3 (page background)", value: "light" },
+          { title: "Soft blue — #E8F1FF", value: "cream" },
+          { title: "Dark — #13151B", value: "dark" },
+          { title: "Black — #0A0B10", value: "black" },
           { title: "Custom colour…", value: "custom" },
         ],
       },

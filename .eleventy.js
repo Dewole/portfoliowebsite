@@ -30,7 +30,7 @@ module.exports = function (eleventyConfig) {
   // background's brightness), or "" when no background is set.
   eleventyConfig.addFilter("sectionBg", (section) => {
     if (!section || !section.backgroundColor || section.backgroundColor === "none") return "";
-    const presets = { white: "#ffffff", light: "#f1efea", cream: "#f6ecdc", dark: "#16161a", black: "#000000" };
+    const presets = { white: "#ffffff", light: "#edf0f3", cream: "#e8f1ff", dark: "#13151b", black: "#0a0b10" };
     let hex = section.backgroundColor === "custom" ? String(section.backgroundCustom || "").trim() : presets[section.backgroundColor];
     if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex || "")) return "";
     let h = hex.slice(1);
